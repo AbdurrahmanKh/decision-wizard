@@ -1,0 +1,182 @@
+{
+  "config": {
+    "title": "Checkout Redesign, Round 1",
+    "tagline": "4 decisions before the build starts",
+    "product": "Web store"
+  },
+  "questions": [
+    {
+      "id": "B1",
+      "section": "Blocking",
+      "title": "Guest checkout: keep or remove",
+      "context": "The two research docs contradict each other. The build cannot start until one wins.",
+      "detail": [
+        {
+          "kind": "quote",
+          "src": "UX research report, June, p.4",
+          "text": "41% of completed purchases in the test cohort came through guest checkout; removing it risks the largest single drop-off point we measured."
+        },
+        {
+          "kind": "quote",
+          "src": "CRM strategy memo, August",
+          "text": "Guest orders are unreachable for lifecycle marketing; every guest checkout is a customer we cannot retain."
+        },
+        {
+          "kind": "note",
+          "text": "Picking an option decides the flow for this release only; the loyalty program question returns next quarter either way."
+        }
+      ],
+      "links": [
+        {
+          "label": "UX research report",
+          "url": "https://example.com/research/checkout-june"
+        },
+        {
+          "label": "CRM strategy memo",
+          "url": "https://example.com/memos/crm-august"
+        }
+      ],
+      "options": [
+        "Keep guest checkout as is",
+        "Keep it, but ask for account creation after payment",
+        "Remove it, accounts required"
+      ],
+      "followups": [
+        {
+          "id": "B1a",
+          "when": [
+            "Remove it, accounts required"
+          ],
+          "title": "What happens to orders placed as a guest before the change?",
+          "options": [
+            "Link them to new accounts by email",
+            "Leave them as guest orders"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "B2",
+      "section": "Blocking",
+      "title": "Payment providers for launch",
+      "context": "Fees and coverage differ; each card sums up one route, and the full comparison is in the popup.",
+      "extra": {
+        "label": "Show the provider comparison",
+        "blocks": [
+          {
+            "kind": "table",
+            "title": "Three providers, key numbers",
+            "columns": [
+              "Provider",
+              "Fee",
+              "Settlement",
+              "Regional coverage"
+            ],
+            "rows": [
+              [
+                "PayA",
+                "2.9% + 0.30",
+                "2 days",
+                "Global"
+              ],
+              [
+                "PayB",
+                "2.2% flat",
+                "7 days",
+                "Regional only"
+              ],
+              [
+                "PayC",
+                "3.4% + 0.10",
+                "Next day",
+                "Global, weak locally"
+              ]
+            ]
+          },
+          {
+            "kind": "text",
+            "text": "Integration effort is roughly equal for all three per the platform team's estimate from the kickoff. Contract terms are annual for PayB, monthly for the other two."
+          }
+        ]
+      },
+      "options": [
+        {
+          "label": "PayA only",
+          "text": "2.9% plus 0.30 a payment, settled in 2 days, and it covers every region."
+        },
+        {
+          "label": "PayB only",
+          "text": "2.2% flat on an annual contract, settled in 7 days, but regional only."
+        },
+        {
+          "label": "PayA plus PayB, regional routing",
+          "text": "PayB where it covers the region, PayA everywhere else. Two contracts to manage."
+        }
+      ],
+      "customLabel": "Different combination (type it)"
+    },
+    {
+      "id": "C1",
+      "section": "Copy review",
+      "title": "Approve the checkout button copy",
+      "type": "batch",
+      "context": "One shared answer per line; the pen adds a comment on any line. The full screen flow these appear in is linked below.",
+      "detail": [
+        {
+          "kind": "note",
+          "text": "Unanswered rows export as still open. Rework plus a comment means the comment gets applied and the line comes back for a re-approve."
+        }
+      ],
+      "links": [
+        {
+          "label": "Checkout flow mockups",
+          "url": "https://example.com/design/checkout-flow"
+        }
+      ],
+      "options": [
+        "Approve",
+        "Rework"
+      ],
+      "items": [
+        {
+          "id": "cart",
+          "label": "Cart page: Proceed to checkout"
+        },
+        {
+          "id": "pay",
+          "label": "Payment page: Pay now",
+          "note": "Legal asked for the total amount to appear on or next to this button"
+        },
+        {
+          "id": "confirm",
+          "label": "Confirmation page: Order placed, track it here"
+        },
+        {
+          "id": "error",
+          "label": "Payment failure: Something went wrong, try again",
+          "note": "Support flags this line weekly as too vague"
+        }
+      ]
+    },
+    {
+      "id": "C2",
+      "section": "Copy review",
+      "title": "Tone for error messages across the flow",
+      "context": "Skip is disabled here: the copywriter is blocked until this lands. If none of the candidates fit, type the direction.",
+      "skip": false,
+      "options": [
+        "Plain and technical: state the error, state the fix",
+        "Warm and apologetic: soften first, then the fix",
+        "Route to the brand voice owner"
+      ],
+      "customLabel": "Different direction (type it)",
+      "detail": [
+        {
+          "kind": "code",
+          "src": "src/checkout/errors.en.json",
+          "text": "{\n  \"card_declined\": \"Transaction failed. Error 402.\",\n  \"address_invalid\": \"Invalid input.\",\n  \"session_expired\": \"Session timeout.\"\n}"
+        }
+      ]
+    }
+  ]
+}
