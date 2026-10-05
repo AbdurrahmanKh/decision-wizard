@@ -4,7 +4,7 @@ Answer Claude's decision rounds one question at a time, then hand the answers ba
 
 The Decision Wizard is a single web page that works with Claude's **d-wizard** skill. Claude writes your open decisions into a round file. You load it here and answer it. Claude then acts on each answer and reports where it landed.
 
-**Open the wizard: https://YOUR-USERNAME.github.io/decision-wizard/**
+**Open the wizard: https://AbdurrahmanKh.github.io/decision-wizard/**
 
 ## Install the skill
 
