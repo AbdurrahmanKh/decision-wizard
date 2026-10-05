@@ -2,6 +2,12 @@
 
 What changed in the Decision Wizard and the d-wizard skill, newest first. The wizard and the skill keep their own version numbers.
 
+## Wizard 0.5.1, 6 October 2026
+
+### Fixed
+- The app's identity. The manifest's `id` was written as `./`, which browsers resolve against the site's root, so the installed app was identified as https://abdurrahmankh.github.io/ instead of the wizard's own address. The field is gone, and the identity is now the wizard's address. An app installed from 0.5.0 is a separate entry: uninstall it and install again.
+- The service worker no longer refuses to install when one of the icons can't be fetched; only the page itself must be there.
+
 ## Wizard 0.5.0, 6 October 2026
 
 ### Added

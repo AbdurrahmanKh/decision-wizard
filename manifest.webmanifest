@@ -2,7 +2,6 @@
   "name": "Decision Wizard",
   "short_name": "Wizard",
   "description": "Answer Claude's decision rounds one question at a time, then hand the answers back.",
-  "id": "./",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

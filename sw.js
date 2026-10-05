@@ -2,10 +2,15 @@
    Online, the newest version always loads: the network is tried first, and the copy is used only when the network fails. */
 "use strict";
 var CACHE = "decision-wizard-app";
-var CORE = ["./", "./index.html", "./manifest.webmanifest", "./icons/icon-192.png", "./icons/icon-512.png", "./icons/icon-maskable-512.png"];
+var CORE = ["./", "./index.html"];
+var EXTRA = ["./manifest.webmanifest", "./icons/icon-192.png", "./icons/icon-512.png", "./icons/icon-maskable-512.png"];
 
 self.addEventListener("install", function(ev){
-  ev.waitUntil(caches.open(CACHE).then(function(c){ return c.addAll(CORE); }).then(function(){ return self.skipWaiting(); }));
+  ev.waitUntil(caches.open(CACHE).then(function(c){
+    return c.addAll(CORE).then(function(){
+      return Promise.all(EXTRA.map(function(u){ return c.add(u).catch(function(){}); }));
+    });
+  }).then(function(){ return self.skipWaiting(); }));
 });
 self.addEventListener("activate", function(ev){
   ev.waitUntil(self.clients.claim());
