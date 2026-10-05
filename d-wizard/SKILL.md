@@ -2,8 +2,8 @@
 name: "d-wizard"
 description: Communicate a set of questions, decisions, or approvals as a Decision Wizard questions JSON instead of long prose. Use this skill whenever the user says "d-wizard", "communicate through the wizard", "wizard this", "ask me through the wizard", "decision wizard", "decision round", or asks to turn open questions into a wizard; and proactively when open decisions need evidence attached to be answered well (conflicting sources, a table to compare), when content items need one-by-one approval (copy lines, assets, table rows, sections), or when new open decisions come up while acting on a previous round's answers, on any topic. Also use it to interpret and act on an answers JSON the user pastes back or points to as a file, recognizable by meta.tool = "decision-wizard". Do not use it for quick clarifications, for approving your own next steps, for a single question, or for questions meant for a teammate.
 metadata:
-  version: "0.3.0"
-compatibility: Needs Decision Wizard 0.3.0 or later. Older wizards still open these rounds, but show no recommendations and give no way to add a note to a pick.
+  version: "0.4.0"
+compatibility: Needs Decision Wizard 0.3.0 or later, and 0.4.0 for rounds with ranking, number, or bracket questions. Older wizards still open plain rounds, but show no recommendations and give no way to add a note to a pick.
 ---
 
 # Decision Wizard
@@ -59,7 +59,7 @@ Top level:
 }
 ```
 
-`config.needs_wizard` names the oldest wizard the round is made for. Always set it to `"0.3.0"`, the version this skill writes for; a wizard older than that warns when the round loads.
+`config.needs_wizard` names the oldest wizard the round is made for: `"0.4.0"` when the round has a ranking, number, or bracket question, and `"0.3.0"` otherwise. A wizard older than the version a round names warns when the round loads.
 
 `config.title` is the round's identity in the user's wizard. The wizard keeps every round the user loads, and a round arriving with the title of one already saved replaces it as a new version: answers carry over for questions whose id, title, question, and options are unchanged (in a batch, rows whose id and label are unchanged), and the wizard asks before clearing the rest. So give every new round its own title that names the round number ("Checkout Redesign, Round 2"). Reuse a title only to resend a corrected version of the same round, and keep every unchanged question identical so its answer survives.
 
@@ -75,7 +75,7 @@ Per question:
 | detail | no | Evidence the answer depends on, shown in the Context panel under the options. Quote what is important to understanding the question, not everything related to the topic. `{"kind":"quote","src":"Source name","text":"Verbatim quote"}` renders as a highlighted block with a source label. `{"kind":"note","text":"..."}` renders as a muted note; use notes for what each answer implies. `{"kind":"code","src":"path/to/file.js","text":"..."}` renders as monospace code that keeps its indentation and scrolls sideways, with `src` shown exactly as written, so file paths keep their case; use it for code, config, or exact strings. Code blocks work in `detail` and in popups |
 | links | no | Array of `{"label":"...","url":"https://..."}`. Open in a new tab. Real URLs only, never fabricated |
 | extra | no | Popups behind buttons, for what helps but isn't needed to answer: `{"label":"Button text","blocks":[...]}`, or a list of them for several buttons, one per topic. Blocks are `{"kind":"text","text":"..."}`, `{"kind":"table","title":"...","columns":[...],"rows":[[...]]}`, or the quote, note, and code blocks of `detail`. Every row must have exactly as many cells as columns |
-| options | yes | Array of answer strings, or of cards. A card is `{"label":"Short title","text":"What picking this route means"}`: the label is the answer that comes back, the text is the one or two sentences that make the route clear. Use cards for two or three routes that each need explaining; the wizard refuses more than three cards, and cards in a batch. Labels are unique within a question. Clicking one records it and advances |
+| options | yes | Array of answer strings, or of cards. A card is `{"label":"Short title","text":"What picking this route means"}`: the label is the answer that comes back, the text is the one or two sentences that make the route clear. Use cards for two or three routes that each need explaining; the wizard refuses more than three cards on a plain question, and cards in a batch. Labels are unique within a question. Clicking one records it and advances. A number question takes `min` and `max` instead (see below) |
 | customLabel | no | Label for the typed-answer option, naming what to type (e.g. "New thresholds (type them)"). Defaults to "Custom answer (type it)" |
 | custom | no | `false` removes the typed-answer option |
 | skip | no | `false` removes the Skip button. Use rarely; skipping exports the question as still open, which is usually the honest state |
@@ -85,6 +85,20 @@ Per question:
 | type + items | no | `"type":"batch"` turns the question into a table: `"items":[{"id":"row1","label":"Row label","note":"Optional context under the label"}]`. Every row takes one answer from the shared options set, and a row can carry its own `recommend` and `because`, naming one of the shared options |
 
 Every question, follow-up, and grouped row also has a pen for the user's note, so a pick can come back with a condition attached ("B, but only for clans over 20 members"), and a question can come back open with only a note. You don't add anything to the round for it.
+
+### Ranking, number, and bracket questions
+
+Three more values of `type` change how a question is answered. Each takes the usual `id`, `section`, `title`, `question`, `context`, `detail`, `links`, `extra`, `customLabel`, and `custom`, but not follow-ups. Any round that uses one sets `needs_wizard` to `"0.4.0"`.
+
+| Type | What the round gives | What the user does | What comes back |
+|---|---|---|---|
+| `"rank"` | `options`, 2 to 10, strings or cards. `recommend` is the whole order you recommend, as a list of every option label, best first | Drags the rows into order, or moves them with arrows, then records the order | `"status":"ranked"`, and `answer` is the list of labels, best first |
+| `"number"` | `min`, `max`, `step` (1 when left out), and `unit` (optional, such as `"ms"` or `"%"`), and no `options`. `recommend` is a number in the range | Sets a slider or types the exact value, which snaps to the range and the step, then records it | `"status":"picked"`, `answer` as a number, and `unit` when the question has one |
+| `"bracket"` | `options`, 4 to 32, strings or cards. `recommend` is one option label | Picks the better of each pair, knockout style, until one is left | `"status":"picked"`, `answer` as the winner, and `matches`: every match as `{"round":1,"pair":["A","B"],"winner":"A"}` |
+
+When recommendations are on, a ranking starts in your recommended order and a number starts on your recommended value, with the hat and "I recommend this order because..." or "I recommend 4,500 ms because..." above them. With no recommendation, a ranking starts in the listed order and a number in the middle of its range. On a bracket, the hat marks your option in every match it plays.
+
+A bracket pairs options in the listed order: 1 meets 2, 3 meets 4, and the winners keep pairing until one is left. With 8 options, options 1 to 4 and 5 to 8 meet only in the final, so list the strongest options far apart. When the count isn't 4, 8, 16, or 32, the first options in the list skip round 1, and in round 2 each of them meets a round-1 winner: with 6 options, 1 and 2 skip round 1 while 3 meets 4 and 5 meets 6, so list the strongest first.
 
 ## Authoring rules
 
@@ -96,7 +110,8 @@ Every question, follow-up, and grouped row also has a pen for the user's note, s
 - When the decision is a choice between two or three routes that each need a sentence to understand, make the options cards: the label names the route, the text says what it means. Every alternative is its own option. Never put one alternative in a row's label and the other in its note, or one in the question and the other in the context. When several items each need their own alternatives, write one card question per item rather than a batch.
 - When a question only matters after a certain answer ("only needed if", "skip it otherwise"), make it a follow-up of that question with `when`. Never ship it as a standalone question that tells the user when to skip it.
 - Try to batch, actively. AI-authored rounds under-batch by default, so before delivering, scan the round: three or more questions sharing one answer set (Approve / Rework, Keep / Remove, Yes / No) are one batch question you failed to make. Fold them. Per-row context goes in the item's `note`; the full source material goes in `extra`. The only reason not to batch is items genuinely needing different answer sets.
-- Recommend wherever you have a view. Put `recommend` on every question where you would pick one option, and add `because` whenever you have a reason, which should be most of the time. Base it on the evidence in the question, and keep the context complete: the hat is a pointer, never a substitute for what the reader needs to judge the question. Leave it off when you have no basis for a view, and never recommend against a decision the user already made.
+- Pick the question type from the shape of the answer. An order (priorities, a sequence of work) is a ranking. A number (a threshold, timeout, limit, count, or percentage) is a number question, never a list of numbers as options. One winner from four or more options that compare best head to head is a bracket. Two or three routes that each need a sentence are cards.
+- Recommend wherever you have a view. Put `recommend` on every question where you would pick one option, order, or value, and add `because` whenever you have a reason, which should be most of the time. Base it on the evidence in the question, and keep the context complete: the hat is a pointer, never a substitute for what the reader needs to judge the question. Leave it off when you have no basis for a view, and never recommend against a decision the user already made.
 - Long tables and long text go in `extra`, split into labeled popups by topic, never crammed into the card.
 - Write in the user's working language. Right-to-left text is safe in every field.
 - No em dashes and no en dashes anywhere in the content; use hyphens, colons, or periods.
@@ -129,6 +144,9 @@ What comes back:
     { "id": "A2", "section": "...", "issue": "...", "status": "custom", "answer": "What the user typed" },
     { "id": "A3", "section": "...", "issue": "...", "status": "open", "answer": "" },
     { "id": "A5", "section": "...", "issue": "...", "status": "open", "answer": "", "comment": "A note with no pick" },
+    { "id": "R1", "section": "...", "issue": "...", "status": "ranked", "answer": ["Best", "Next", "Last"] },
+    { "id": "N1", "section": "...", "issue": "...", "status": "picked", "answer": 4500, "unit": "ms" },
+    { "id": "K1", "section": "...", "issue": "...", "status": "picked", "answer": "Winner", "matches": [ { "round": 1, "pair": ["Winner", "Other"], "winner": "Winner" } ] },
     { "id": "A4", "section": "...", "issue": "...", "status": "picked", "answer": "It rises",
       "followups": [ { "id": "A4a", "issue": "...", "status": "picked", "answer": "Double each level" },
                      { "id": "A4b", "issue": "...", "status": "not_needed", "answer": "" } ] },
@@ -138,7 +156,7 @@ What comes back:
 }
 ```
 
-`issue` is the title and `question` is the question; rounds made before the question line come back without `question`. A note the user wrote comes back as `comment` on its question, follow-up, or row; questions and follow-ups without one have no `comment` field. A file saved from the wizard carries the same `meta` and `answers`, plus the whole round under `round` (`{"config": {...}, "questions": [...]}`). When `round` is present, it is the exact version the user answered: read options, notes, and row labels from it, and use it to reconcile ids.
+`issue` is the title and `question` is the question; rounds made before the question line come back without `question`. A ranking comes back with `"status":"ranked"` and its list, best first; a number question with a number and its `unit`; a bracket with its winner and every match. A note the user wrote comes back as `comment` on its question, follow-up, or row; questions and follow-ups without one have no `comment` field. A file saved from the wizard carries the same `meta` and `answers`, plus the whole round under `round` (`{"config": {...}, "questions": [...]}`). When `round` is present, it is the exact version the user answered: read options, notes, and row labels from it, and use it to reconcile ids.
 
 Handling rules:
 
@@ -147,6 +165,7 @@ Handling rules:
 - `custom` is the user's verbatim decision and is authoritative. Act on it. Ask a follow-up only when it is genuinely ambiguous, and quote the ambiguous part when asking.
 - A `comment` next to a pick is part of the decision: act on the pick with the comment's condition or detail attached. A `comment` on an open question works like Discuss: a position it states is settled, and only what it leaves open stays open.
 - Follow-ups come back inside their issue. `not_needed` means the main answer did not call for it: record it as not applicable and never answer it. A follow-up still `open` under an answered main question means the issue is only partly decided, and `meta.answered` does not count it.
+- A bracket's `matches` show more than the winner: the loser of the final is the runner-up, often the fallback. A bracket still `open` may carry the matches played so far; it's undecided until it has a winner.
 - In batches, a comment belongs to its row. A rework-style answer plus a comment means: apply the comment and show the reworked result for a quick re-approve. A comment without an answer is context, and the row is still open.
 - Unmatched ids on import mean the round changed between export and import; reconcile before acting on anything.
 - After acting on a round, report back per id where each decision landed (which document, which system, or still open). The user should be able to trace every answer to its consequence.

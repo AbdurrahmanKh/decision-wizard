@@ -2,6 +2,15 @@
 
 What changed in the Decision Wizard and the d-wizard skill, newest first. The wizard and the skill keep their own version numbers.
 
+## Wizard 0.4.0 and skill 0.4.0, 5 October 2026
+
+### Added
+- Wizard: ranking questions. Drag the rows into order by their handles, or move them with the up and down arrows on each row, by mouse, touch, or keyboard. Record this order saves the order, and the answer comes back as a list, best first.
+- Wizard: number questions, with a minimum, a maximum, a step, and a unit. A slider shows where the value sits in the range, and a box beside it takes the exact value, which snaps to the range and the step. Record saves it, and the answer comes back as a number with its unit.
+- Wizard: bracket questions, to pick one of 4 to 32 options. Options face off in knockout pairs, in the listed order, with a line such as "Match 3 of 7, round 2 of 3" and keys 1 and 2 to pick. After the last pick, the bracket stays on screen with the winner and every match, Next moves on, and Run it again starts it over. The answer comes back with every match.
+- Wizard: recommendations on the new types. A ranking starts in Claude's order and a number on Claude's value, with the hat and the reason above them; on a bracket, the hat marks the recommended option in every match it plays.
+- Skill: the three question types, with guidance on when to use each, and rounds name wizard 0.4.0 only when they use one of them.
+
 ## Wizard 0.3.0 and skill 0.3.0, 5 October 2026
 
 ### Added

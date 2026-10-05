@@ -422,6 +422,50 @@ footer{margin-top:34px;padding-top:14px;border-top:3px solid var(--ink);font-siz
 .npanel textarea:focus-visible{outline:3px solid var(--gold);outline-offset:1px}
 .sumnote{display:flex;gap:6px;align-items:baseline;margin-top:4px;font-size:calc(13.5px*var(--fs));color:var(--muted)}
 .sumnote b{flex:none;color:var(--amber);font-weight:700}
+.rechead{display:flex;gap:8px;align-items:flex-start;color:var(--amber);font-size:calc(14px*var(--fs));font-weight:500;line-height:1.45;margin:2px 0 12px}
+.rechead svg{flex:none;width:22px;height:22px;color:var(--gold);margin-top:-2px}
+.rlist{list-style:none;display:flex;flex-direction:column;gap:8px;margin:0;padding:0}
+.ritem{display:flex;align-items:center;gap:10px;background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:7px 8px 7px 6px;font-size:calc(16px*var(--fs));line-height:1.4}
+.ritem.dragging{border-color:var(--green);background:var(--green-soft);box-shadow:0 8px 22px rgba(0,0,0,.25);position:relative;z-index:3}
+.rhandle{flex:none;width:30px;height:38px;display:inline-flex;align-items:center;justify-content:center;border:0;background:transparent;color:var(--muted);cursor:grab;touch-action:none;border-radius:8px}
+.rhandle:hover{color:var(--ink);background:var(--line2)}
+.ritem.dragging .rhandle{cursor:grabbing}
+.rpos{flex:none;font-variant-numeric:tabular-nums;font-weight:800;font-size:calc(14px*var(--fs));color:var(--green);min-width:22px;text-align:center}
+.rtext{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.rtext .rl{font-weight:600}
+.rtext .cx{color:var(--muted);font-size:calc(14px*var(--fs));line-height:1.45}
+.rarrows{flex:none;display:flex;gap:5px}
+.rarrow{width:34px;height:34px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:9px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0}
+.rarrow:disabled{opacity:.3;cursor:default}
+.rarrow:hover:not(:disabled){border-color:var(--green2)}
+.rarrow:focus-visible{outline:3px solid var(--gold);outline-offset:1px}
+.numbox{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:16px 18px 12px}
+.numtop{display:flex;align-items:flex-start;gap:16px}
+.numslide{flex:1;min-width:0}
+.numslide input{width:100%;accent-color:var(--green);height:30px;margin:0;cursor:pointer}
+.numends{display:flex;justify-content:space-between;gap:10px;font-size:calc(12.5px*var(--fs));color:var(--muted);font-variant-numeric:tabular-nums}
+.numval{flex:none;display:flex;align-items:center;gap:7px}
+.numval input{width:130px;border:1px solid var(--line);border-radius:9px;padding:6px 10px;font-family:inherit;font-size:calc(17px*var(--fs));font-weight:700;background:var(--field);color:var(--ink);text-align:right;font-variant-numeric:tabular-nums}
+.numval input:focus-visible,.numslide input:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.numunit{color:var(--muted);font-weight:700;font-size:calc(15px*var(--fs))}
+@media(max-width:600px){.numtop{flex-direction:column;align-items:stretch;gap:8px}.numval{align-self:flex-end}}
+.bkline{font-size:calc(13.5px*var(--fs));color:var(--muted);font-weight:700;margin:0 0 10px;font-variant-numeric:tabular-nums}
+.bkpair{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:12px;align-items:stretch}
+.bkvs{align-self:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;color:var(--muted);font-size:calc(15px*var(--fs))}
+@media(max-width:600px){.bkpair{grid-template-columns:minmax(0,1fr)}.bkvs{justify-self:center}}
+.bkwin{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--green-soft);border:1.5px solid var(--green);border-radius:12px;padding:10px 14px;margin:2px 0 12px;font-size:calc(16.5px*var(--fs))}
+.bkwin b{color:var(--green)}
+.bkwin small{color:var(--muted);font-weight:600;font-size:calc(13px*var(--fs))}
+.bktree{display:flex;gap:12px;overflow-x:auto;padding-bottom:6px}
+.bkcol{flex:none;width:180px;display:flex;flex-direction:column;gap:8px}
+.bkcol h4{font-size:calc(11px*var(--fs));letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:0}
+.bkms{flex:1;display:flex;flex-direction:column;justify-content:space-around;gap:8px}
+.bkm{border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:calc(13.5px*var(--fs));background:var(--card)}
+.bkm div{padding:5px 10px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bkm div+div{border-top:1px solid var(--line2)}
+.bkm div.w{color:var(--ink);font-weight:700;background:var(--green-soft)}
+.sumrank{margin:4px 0 0 20px;padding:0}
+.sumsub{color:var(--muted);font-size:calc(13.5px*var(--fs))}
 [hidden]{display:none!important}
 @media (max-width:700px){.mcard{margin:12px auto}#mbody{padding:4px 14px 16px}.ctx{padding:12px 12px 10px}}
 </style>
@@ -492,7 +536,7 @@ footer{margin-top:34px;padding-top:14px;border-top:3px solid var(--ink);font-siz
     <div id="liblist"></div>
     <details class="fmt">
       <summary>What the files look like</summary>
-      <div class="ldef"><b>Round.</b> Either a bare array of questions, or an object {config, questions} where config sets {title, tagline, product}. Each question: <b>id</b>, <b>section</b>, <b>title</b>, <b>options</b> (array of strings). Ids must be unique, and so must row ids inside one batch. Optional: <b>question</b> (the question itself, shown large, with the title as a small topic line above it; the sidebar keeps the title); <b>context</b>; <b>detail</b> (array of {kind: quote, note, or code, src, text}; code keeps indentation and line breaks and shows src exactly as written, such as a file path and line); <b>links</b> (array of {label, url}); <b>extra</b> ({label, blocks:[{kind: text, text}, {kind: table, title, columns, rows}, {kind: quote, src, text}, {kind: note, text}, or {kind: code, src, text}]}, or a list of them for several buttons) for context popups; <b>customLabel</b>; <b>custom</b>: false; <b>skip</b>: false; <b>recommend</b> (the label of the recommended option) with <b>because</b> (the reason, finishing "I recommend this because"), on a question, a follow-up, or a batch row. For a batch table set <b>type</b>: "batch" and <b>items</b>: [{id, label, note}], sharing one options set per row. Every question and every row takes a note with the pen. In config, <b>needs_wizard</b> names the oldest wizard version the round is made for.</div>
+      <div class="ldef"><b>Round.</b> Either a bare array of questions, or an object {config, questions} where config sets {title, tagline, product}. Each question: <b>id</b>, <b>section</b>, <b>title</b>, <b>options</b> (array of strings). Ids must be unique, and so must row ids inside one batch. Optional: <b>question</b> (the question itself, shown large, with the title as a small topic line above it; the sidebar keeps the title); <b>context</b>; <b>detail</b> (array of {kind: quote, note, or code, src, text}; code keeps indentation and line breaks and shows src exactly as written, such as a file path and line); <b>links</b> (array of {label, url}); <b>extra</b> ({label, blocks:[{kind: text, text}, {kind: table, title, columns, rows}, {kind: quote, src, text}, {kind: note, text}, or {kind: code, src, text}]}, or a list of them for several buttons) for context popups; <b>customLabel</b>; <b>custom</b>: false; <b>skip</b>: false; <b>recommend</b> (the label of the recommended option) with <b>because</b> (the reason, finishing "I recommend this because"), on a question, a follow-up, or a batch row. For a batch table set <b>type</b>: "batch" and <b>items</b>: [{id, label, note}], sharing one options set per row. Every question and every row takes a note with the pen. <b>type</b>: "rank" makes a ranking of 2 to 10 options (recommend is the whole order); "number" takes <b>min</b>, <b>max</b>, <b>step</b>, and <b>unit</b> instead of options (recommend is a number); "bracket" runs 4 to 32 options in knockout pairs, in the listed order. In config, <b>needs_wizard</b> names the oldest wizard version the round is made for.</div>
       <div class="ldef"><b>Saved file.</b> What Save writes: the answers JSON (meta and answers, the same as Copy answers JSON) with the whole round under <b>round</b>, so opening it picks up where you left off.</div>
       <div class="ldef"><b>Answers JSON.</b> Answers on their own merge into the round with the same title, or into the open round: matching ids overwrite, and open entries are ignored unless they carry a note. A note comes back as <b>comment</b>.</div>
       <div class="ldef"><b>The list.</b> Every round stays in this browser, with its answers, until you delete it. A round whose title is already in the list replaces the saved one, and answers to questions that did not change stay.</div>
@@ -568,7 +612,7 @@ footer{margin-top:34px;padding-top:14px;border-top:3px solid var(--ink);font-siz
 <script>
 "use strict";
 /* The wizard's version. Bump the last number (0.1.1) for a minor update, the middle one (0.2.0) for a major one. */
-var WIZARD_VERSION = "0.3.0";
+var WIZARD_VERSION = "0.4.0";
 
 var CONFIG = { title:"Decision Wizard", tagline:"", product:"" };
 
@@ -876,6 +920,12 @@ function esc(s){
   });
 }
 function isBatch(q){ return q.type === "batch" && Array.isArray(q.items); }
+/* Question types: single (options to pick from), batch (grouped rows), rank, number, and bracket. */
+function qType(q){
+  if(!q) return "single";
+  if(q.type === "batch" && Array.isArray(q.items)) return "batch";
+  return (q.type === "rank" || q.type === "number" || q.type === "bracket") ? q.type : "single";
+}
 function batchState(q){
   var a = state.answers[q.id];
   if(!a || a.status !== "batch" || !a.items){ a = { status:"batch", items:{} }; }
@@ -896,8 +946,8 @@ function optLabel(o){ return (o && typeof o === "object") ? String(o.label) : St
 function optText(o){ return (o && typeof o === "object" && typeof o.text === "string") ? o.text : ""; }
 function isCardList(opts){ return Array.isArray(opts) && opts.some(function(o){ return o && typeof o === "object"; }); }
 /* Follow-ups: questions under the same issue that open once its answer calls for them. */
-function fups(q){ return (q && !isBatch(q) && Array.isArray(q.followups)) ? q.followups : []; }
-function done1(a){ return !!(a && (a.status === "picked" || a.status === "custom")); }
+function fups(q){ return (q && qType(q) === "single" && Array.isArray(q.followups)) ? q.followups : []; }
+function done1(a){ return !!(a && (a.status === "picked" || a.status === "custom" || a.status === "ranked")); }
 /* A note rides on an answer as comment, the field grouped rows already use. A note with no pick leaves the question open. */
 function noteOf(a){ return (a && typeof a.comment === "string") ? a.comment : ""; }
 function hasNote(a){ return !!noteOf(a).trim(); }
@@ -1082,7 +1132,13 @@ function renderCore(){
   if(QUESTIONS.length === 0){ renderEmpty(); renderSide(); return; }
   if(state.idx >= QUESTIONS.length){ renderSummary(); renderSide(); return; }
   var q = QUESTIONS[state.idx];
-  if(isBatch(q)){ renderBatch(q); } else { renderSingle(q); }
+  if(state.idx !== draftIdx || CURKEY !== draftKey){ rankDrafts = {}; numDrafts = {}; draftIdx = state.idx; draftKey = CURKEY; }
+  var t = qType(q);
+  if(t === "batch"){ renderBatch(q); }
+  else if(t === "rank"){ renderRank(q); }
+  else if(t === "number"){ renderNumber(q); }
+  else if(t === "bracket"){ renderBracket(q); }
+  else { renderSingle(q); }
   renderSide();
 }
 
@@ -1165,6 +1221,9 @@ var ICO = {
   quote: '<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M7 7h4v4c0 3-1.5 5-4 6l-.8-1.4C7.6 14.8 8.3 13.6 8.4 12H7zm7 0h4v4c0 3-1.5 5-4 6l-.8-1.4c1.4-.8 2.1-2 2.2-3.6H14z"/></svg>',
   hat: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5.2 17.2 10.4 4.1c.4-1 1.4-1.6 2.4-1.3 1.4.4 2.9 1.6 4.6 3.9.3.4-.2.9-.6.6-1.1-.8-2.2-1.2-3.2-1.1l3.3 11z"/><path d="M1.8 18.6c0-1.4 4.5-2.6 10.2-2.6s10.2 1.2 10.2 2.6S17.7 21 12 21 1.8 20 1.8 18.6z"/><path style="fill:var(--card)" d="M11.5 9.4l.7 1.5 1.6.2-1.2 1.1.3 1.6-1.4-.8-1.4.8.3-1.6-1.2-1.1 1.6-.2z"/><path style="fill:var(--card)" d="M7.4 15.2c2.9.6 6.3.6 9.2 0l.3 1c-3 .7-6.8.7-9.8 0z"/></svg>'
 };
+ICO.grip = '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><circle cx="9" cy="6" r="1.7"/><circle cx="15" cy="6" r="1.7"/><circle cx="9" cy="12" r="1.7"/><circle cx="15" cy="12" r="1.7"/><circle cx="9" cy="18" r="1.7"/><circle cx="15" cy="18" r="1.7"/></svg>';
+ICO.up = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg>';
+ICO.down = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
 /* Recommendations: a round can name the option it recommends, with the reason. Wizard recommendations in Options turns them off. */
 function recOf(o){
   if(!SETTINGS.recs || !o || typeof o.recommend !== "string") return null;
@@ -1285,6 +1344,326 @@ function renderSingle(q){
   }
 }
 
+/* Shared pieces for ranking, number, and bracket questions. */
+var rankDrafts = {}, numDrafts = {}, draftIdx = -1, draftKey = null;
+function recordedHTML(a){
+  if(!a || !done1(a)) return "";
+  return '<div class="recorded">Recorded: ' + (a.status === "custom" ? "custom answer" : a.status === "ranked" ? "ranked" : "picked") + '</div>';
+}
+function recHead(text, dirSrc){ return '<div class="rechead">' + ICO.hat + '<span ' + dirA(dirSrc || text) + '>' + esc(text) + '</span></div>'; }
+function whyTail(why){ return why ? " because " + why : "."; }
+function cleanWhy(q){ return typeof q.because === "string" ? q.because.trim().replace(/^because\s+/i, "") : ""; }
+function sameSet(a, labs){
+  if(!Array.isArray(a) || a.length !== labs.length) return false;
+  var s = a.map(String).sort(), t = labs.slice().sort();
+  for(var i=0;i<s.length;i++){ if(s[i] !== t[i]) return false; }
+  return true;
+}
+function typeTail(q, saved, hint){
+  var h = "";
+  if(q.custom !== false){ h += customHTML(q.customLabel, saved, ["cpanel", "ctext", "cok"], ["custom-open", "custom-confirm", "custom-cancel"], "", true); }
+  h += noteHTML(q.id);
+  h += contextHTML(q);
+  h += '<div class="hint">' + hint + '</div>';
+  h += '</div>';
+  h += chromeControls(q);
+  return h;
+}
+function typeHead(q, a){
+  var h = chromeTop(q);
+  h += '<div class="qcard">';
+  h += '<div class="corner"><span class="n">' + esc(q.id) + '</span><span class="s">&#10022;</span></div>';
+  h += headHTML(q) + recordedHTML(a);
+  return h;
+}
+
+/* Ranking: drag a row by its handle, or move it with its arrows; Record this order saves it. */
+function recRank(q){ return (SETTINGS.recs && Array.isArray(q.recommend) && sameSet(q.recommend, q.options.map(optLabel))) ? { order: q.recommend.map(String), because: cleanWhy(q) } : null; }
+function rankOrder(q){
+  var labs = q.options.map(optLabel), a = state.answers[q.id];
+  if(own(rankDrafts, q.id) && sameSet(rankDrafts[q.id], labs)) return rankDrafts[q.id].slice();
+  if(a && a.status === "ranked" && sameSet(a.answer, labs)) return a.answer.map(String);
+  var r = recRank(q);
+  return r ? r.order.slice() : labs;
+}
+function renderRank(q){
+  customOpen = false;
+  var a = state.answers[q.id], order = rankOrder(q), r = recRank(q), byLab = {};
+  q.options.forEach(function(o){ byLab[optLabel(o)] = o; });
+  var h = typeHead(q, a);
+  if(r) h += recHead("I recommend this order" + whyTail(r.because), r.because);
+  h += '<ol class="rlist" id="rlist" data-q="' + esc(q.id) + '">';
+  for(var i=0;i<order.length;i++){
+    var lab = order[i], tx = optText(byLab[lab]);
+    h += '<li class="ritem" data-label="' + esc(lab) + '">';
+    h += '<button type="button" class="rhandle" tabindex="-1" aria-hidden="true" title="Drag to move">' + ICO.grip + '</button>';
+    h += '<span class="rpos">' + (i+1) + '</span>';
+    h += '<span class="rtext"><span class="rl" ' + dirA(lab) + '>' + esc(lab) + '</span>' + (tx ? '<span class="cx" ' + dirA(tx) + '>' + esc(tx) + '</span>' : '') + '</span>';
+    h += '<span class="rarrows">';
+    h += '<button type="button" class="rarrow" data-action="rk-move" data-i="' + i + '" data-d="-1" aria-label="Move ' + esc(lab) + ' up"' + (i === 0 ? ' disabled' : '') + '>' + ICO.up + '</button>';
+    h += '<button type="button" class="rarrow" data-action="rk-move" data-i="' + i + '" data-d="1" aria-label="Move ' + esc(lab) + ' down"' + (i === order.length - 1 ? ' disabled' : '') + '>' + ICO.down + '</button>';
+    h += '</span></li>';
+  }
+  h += '</ol>';
+  h += '<div class="crow"><button type="button" class="btn" data-action="rk-record">Record this order</button></div>';
+  h += typeTail(q, a, "Drag a row by its handle, or move it with its arrows. Record this order saves it and moves on.");
+  document.getElementById("app").innerHTML = h;
+  if(a && a.status === "custom"){ openCustom(a.answer); }
+}
+function rankMove(i, d){
+  var q = cur();
+  if(!q || qType(q) !== "rank") return;
+  var o = rankOrder(q), j = i + d;
+  if(j < 0 || j >= o.length) return;
+  var t = o[i]; o[i] = o[j]; o[j] = t;
+  rankDrafts[q.id] = o;
+  scrollKeep(render);
+  var b = document.querySelector('.rarrow[data-i="' + j + '"][data-d="' + d + '"]');
+  if(!b || b.disabled) b = document.querySelector('.rarrow[data-i="' + j + '"]:not([disabled])');
+  if(b && b.focus) b.focus();
+}
+function rankRecord(){
+  var q = cur();
+  if(!q || qType(q) !== "rank") return;
+  var order = rankOrder(q), prev = state.answers[q.id], was = done1(prev);
+  var wasDone = answeredCount() === QUESTIONS.length;
+  var changed = was && JSON.stringify(prev.answer) !== JSON.stringify(order);
+  state.answers[q.id] = withNote(prev, { status:"ranked", answer: order });
+  delete rankDrafts[q.id];
+  if(!was) countDecision();
+  markChanged();
+  saveState();
+  afterAnswer(q, { first: !was, changed: changed });
+  settleIssue(q, wasDone);
+}
+var rdrag = null;
+function rankDragStart(ev){
+  var h = ev.target && ev.target.closest ? ev.target.closest(".rhandle") : null;
+  if(!h || (ev.button !== undefined && ev.button > 0)) return;
+  var li = h.closest(".ritem"), list = li ? li.parentNode : null;
+  if(!li || !list) return;
+  ev.preventDefault();
+  rdrag = { li: li, list: list, id: list.getAttribute("data-q") };
+  li.classList.add("dragging");
+  try{ h.setPointerCapture(ev.pointerId); }catch(e){}
+}
+function rankDragMove(ev){
+  if(!rdrag) return;
+  var y = ev.clientY, li = rdrag.li, items = [].slice.call(rdrag.list.children), before = null;
+  for(var i=0;i<items.length;i++){
+    if(items[i] === li) continue;
+    var r = items[i].getBoundingClientRect();
+    if(y < r.top + r.height / 2){ before = items[i]; break; }
+  }
+  if(before !== li.nextSibling && before !== li){ rdrag.list.insertBefore(li, before); }
+  var all = [].slice.call(rdrag.list.children);
+  for(var k=0;k<all.length;k++){ var p = all[k].querySelector(".rpos"); if(p) p.textContent = String(k + 1); }
+}
+function rankDragEnd(){
+  if(!rdrag) return;
+  var d = rdrag;
+  rdrag = null;
+  d.li.classList.remove("dragging");
+  var q = cur();
+  if(!q || q.id !== d.id || qType(q) !== "rank") return;
+  rankDrafts[q.id] = [].map.call(d.list.children, function(x){ return x.getAttribute("data-label"); });
+  scrollKeep(render);
+}
+
+/* Number: a slider with a number box; Record saves the value. */
+function numSpec(q){
+  var step = (q.step === undefined) ? 1 : Number(q.step);
+  var places = function(x){ var s = String(x); if(s.indexOf("e-") !== -1) return parseInt(s.split("e-")[1], 10) || 0; return s.indexOf(".") !== -1 ? s.split(".")[1].length : 0; };
+  return { min: Number(q.min), max: Number(q.max), step: step, dec: Math.min(10, Math.max(places(step), places(q.min))), unit: typeof q.unit === "string" ? q.unit.trim() : "" };
+}
+function numSnap(sp, v){
+  v = Number(v);
+  if(!isFinite(v)) v = sp.min;
+  v = Math.min(sp.max, Math.max(sp.min, v));
+  var r = sp.min + Math.round((v - sp.min) / sp.step) * sp.step;
+  if(r > sp.max + 1e-9) r = sp.min + Math.floor((sp.max - sp.min) / sp.step + 1e-9) * sp.step;
+  return Number(r.toFixed(sp.dec));
+}
+function numFmt(sp, v){
+  var t = Number(v).toLocaleString("en-US", { minimumFractionDigits: sp.dec, maximumFractionDigits: sp.dec });
+  return sp.unit ? (sp.unit === "%" ? t + "%" : t + " " + sp.unit) : t;
+}
+function recNum(q){ return (SETTINGS.recs && typeof q.recommend === "number" && isFinite(q.recommend)) ? { value: q.recommend, because: cleanWhy(q) } : null; }
+function numStart(q, sp){
+  if(own(numDrafts, q.id)) return numDrafts[q.id];
+  var a = state.answers[q.id];
+  if(a && a.status === "picked" && typeof a.answer === "number") return numSnap(sp, a.answer);
+  var r = recNum(q);
+  if(r) return numSnap(sp, r.value);
+  return numSnap(sp, sp.min + (sp.max - sp.min) / 2);
+}
+function renderNumber(q){
+  customOpen = false;
+  var a = state.answers[q.id], sp = numSpec(q), v = numStart(q, sp), r = recNum(q);
+  numDrafts[q.id] = v;
+  var h = typeHead(q, a);
+  if(r) h += recHead("I recommend " + numFmt(sp, numSnap(sp, r.value)) + whyTail(r.because), r.because);
+  var attrs = ' min="' + sp.min + '" max="' + sp.max + '" step="' + sp.step + '"';
+  h += '<div class="numbox"><div class="numtop">';
+  h += '<div class="numslide"><input type="range" id="numrange"' + attrs + ' value="' + v + '" aria-label="Value"><div class="numends"><span>' + esc(numFmt(sp, sp.min)) + '</span><span>' + esc(numFmt(sp, sp.max)) + '</span></div></div>';
+  h += '<div class="numval"><input type="number" id="numin"' + attrs + ' value="' + v.toFixed(sp.dec) + '" inputmode="decimal" aria-label="Exact value">' + (sp.unit ? '<span class="numunit">' + esc(sp.unit) + '</span>' : '') + '</div>';
+  h += '</div></div>';
+  h += '<div class="crow"><button type="button" class="btn" id="numrec" data-action="num-record">Record ' + esc(numFmt(sp, v)) + '</button></div>';
+  h += typeTail(q, a, "Drag the slider, use the arrow keys, or type the exact value. Record saves it and moves on.");
+  document.getElementById("app").innerHTML = h;
+  if(a && a.status === "custom"){ openCustom(a.answer); }
+}
+function numLabel(q, sp){ var b = document.getElementById("numrec"); if(b) b.textContent = "Record " + numFmt(sp, numDrafts[q.id]); }
+function numInput(t){
+  var q = cur();
+  if(!q || qType(q) !== "number") return;
+  var sp = numSpec(q), v = parseFloat(t.value);
+  if(!isFinite(v)) return;
+  var sv = numSnap(sp, v);
+  numDrafts[q.id] = sv;
+  if(t.id === "numrange"){ var box = document.getElementById("numin"); if(box) box.value = sv.toFixed(sp.dec); }
+  else { var rg = document.getElementById("numrange"); if(rg) rg.value = sv; }
+  numLabel(q, sp);
+}
+function numCommitBox(){
+  var q = cur(), box = document.getElementById("numin");
+  if(!q || qType(q) !== "number" || !box) return;
+  var sp = numSpec(q), raw = parseFloat(box.value);
+  var v = isFinite(raw) ? numSnap(sp, raw) : numStart(q, sp);
+  numDrafts[q.id] = v;
+  box.value = v.toFixed(sp.dec);
+  var rg = document.getElementById("numrange");
+  if(rg) rg.value = v;
+  numLabel(q, sp);
+}
+function numRecord(){
+  var q = cur();
+  if(!q || qType(q) !== "number") return;
+  numCommitBox();
+  var sp = numSpec(q), v = numSnap(sp, numStart(q, sp)), prev = state.answers[q.id], was = done1(prev);
+  var wasDone = answeredCount() === QUESTIONS.length;
+  state.answers[q.id] = withNote(prev, { status:"picked", answer: v });
+  delete numDrafts[q.id];
+  if(!was) countDecision();
+  markChanged();
+  saveState();
+  afterAnswer(q, { first: !was, changed: was && prev.answer !== v });
+  settleIssue(q, wasDone);
+}
+
+/* Bracket: knockout pairs in the listed order. When the count isn't 4, 8, 16, or 32, the first options skip
+   round 1, and in round 2 each of them meets a round-1 winner. */
+function bkMatches(a){ return (a && Array.isArray(a.matches)) ? a.matches : []; }
+function bracketState(q, matches){
+  var L = q.options.map(optLabel), n = L.length, P = 1;
+  while(P < n) P *= 2;
+  var totalRounds = Math.round(Math.log(P) / Math.LN2), byes = L.slice(0, P - n), players = L.slice(P - n);
+  var pairs = [], k = 0, round = 1, rounds = [];
+  for(var i=0;i<players.length;i+=2) pairs.push([players[i], players[i+1]]);
+  for(;;){
+    var winners = [];
+    for(var j=0;j<pairs.length;j++){
+      var m = matches[k];
+      if(!m || m.round !== round || !Array.isArray(m.pair) || m.pair[0] !== pairs[j][0] || m.pair[1] !== pairs[j][1] || (m.winner !== pairs[j][0] && m.winner !== pairs[j][1])){
+        rounds.push({ round: round, pairs: pairs, winners: winners });
+        return { current: { round: round, pair: pairs[j] }, played: k, total: n - 1, rounds: rounds, totalRounds: totalRounds };
+      }
+      winners.push(m.winner);
+      k++;
+    }
+    rounds.push({ round: round, pairs: pairs, winners: winners });
+    var next = winners;
+    if(round === 1 && byes.length){
+      next = [];
+      for(var b=0, w=0; b < byes.length || w < winners.length;){
+        if(b < byes.length) next.push(byes[b++]);
+        if(w < winners.length) next.push(winners[w++]);
+      }
+    }
+    if(next.length === 1) return { winner: next[0], played: k, total: n - 1, rounds: rounds, totalRounds: totalRounds };
+    pairs = [];
+    for(var t=0;t<next.length;t+=2) pairs.push([next[t], next[t+1]]);
+    round++;
+  }
+}
+function bracketTreeHTML(st){
+  var h = '<div class="bktree">';
+  st.rounds.forEach(function(r){
+    h += '<div class="bkcol"><h4>' + (r.round === st.totalRounds ? "Final" : "Round " + r.round) + '</h4><div class="bkms">';
+    r.pairs.forEach(function(p, pi){
+      var w = r.winners[pi];
+      h += '<div class="bkm"><div' + (w === p[0] ? ' class="w"' : '') + ' ' + dirA(p[0]) + ' title="' + esc(p[0]) + '">' + esc(p[0]) + '</div><div' + (w === p[1] ? ' class="w"' : '') + ' ' + dirA(p[1]) + ' title="' + esc(p[1]) + '">' + esc(p[1]) + '</div></div>';
+    });
+    h += '</div></div>';
+  });
+  return h + '</div>';
+}
+function bkCard(q, lab, side, rec){
+  var o = null;
+  for(var i=0;i<q.options.length;i++){ if(optLabel(q.options[i]) === lab){ o = q.options[i]; break; } }
+  var tx = optText(o), isRec = !!(rec && rec.label === lab), why = (isRec && rec.because) ? whyText(rec) : "";
+  var h = '<button type="button" class="ocard' + (isRec ? " rec" : "") + '" data-action="bk-pick" data-side="' + side + '">';
+  h += '<span class="ochead"><span class="num">' + (side + 1) + '</span><span class="ct" ' + dirA(lab) + '>' + esc(lab) + '</span>' + (isRec ? hatHTML() : '') + '</span>';
+  if(tx) h += '<span class="cx" ' + dirA(tx) + '>' + esc(tx) + '</span>';
+  if(why) h += '<span class="rwhy" ' + dirA(rec.because) + '>' + esc(why) + '</span>';
+  return h + '</button>';
+}
+function renderBracket(q){
+  customOpen = false;
+  var a = state.answers[q.id], st = bracketState(q, bkMatches(a)), rec = recOf(q);
+  var h = typeHead(q, a), hint;
+  if(st.winner !== undefined && a && a.status === "picked"){
+    h += '<div class="bkwin">Winner: <b ' + dirA(st.winner) + '>' + esc(st.winner) + '</b><small>after ' + plural(st.total, "match", "matches") + '</small></div>';
+    h += bracketTreeHTML(st);
+    h += '<div class="crow"><button type="button" class="btn sec" data-action="bk-again">Run it again</button></div>';
+    hint = "Run it again starts the matches over. Next moves on.";
+  } else if(st.current){
+    h += '<div class="bkline">Match ' + (st.played + 1) + ' of ' + st.total + ', round ' + st.current.round + ' of ' + st.totalRounds + '</div>';
+    h += '<div class="bkpair">' + bkCard(q, st.current.pair[0], 0, rec) + '<span class="bkvs">vs</span>' + bkCard(q, st.current.pair[1], 1, rec) + '</div>';
+    hint = "Pick the better of each pair, or press 1 or 2. The last one standing is the answer.";
+  } else {
+    hint = "";
+  }
+  h += typeTail(q, a, hint);
+  document.getElementById("app").innerHTML = h;
+  if(a && a.status === "custom"){ openCustom(a.answer); }
+}
+function bkPick(side){
+  var q = cur();
+  if(!q || qType(q) !== "bracket") return;
+  var prev = state.answers[q.id], st = bracketState(q, bkMatches(prev));
+  if(!st.current || (side !== 0 && side !== 1)) return;
+  var ms = bkMatches(prev).slice(0, st.played).concat([{ round: st.current.round, pair: st.current.pair.slice(), winner: st.current.pair[side] }]);
+  var nst = bracketState(q, ms), was = done1(prev), wasDone = answeredCount() === QUESTIONS.length;
+  if(nst.winner !== undefined){
+    state.answers[q.id] = withNote(prev, { status:"picked", answer: nst.winner, matches: ms });
+    if(!was) countDecision();
+    markChanged();
+    saveState();
+    afterAnswer(q, { first: !was, changed: was && prev.answer !== nst.winner });
+    scrollKeep(render);
+  } else {
+    state.answers[q.id] = withNote(prev, { status:"open", answer:"", matches: ms });
+    markChanged();
+    saveState();
+    if(mascotOn()) faceFlash("pick", 700);
+    scrollKeep(render);
+  }
+}
+function bkAgain(){
+  var q = cur();
+  if(!q || qType(q) !== "bracket") return;
+  var prev = state.answers[q.id];
+  if(!prev || !done1(prev)) return;
+  confirmBox({ title: "Run this bracket again?", message: 'The winner, "' + prev.answer + '", and its matches are cleared, and the bracket starts over.', ok: "Run it again", answers: 0 }).then(function(yes){
+    if(!yes) return;
+    state.answers[q.id] = withNote(state.answers[q.id], { status:"open", answer:"" });
+    markChanged();
+    saveState();
+    render();
+  });
+}
+
 function renderBatch(q){
   customOpen = false;
   var a = batchState(q);
@@ -1355,7 +1734,9 @@ function buildExport(){
       var s = state.answers[q.id] || { status:"open", answer:"" };
       var entry = { id:q.id, section:q.section, issue:q.title };
       if(hasQuestion(q)) entry.question = q.question;
-      entry.status = done1(s) ? s.status : "open"; entry.answer = done1(s) ? s.answer : "";
+      entry.status = done1(s) ? s.status : "open"; entry.answer = done1(s) ? (Array.isArray(s.answer) ? s.answer.slice() : s.answer) : "";
+      if(qType(q) === "number" && s.status === "picked" && typeof s.answer === "number" && numSpec(q).unit) entry.unit = numSpec(q).unit;
+      if(qType(q) === "bracket" && bkMatches(s).length) entry.matches = bkMatches(s).map(function(m){ return { round: m.round, pair: m.pair.slice(), winner: m.winner }; });
       if(hasNote(s)) entry.comment = noteOf(s).trim();
       var fl = fups(q);
       if(fl.length){
@@ -1403,6 +1784,13 @@ function batchCell(q){
   return pill + ' <span dir="auto">' + (parts.length ? parts.join(", ") : "no rows answered") + (comments ? " (" + plural(comments, "note", "notes") + ")" : "") + '</span>';
 }
 
+function sumAnswer(q, a){
+  if(a.status === "ranked" && Array.isArray(a.answer)) return '<ol class="sumrank">' + a.answer.map(function(x){ return '<li ' + dirA(x) + '>' + esc(x) + '</li>'; }).join("") + '</ol>';
+  if(a.status === "picked" && qType(q) === "number" && typeof a.answer === "number") return '<span>' + esc(numFmt(numSpec(q), a.answer)) + '</span>';
+  var s = String(a.answer);
+  var tail = (a.status === "picked" && qType(q) === "bracket" && bkMatches(a).length) ? ' <span class="sumsub">won the bracket</span>' : '';
+  return '<span ' + dirA(s) + '>' + esc(s) + '</span>' + tail;
+}
 function sumNote(a){ var t = noteOf(a).trim(); return '<div class="sumnote"><b>Note</b><span ' + dirA(t) + '>' + esc(t) + '</span></div>'; }
 function renderSummary(){
   customOpen = false;
@@ -1422,9 +1810,11 @@ function renderSummary(){
     } else {
       var a = state.answers[q.id] || { status:"open", answer:"" };
       var pill = a.status === "picked" ? '<span class="pill picked">picked</span>'
+               : a.status === "ranked" ? '<span class="pill picked">ranked</span>'
                : a.status === "custom" ? '<span class="pill custom">custom</span>'
                : '<span class="pill open">open</span>';
-      ansText = a.status === "open" || !a.answer ? pill : pill + ' <span ' + dirA(a.answer) + '>' + esc(a.answer) + '</span>';
+      ansText = !done1(a) ? pill : pill + ' ' + sumAnswer(q, a);
+      if(qType(q) === "bracket" && !done1(a) && bkMatches(a).length){ var bst = bracketState(q, bkMatches(a)); ansText += ' <span class="sumsub">' + bst.played + ' of ' + bst.total + ' matches played</span>'; }
       if(hasNote(a)) ansText += sumNote(a);
       if(done1(a)){
         var lf = liveFups(q, state.answers);
@@ -1481,7 +1871,7 @@ function settleIssue(q, wasDone){
 }
 function pick(i){
   var q = cur();
-  if(!q || isBatch(q) || i < 0 || i >= q.options.length) return;
+  if(!q || qType(q) !== "single" || i < 0 || i >= q.options.length) return;
   var val = optLabel(q.options[i]);
   var prev = state.answers[q.id], was = done1(prev);
   var wasDone = answeredCount() === QUESTIONS.length;
@@ -1631,7 +2021,11 @@ function confirmCustom(){
 function skip(quiet){
   var q = cur();
   if(!q) return;
-  if(!isBatch(q) && !done1(state.answers[q.id])){ state.answers[q.id] = withNote(state.answers[q.id], { status:"open", answer:"" }); }
+  if(!isBatch(q) && !done1(state.answers[q.id])){
+    var sk = withNote(state.answers[q.id], { status:"open", answer:"" });
+    if(bkMatches(state.answers[q.id]).length) sk.matches = bkMatches(state.answers[q.id]);
+    state.answers[q.id] = sk;
+  }
   saveState();
   if(sleeping) wakeUp();
   if(quiet) faceFlash("skip", 1600); else react("skip");
@@ -1753,7 +2147,7 @@ function getHandle(key){
 }
 
 /* Checking rounds and converting answers. */
-function optionsProblem(opts, where, allowCards){
+function optionsProblem(opts, where, allowCards, manyCards){
   var seen = Object.create(null), cards = 0;
   for(var i=0;i<opts.length;i++){
     var o = opts[i], lab;
@@ -1768,7 +2162,7 @@ function optionsProblem(opts, where, allowCards){
     seen[lab] = true;
   }
   if(cards && !allowCards) return where + " is a grouped question, and grouped questions take plain options. Cards work on single questions and follow-ups.";
-  if(cards && opts.length > 3) return where + " shows its options as cards, and cards allow at most 3 options.";
+  if(cards && opts.length > 3 && !manyCards) return where + " shows its options as cards, and cards allow at most 3 options.";
   return null;
 }
 function recProblem(o, labels, where){
@@ -1776,6 +2170,32 @@ function recProblem(o, labels, where){
   if(!labels) return where + " is a grouped question, so its recommendations go on each row.";
   if(typeof o.recommend !== "string" || labels.indexOf(o.recommend) === -1) return where + " recommends \"" + String(o.recommend) + "\", which is not one of its options.";
   if(o.because !== undefined && typeof o.because !== "string") return where + ": because must be text.";
+  return null;
+}
+function typeProblem(q, where){
+  var num = function(v){ return typeof v === "number" && isFinite(v); };
+  var why = function(){
+    if(q.because === undefined) return null;
+    if(q.recommend === undefined) return where + " gives because without recommend.";
+    return typeof q.because === "string" ? null : where + ": because must be text.";
+  };
+  if(q.type === "number"){
+    if(!num(q.min) || !num(q.max)) return where + " is a number question and needs min and max as numbers.";
+    if(q.min >= q.max) return where + ": min must be below max.";
+    if(q.step !== undefined && (!num(q.step) || q.step <= 0)) return where + ": step must be a number above 0.";
+    if((q.max - q.min) / (q.step === undefined ? 1 : q.step) > 100000) return where + ": the range holds more than 100,000 steps. Use a bigger step.";
+    if(q.unit !== undefined && typeof q.unit !== "string") return where + ": unit must be text.";
+    if(q.recommend !== undefined && (!num(q.recommend) || q.recommend < q.min || q.recommend > q.max)) return where + " recommends " + String(q.recommend) + ", which is outside its range.";
+    return why();
+  }
+  if(q.type === "rank"){
+    if(q.options.length < 2 || q.options.length > 10) return where + " is a ranking and takes 2 to 10 options.";
+    if(q.recommend !== undefined && !sameSet(q.recommend, q.options.map(optLabel))) return where + " recommends an order that doesn't list every option exactly once.";
+    return why();
+  }
+  if(q.type === "bracket"){
+    if(q.options.length < 4 || q.options.length > 32) return where + " is a bracket and takes 4 to 32 options.";
+  }
   return null;
 }
 function versionProblem(c){
@@ -1788,21 +2208,29 @@ function validateQuestions(qarr){
   var seenQ = Object.create(null);
   for(var i=0;i<qarr.length;i++){
     var q = qarr[i];
-    var okQ = q && typeof q.id === "string" && typeof q.title === "string" && typeof q.section === "string" && Array.isArray(q.options);
+    var okQ = q && typeof q.id === "string" && typeof q.title === "string" && typeof q.section === "string" && (Array.isArray(q.options) || q.type === "number");
     if(okQ && q.type === "batch"){
       okQ = Array.isArray(q.items) && q.items.length > 0 && q.items.every(function(it){ return it && typeof it.id === "string" && typeof it.label === "string"; });
     }
-    if(!okQ) return "Question " + (i+1) + " needs id, section, title, options[] (and items[] with id + label when type is batch). Nothing was loaded.";
+    if(!okQ) return "Question " + (i+1) + " needs id, section, title, options[] (and items[] with id + label when type is batch; a number question takes min and max instead of options). Nothing was loaded.";
     if(q.id in seenQ) return "Question " + (i+1) + " reuses id " + q.id + " from question " + seenQ[q.id] + ". Every question needs its own id. Nothing was loaded.";
     seenQ[q.id] = i+1;
     var where = "Question " + (i+1) + " (" + q.id + ")";
     if(q.question !== undefined && typeof q.question !== "string") return where + ": question must be text. Nothing was loaded.";
-    var op = optionsProblem(q.options, where, q.type !== "batch");
-    if(op) return op + " Nothing was loaded.";
-    var rp = recProblem(q, q.type === "batch" ? null : q.options.map(optLabel), where);
-    if(rp) return rp + " Nothing was loaded.";
+    if(q.type !== undefined && ["batch", "rank", "number", "bracket"].indexOf(q.type) === -1) return where + ": type must be batch, rank, number, or bracket. Nothing was loaded.";
+    if(q.type !== "number"){
+      var op = optionsProblem(q.options, where, q.type !== "batch", q.type === "rank" || q.type === "bracket");
+      if(op) return op + " Nothing was loaded.";
+    }
+    var tp = typeProblem(q, where);
+    if(tp) return tp + " Nothing was loaded.";
+    if(q.type !== "rank" && q.type !== "number"){
+      var rp = recProblem(q, q.type === "batch" ? null : q.options.map(optLabel), where);
+      if(rp) return rp + " Nothing was loaded.";
+    }
     if(q.followups !== undefined){
       if(q.type === "batch") return where + " is a grouped question; follow-ups work on single questions only. Nothing was loaded.";
+      if(q.type === "rank" || q.type === "number" || q.type === "bracket") return where + " is a " + (q.type === "rank" ? "ranking" : q.type) + " question; follow-ups work on single questions only. Nothing was loaded.";
       if(!Array.isArray(q.followups)) return where + ": followups must be a list. Nothing was loaded.";
       var plabs = q.options.map(optLabel);
       for(var fz=0;fz<q.followups.length;fz++){
@@ -1838,8 +2266,23 @@ function validateQuestions(qarr){
 function unitHas(ia){ return !!(ia && (ia.answer || (ia.comment && String(ia.comment).trim()))); }
 function own(o, k){ return !!o && Object.prototype.hasOwnProperty.call(o, k); }
 function noteIn(e){ return typeof e.comment === "string" && !!e.comment.trim(); }
-function fromEntry(e){
-  var a = (e.status === "picked" || e.status === "custom") ? { status: e.status, answer: String(e.answer) } : { status: "open", answer: "" };
+function validMatch(m){ return !!(m && typeof m.round === "number" && Array.isArray(m.pair) && m.pair.length === 2 && typeof m.winner === "string"); }
+function entryDone(q, e){
+  var t = qType(q);
+  if(e.status === "custom") return typeof e.answer === "string" && !!e.answer.trim();
+  if(t === "rank") return e.status === "ranked" && sameSet(e.answer, q.options.map(optLabel));
+  if(t === "number") return e.status === "picked" && typeof e.answer === "number" && isFinite(e.answer);
+  return e.status === "picked" && !!e.answer;
+}
+function fromEntry(e, q){
+  var a;
+  if(e.status === "ranked" && Array.isArray(e.answer)) a = { status: "ranked", answer: e.answer.map(String) };
+  else if(e.status === "picked" || e.status === "custom") a = { status: e.status, answer: (typeof e.answer === "number") ? e.answer : String(e.answer) };
+  else a = { status: "open", answer: "" };
+  if(q && qType(q) === "bracket" && Array.isArray(e.matches)){
+    var ms = e.matches.filter(validMatch).map(function(m){ return { round: m.round, pair: [String(m.pair[0]), String(m.pair[1])], winner: m.winner }; });
+    if(ms.length) a.matches = ms;
+  }
   if(noteIn(e)) a.comment = String(e.comment);
   return a;
 }
@@ -1865,8 +2308,8 @@ function answersFromExport(arr, qs){
         }
         if(got){ out[q.id] = a; applied++; } else { ignored++; }
       } else { ignored++; }
-    } else if(((e.status === "picked" || e.status === "custom") && e.answer) || (e.status === "open" && noteIn(e))){
-      out[q.id] = fromEntry(e);
+    } else if(entryDone(q, e) || (e.status === "open" && (noteIn(e) || (qType(q) === "bracket" && Array.isArray(e.matches) && e.matches.length)))){
+      out[q.id] = fromEntry(e, q);
       applied++;
       if(done1(out[q.id]) && Array.isArray(e.followups)){
         var fids = Object.create(null);
@@ -1892,7 +2335,7 @@ function normAnswers(qs, ans){
       }
       out.push(rows);
     } else {
-      out.push(a && (done1(a) || hasNote(a)) ? [done1(a) ? a.status : "open", done1(a) ? a.answer : "", noteOf(a).trim()] : ["open", "", ""]);
+      out.push(a && (done1(a) || hasNote(a) || bkMatches(a).length) ? [done1(a) ? a.status : "open", done1(a) ? a.answer : "", noteOf(a).trim(), bkMatches(a)] : ["open", "", ""]);
       fups(q).forEach(function(f){
         var fa = own(ans, f.id) ? ans[f.id] : null;
         out.push(fa && (done1(fa) || hasNote(fa)) ? [f.id, done1(fa) ? fa.status : "open", done1(fa) ? fa.answer : "", noteOf(fa).trim()] : [f.id]);
@@ -1913,7 +2356,9 @@ function lostAnswers(oldA, newA){
         if(!ib || (ib.answer || "") !== (ia.answer || "") || String(ib.comment || "").trim() !== String(ia.comment || "").trim()) lost++;
       }
     } else if(a && (done1(a) || hasNote(a))){
-      if(!b || (done1(b) ? b.status : "open") !== (done1(a) ? a.status : "open") || (done1(b) ? b.answer : "") !== (done1(a) ? a.answer : "") || noteOf(b).trim() !== noteOf(a).trim()) lost++;
+      var ka = JSON.stringify([done1(a) ? a.status : "open", done1(a) ? a.answer : "", noteOf(a).trim(), bkMatches(a)]);
+      var kb = b ? JSON.stringify([done1(b) ? b.status : "open", done1(b) ? b.answer : "", noteOf(b).trim(), bkMatches(b)]) : "";
+      if(ka !== kb) lost++;
     }
   }
   return lost;
@@ -1932,6 +2377,8 @@ function carryAnswers(oldQs, newQs, oldA){
     var nq = newQs[j], oq = byId[nq.id], a = own(oldA, nq.id) ? oldA[nq.id] : null;
     if(!oq || !a) continue;
     if(nq.title !== oq.title || JSON.stringify(nq.options) !== JSON.stringify(oq.options) || isBatch(nq) !== isBatch(oq)) continue;
+    if(qType(nq) !== qType(oq)) continue;
+    if(qType(nq) === "number" && JSON.stringify([nq.min, nq.max, nq.step, nq.unit]) !== JSON.stringify([oq.min, oq.max, oq.step, oq.unit])) continue;
     if(hasQuestion(oq) && nq.question !== oq.question) continue;
     if(isBatch(nq)){
       if(a.status !== "batch" || !a.items) continue;
@@ -2972,7 +3419,10 @@ function renderHooks(){
 }
 function estimateText(){
   var secs = 0;
-  for(var i=0;i<QUESTIONS.length;i++){ var q = QUESTIONS[i]; secs += isBatch(q) ? 10 + q.items.length * 8 : 30 + fups(q).length * 30; }
+  for(var i=0;i<QUESTIONS.length;i++){
+    var q = QUESTIONS[i], t = qType(q);
+    secs += t === "batch" ? 10 + q.items.length * 8 : t === "rank" ? 20 + q.options.length * 6 : t === "number" ? 25 : t === "bracket" ? (q.options.length - 1) * 6 : 30 + fups(q).length * 30;
+  }
   var m = Math.max(1, Math.round(secs / 60));
   return m === 1 ? "a minute" : numWord(m) + " minutes";
 }
@@ -3268,6 +3718,11 @@ document.addEventListener("click", function(ev){
   else if(act === "bpick"){ bpick(el.getAttribute("data-item"), parseInt(el.getAttribute("data-i"), 10)); }
   else if(act === "bpen"){ bpen(el.getAttribute("data-item")); }
   else if(act === "note-toggle"){ toggleNote(el.getAttribute("data-note")); }
+  else if(act === "rk-move"){ rankMove(parseInt(el.getAttribute("data-i"), 10), parseInt(el.getAttribute("data-d"), 10)); }
+  else if(act === "rk-record"){ rankRecord(); }
+  else if(act === "num-record"){ numRecord(); }
+  else if(act === "bk-pick"){ bkPick(parseInt(el.getAttribute("data-side"), 10)); }
+  else if(act === "bk-again"){ bkAgain(); }
   else if(act === "batch-continue"){ advance(); }
   else if(act === "custom-open"){ openCustom(); }
   else if(act === "custom-confirm"){ confirmCustom(); }
@@ -3319,6 +3774,8 @@ document.addEventListener("input", function(ev){
   } else if(t.classList && t.classList.contains("fctext")){
     var fok = document.getElementById("fcok-" + t.getAttribute("data-f"));
     if(fok){ fok.disabled = !(t.value && t.value.trim().length > 0); }
+  } else if(t.id === "numrange" || t.id === "numin"){
+    numInput(t);
   } else if(t.getAttribute && t.getAttribute("data-role") === "note"){
     var nid = t.getAttribute("data-note");
     setNote(nid, t.value || "");
@@ -3332,6 +3789,10 @@ document.addEventListener("input", function(ev){
   }
 });
 window.addEventListener("resize", function(){ try{ fitBatch(); }catch(e){} });
+document.addEventListener("pointerdown", rankDragStart);
+document.addEventListener("pointermove", rankDragMove);
+document.addEventListener("pointerup", rankDragEnd);
+document.addEventListener("pointercancel", rankDragEnd);
 (function(){ var mo = document.getElementById("modal"); if(mo) mo.addEventListener("click", function(e){ if(e.target === mo) extraClose(); }); })();
 document.addEventListener("keydown", function(ev){
   if(confirmOpen){ if(ev.key === "Escape" && confirmDone){ confirmDone(false); } return; }
@@ -3347,13 +3808,19 @@ document.addEventListener("keydown", function(ev){
   if(drawerOpen) return;
   noteKey(ev);
   if(state.idx >= QUESTIONS.length) return;
+  if(ev.target && ev.target.id === "numin" && ev.key === "Enter"){ ev.preventDefault(); numRecord(); return; }
   if(ev.target && (ev.target.tagName === "TEXTAREA" || ev.target.tagName === "INPUT")){
     if(ev.key === "Escape"){ cancelCustom(); }
     return;
   }
   if(customOpen && ev.key === "Escape"){ cancelCustom(); return; }
   var q = cur();
-  if(q && !isBatch(q)){
+  if(q && qType(q) === "bracket"){
+    var bn = parseInt(ev.key, 10);
+    if(bn === 1 || bn === 2) bkPick(bn - 1);
+    return;
+  }
+  if(q && qType(q) === "single"){
     var n = parseInt(ev.key, 10);
     if(!isNaN(n) && n >= 1 && n <= 9){
       var target = null;
@@ -3435,6 +3902,7 @@ scheduleTimerTick();
 document.addEventListener("change", function(ev){
   var t = ev.target;
   if(t && t.id === "optname"){ setOption("name", t.value); return; }
+  if(t && t.id === "numin"){ numCommitBox(); return; }
   if(!t || t.id !== "fileinput" || !t.files || !t.files[0]) return;
   readFileText(t.files[0]).then(function(txt){ ingestText(txt, {}); }, function(){ ingestFail("Could not read that file."); });
 });
@@ -3492,6 +3960,11 @@ if(typeof window !== "undefined"){
     bpick: bpick,
     bcomment: bcomment,
     setNote: setNote,
+    rankMove: rankMove,
+    rankRecord: rankRecord,
+    numRecord: numRecord,
+    bkPick: bkPick,
+    bracketState: bracketState,
     toggleNote: toggleNote,
     skip: skip,
     back: back,
