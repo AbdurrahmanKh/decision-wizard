@@ -166,6 +166,13 @@ button{font-family:inherit}
 .bl .bname{font-weight:600}
 .bl .bnote{font-size:calc(13px*var(--fs));color:var(--muted);margin-top:2px;line-height:1.45}
 .bops{text-align:right;white-space:nowrap}
+.btable.stack tr{display:block;border-bottom:1px solid var(--line2);padding:6px 0}
+.btable.stack tr:last-child{border-bottom:none}
+.btable.stack td{display:block;width:auto;border-bottom:none;padding:3px 8px}
+.btable.stack .bl{width:auto}
+.btable.stack .bops{text-align:left;white-space:normal;padding-bottom:6px}
+.btable.stack .bopt{margin:4px 6px 0 0}
+.btable.stack .bpen{margin:4px 0 0 2px}
 .bopt{border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 14px;font-size:calc(13.5px*var(--fs));font-weight:600;cursor:pointer;margin-left:6px}
 .bopt:hover{border-color:var(--green2)}
 .bopt.sel{border-color:var(--green);background:var(--green-soft);color:var(--green);font-weight:700}
@@ -367,6 +374,8 @@ footer{margin-top:34px;padding-top:14px;border-top:3px solid var(--ink);font-siz
 .ostat{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--panel)}
 .ostat b{display:block;font-family:'Bricolage Grotesque',sans-serif;font-size:calc(20px*var(--fs));font-weight:800;line-height:1.2;color:var(--ink)}
 .ostat span{font-size:calc(12.5px*var(--fs));color:var(--muted)}
+.ostats{margin-top:10px}
+.ostnote{font-size:calc(12.5px*var(--fs));color:var(--muted);margin:8px 0 0}
 @media(max-width:880px){
   .layout{grid-template-columns:minmax(0,1fr)}
   #side{position:static;max-height:none;display:flex;overflow-x:auto;gap:4px;padding:6px}
@@ -506,8 +515,10 @@ footer{margin-top:34px;padding-top:14px;border-top:3px solid var(--ink);font-siz
       <button type="button" data-action="set-size" data-v="large" aria-pressed="false">Large</button>
     </div>
     <div class="onote">Options stay in this browser. Rounds never change them.</div>
-    <div class="dsec" id="ostatshead" hidden>Your stats</div>
+    <div class="dsec" id="ostatshead">Stats</div>
+    <div class="crow"><button type="button" class="btn sec" id="statsbtn" data-action="stats-toggle" aria-expanded="false" aria-controls="ostats">Show stats</button></div>
     <div class="ostats" id="ostats" hidden></div>
+    <p class="ostnote" id="ostnote" hidden>Counted in this browser.</p>
     <div class="dsec">Saved data</div>
     <div class="odanger">
       <p>Clear everything this browser keeps for the wizard: every round, its answers, and these options. Files you saved stay where they are.</p>
@@ -534,7 +545,7 @@ footer{margin-top:34px;padding-top:14px;border-top:3px solid var(--ink);font-siz
 <script>
 "use strict";
 /* The wizard's version. Bump the last number (0.1.1) for a minor update, the middle one (0.2.0) for a major one. */
-var WIZARD_VERSION = "0.2.0";
+var WIZARD_VERSION = "0.2.1";
 
 var CONFIG = { title:"Decision Wizard", tagline:"", product:"" };
 
@@ -777,8 +788,17 @@ function renderOptions(){
   var os = document.getElementById("ostats");
   if(os){
     var card = function(v, l){ return '<div class="ostat"><b>' + esc(String(v)) + '</b><span>' + esc(l) + '</span></div>'; };
-    os.innerHTML = card(STATS.decisions, "Decisions made") + card(STATS.rounds, "Rounds finished") + card(STATS.typed, "Answers you wrote") + card(STATS.fastestMs ? fmtDuration(STATS.fastestMs) : "Not yet", "Fastest round");
+    os.innerHTML = card(STATS.decisions, "Decisions made") + card(STATS.day === todayKey() ? STATS.dayDecisions : 0, "Decisions today") + card(STATS.rounds, "Rounds finished") + card(STATS.typed, "Answers you wrote") + card(STATS.fastestMs ? fmtDuration(STATS.fastestMs) : "Not yet", "Fastest round");
   }
+}
+function toggleStats(){
+  var os = document.getElementById("ostats"), note = document.getElementById("ostnote"), b = document.getElementById("statsbtn");
+  if(!os || !b) return;
+  var show = os.hasAttribute("hidden");
+  if(show){ os.removeAttribute("hidden"); if(note) note.removeAttribute("hidden"); renderOptions(); }
+  else { os.setAttribute("hidden", ""); if(note) note.setAttribute("hidden", ""); }
+  b.setAttribute("aria-expanded", show ? "true" : "false");
+  b.textContent = show ? "Hide stats" : "Show stats";
 }
 function setOption(k, v){
   var prevName = SETTINGS.name;
@@ -944,7 +964,7 @@ function renderEmpty(){
   h += '</div>';
   document.getElementById("app").innerHTML = h;
 }
-function render(){ renderCore(); renderHooks(); updateTimers(); }
+function render(){ renderCore(); renderHooks(); updateTimers(); try{ cutStaleLine(); fitBatch(); }catch(e){} }
 /* The round clock: from the round's first load until every question has an answer, minus the time it was paused:
    while the companion naps, while another round is open, and while the page was closed. */
 function roundClock(){
@@ -2444,9 +2464,32 @@ function play(it){
   var line = (TALKS[kind] && SETTINGS.talk) ? (data.line !== undefined ? data.line : lineFor(kind, data)) : "";
   var ms = line ? lineDuration(line, data.action) : (data.hold || TIMING.faceHold);
   if(line) say(line, ms, data.action);
-  nowItem = { kind: kind, frame: frame };
+  nowItem = { kind: kind, frame: frame, when: data.when || null };
   if(speakTimer) clearTimeout(speakTimer);
   speakTimer = setTimeout(function(){ speakTimer = null; nowItem = null; pump(); }, ms);
+}
+function fitBatch(){
+  var ts = document.querySelectorAll("table.btable");
+  for(var i=0;i<ts.length;i++){
+    var t = ts[i]; t.classList.remove("stack");
+    var tw = t.offsetWidth, rows = t.querySelectorAll("tr"), crowd = false;
+    for(var j=0;j<rows.length && !crowd;j++){
+      var bl = rows[j].querySelector("td.bl"), bo = rows[j].querySelector("td.bops");
+      if(!bl || !bo) continue;
+      var k = bo.children, used = k.length ? (k[k.length - 1].getBoundingClientRect().right - k[0].getBoundingClientRect().left) : 0;
+      var share = used / (tw || 1);
+      if(share > 0.4 || (share > 0.25 && bl.offsetHeight > 88)) crowd = true;
+    }
+    if(crowd) t.classList.add("stack");
+  }
+}
+function cutStaleLine(){
+  if(nowItem && nowItem.when && !nowItem.when()){
+    if(speakTimer){ clearTimeout(speakTimer); speakTimer = null; }
+    nowItem = null;
+    hideBubble();
+    pump();
+  }
 }
 function clearSpeech(){
   SPEECH = [];
@@ -3128,6 +3171,7 @@ document.addEventListener("click", function(ev){
   else if(act === "bubble-act"){ var ba = bubbleAction; hideBubble(); if(ba && ba.fn) ba.fn(); }
   else if(OPTKEYS[act]){ setOption(OPTKEYS[act], el.getAttribute("data-v")); }
   else if(act === "wipe-all"){ wipeAll(); }
+  else if(act === "stats-toggle"){ toggleStats(); }
   else if(act === "extra-open"){ extraOpen(parseInt(el.getAttribute("data-x"), 10) || 0); }
   else if(act === "modal-close"){ extraClose(); }
   else if(act === "modal-back"){ extraClose(); }
@@ -3151,6 +3195,7 @@ document.addEventListener("input", function(ev){
     if(q && isBatch(q)){ openComments[q.id + ":" + t.getAttribute("data-item")] = true; }
   }
 });
+window.addEventListener("resize", function(){ try{ fitBatch(); }catch(e){} });
 (function(){ var mo = document.getElementById("modal"); if(mo) mo.addEventListener("click", function(e){ if(e.target === mo) extraClose(); }); })();
 document.addEventListener("keydown", function(ev){
   if(confirmOpen){ if(ev.key === "Escape" && confirmDone){ confirmDone(false); } return; }
