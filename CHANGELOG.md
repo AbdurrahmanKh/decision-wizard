@@ -2,6 +2,18 @@
 
 What changed in the Decision Wizard and the d-wizard skill, newest first. The wizard and the skill keep their own version numbers.
 
+## Wizard 0.5.0, 6 October 2026
+
+### Added
+- Back up and restore every round. Back up all rounds, in the Load panel and next to Clear everything in Options, writes every round in the browser with its answers to one file, each round in the saved-file form. Loading that file in any copy of the wizard adds the rounds that are missing, updates the ones the backup has a newer copy of, and asks before touching a round that changed here after the backup was made.
+- The hosted wizard installs as an app, with its own window and icon, on computers and on Android. It opens offline, and whenever you're online it loads the newest version. Options gains an App section with an Install button where the browser offers one. This adds `manifest.webmanifest`, `sw.js`, and `icons/` next to `index.html`; local copies of the page work as before.
+
+### Changed
+- Dropping, choosing, or pasting a backup loads it like any other file.
+
+### Fixed
+- Clear everything also resets Wizard recommendations in the open page, not only after a reload.
+
 ## Wizard 0.4.0 and skill 0.4.0, 5 October 2026
 
 ### Added

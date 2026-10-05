@@ -6,6 +6,9 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Cellipse cx=%2216%22 cy=%2225.6%22 rx=%2214.4%22 ry=%223.9%22 fill=%22%231F7A5A%22 stroke=%22%231B1810%22 stroke-width=%221.5%22/%3E%3Cpath d=%22M6.8 25 Q8.6 14 14.6 7.8 Q18.8 3.8 24.4 1.9 Q26.6 1.3 25.9 3.9 Q24.1 7.4 20.9 9.4 Q25.6 16 25.2 25 Z%22 fill=%22%232E8F66%22 stroke=%22%231B1810%22 stroke-width=%221.5%22 stroke-linejoin=%22round%22/%3E%3Cpath d=%22M7.4 21.2 Q16 18.6 24.8 21.2 L25.2 25 Q16 22.4 6.8 25 Z%22 fill=%22%23D6A72C%22 stroke=%22%231B1810%22 stroke-width=%221.2%22 stroke-linejoin=%22round%22/%3E%3Cpath d=%22M1.6 25.6 A14.4 3.9 0 0 0 30.4 25.6%22 fill=%22%231F7A5A%22 stroke=%22%231B1810%22 stroke-width=%221.5%22/%3E%3Cpath d=%22M15.2 10.6 Q15.92 13.479999999999999 18.8 14.2 Q15.92 14.92 15.2 17.8 Q14.479999999999999 14.92 11.6 14.2 Q14.479999999999999 13.479999999999999 15.2 10.6Z%22 fill=%22%23E8C04A%22/%3E%3Cpath d=%22M20.6 6.5 Q20.98 8.02 22.5 8.4 Q20.98 8.780000000000001 20.6 10.3 Q20.220000000000002 8.780000000000001 18.700000000000003 8.4 Q20.220000000000002 8.02 20.6 6.5Z%22 fill=%22%23E8C04A%22/%3E%3C/svg%3E">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Decision Wizard</title>
+<meta name="theme-color" content="#0E5B46">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-maskable-512.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;600&display=swap" rel="stylesheet">
@@ -466,6 +469,8 @@ footer{margin-top:34px;padding-top:14px;border-top:3px solid var(--ink);font-siz
 .bkm div.w{color:var(--ink);font-weight:700;background:var(--green-soft)}
 .sumrank{margin:4px 0 0 20px;padding:0}
 .sumsub{color:var(--muted);font-size:calc(13.5px*var(--fs))}
+.lbar{margin:0 0 10px}
+.odanger .crow{margin-top:0}
 [hidden]{display:none!important}
 @media (max-width:700px){.mcard{margin:12px auto}#mbody{padding:4px 14px 16px}.ctx{padding:12px 12px 10px}}
 </style>
@@ -527,18 +532,20 @@ footer{margin-top:34px;padding-top:14px;border-top:3px solid var(--ink);font-siz
   <div class="dhead"><h2 id="drawertitle">Load a round</h2><button type="button" class="mclose" data-action="drawer-close" aria-label="Close">&#10005;</button></div>
   <div class="dbody">
     <div class="dsec">From a file</div>
-    <div class="dropzone"><button type="button" class="btn" id="pickbtn" data-action="pick-file">Choose file</button><span>or drop a round or a saved file anywhere on this page</span></div>
+    <div class="dropzone"><button type="button" class="btn" id="pickbtn" data-action="pick-file">Choose file</button><span>or drop a round, a saved file, or a backup anywhere on this page</span></div>
     <div class="dsec">Paste JSON</div>
-    <textarea id="qpaste" spellcheck="false" aria-label="Paste a round, a saved file, or answers JSON" placeholder="A round, a saved file, or answers JSON"></textarea>
+    <textarea id="qpaste" spellcheck="false" aria-label="Paste a round, a saved file, answers JSON, or a backup" placeholder="A round, a saved file, answers JSON, or a backup"></textarea>
     <div class="crow"><button type="button" class="btn sec" data-action="paste-load">Load</button></div>
     <div class="status" id="loader-status"></div>
     <div class="dsec">Rounds in this browser</div>
+    <div class="crow lbar"><button type="button" class="btn sec" data-action="backup-all">Back up all rounds</button><button type="button" class="btn sec" data-action="pick-file">Restore from a backup</button></div>
     <div id="liblist"></div>
     <details class="fmt">
       <summary>What the files look like</summary>
       <div class="ldef"><b>Round.</b> Either a bare array of questions, or an object {config, questions} where config sets {title, tagline, product}. Each question: <b>id</b>, <b>section</b>, <b>title</b>, <b>options</b> (array of strings). Ids must be unique, and so must row ids inside one batch. Optional: <b>question</b> (the question itself, shown large, with the title as a small topic line above it; the sidebar keeps the title); <b>context</b>; <b>detail</b> (array of {kind: quote, note, or code, src, text}; code keeps indentation and line breaks and shows src exactly as written, such as a file path and line); <b>links</b> (array of {label, url}); <b>extra</b> ({label, blocks:[{kind: text, text}, {kind: table, title, columns, rows}, {kind: quote, src, text}, {kind: note, text}, or {kind: code, src, text}]}, or a list of them for several buttons) for context popups; <b>customLabel</b>; <b>custom</b>: false; <b>skip</b>: false; <b>recommend</b> (the label of the recommended option) with <b>because</b> (the reason, finishing "I recommend this because"), on a question, a follow-up, or a batch row. For a batch table set <b>type</b>: "batch" and <b>items</b>: [{id, label, note}], sharing one options set per row. Every question and every row takes a note with the pen. <b>type</b>: "rank" makes a ranking of 2 to 10 options (recommend is the whole order); "number" takes <b>min</b>, <b>max</b>, <b>step</b>, and <b>unit</b> instead of options (recommend is a number); "bracket" runs 4 to 32 options in knockout pairs, in the listed order. In config, <b>needs_wizard</b> names the oldest wizard version the round is made for.</div>
       <div class="ldef"><b>Saved file.</b> What Save writes: the answers JSON (meta and answers, the same as Copy answers JSON) with the whole round under <b>round</b>, so opening it picks up where you left off.</div>
       <div class="ldef"><b>Answers JSON.</b> Answers on their own merge into the round with the same title, or into the open round: matching ids overwrite, and open entries are ignored unless they carry a note. A note comes back as <b>comment</b>.</div>
+      <div class="ldef"><b>Backup.</b> What Back up all rounds writes: every round in this browser with its answers, each in the saved-file form, under <b>rounds</b>. Loading a backup adds the rounds that are missing here and brings back the ones the backup has a newer copy of. When a round changed here after the backup was made, the wizard asks whether to keep it.</div>
       <div class="ldef"><b>The list.</b> Every round stays in this browser, with its answers, until you delete it. A round whose title is already in the list replaces the saved one, and answers to questions that did not change stay.</div>
     </details>
   </div>
@@ -586,16 +593,19 @@ footer{margin-top:34px;padding-top:14px;border-top:3px solid var(--ink);font-siz
     <div class="crow"><button type="button" class="btn sec" id="statsbtn" data-action="stats-toggle" aria-expanded="false" aria-controls="ostats">Show stats</button></div>
     <div class="ostats" id="ostats" hidden></div>
     <p class="ostnote" id="ostnote" hidden>Counted in this browser.</p>
+    <div class="dsec">App</div>
+    <div class="orow" id="row-install"><span class="olab">Install the wizard as an app</span><button type="button" class="btn sec obtn" id="installbtn" data-action="install-app" hidden>Install</button></div>
+    <div class="onote" id="installnote"></div>
     <div class="dsec">Saved data</div>
     <div class="odanger">
       <p>Clear everything this browser keeps for the wizard: every round, its answers, and these options. Files you saved stay where they are.</p>
-      <button type="button" class="btn danger" data-action="wipe-all">Clear everything</button>
+      <div class="crow"><button type="button" class="btn sec" data-action="backup-all">Back up all rounds first</button><button type="button" class="btn danger" data-action="wipe-all">Clear everything</button></div>
     </div>
     <div class="oversion" id="oversion"></div>
   </div>
 </aside>
 <input type="file" id="fileinput" accept=".json,application/json" hidden>
-<div class="dropveil" id="dropveil"><div>Drop to open<small>A round, a saved file, or answers</small></div></div>
+<div class="dropveil" id="dropveil"><div>Drop to open<small>A round, a saved file, answers, or a backup</small></div></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div class="cback" id="cback">
   <div class="cbox" role="alertdialog" aria-modal="true" aria-labelledby="ctitle" aria-describedby="cmsg">
@@ -612,7 +622,7 @@ footer{margin-top:34px;padding-top:14px;border-top:3px solid var(--ink);font-siz
 <script>
 "use strict";
 /* The wizard's version. Bump the last number (0.1.1) for a minor update, the middle one (0.2.0) for a major one. */
-var WIZARD_VERSION = "0.4.0";
+var WIZARD_VERSION = "0.5.0";
 
 var CONFIG = { title:"Decision Wizard", tagline:"", product:"" };
 
@@ -874,6 +884,42 @@ function renderOptions(){
     var card = function(v, l){ return '<div class="ostat"><b>' + esc(String(v)) + '</b><span>' + esc(l) + '</span></div>'; };
     os.innerHTML = card(STATS.decisions, "Decisions made") + card(STATS.day === todayKey() ? STATS.dayDecisions : 0, "Decisions today") + card(STATS.rounds, "Rounds finished") + card(STATS.typed, "Answers you wrote") + card(STATS.fastestMs ? fmtDuration(STATS.fastestMs) : "Not yet", "Fastest round");
   }
+  renderInstall();
+}
+/* The hosted wizard installs as an app: a service worker keeps a copy for offline use, and online the newest version always loads.
+   A local copy of the page skips all of this. */
+var installPrompt = null;
+function hosted(){ return location.protocol === "https:" || location.hostname === "localhost" || location.hostname === "127.0.0.1"; }
+function standalone(){
+  try{ return !!((window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || window.navigator.standalone === true); }catch(e){ return false; }
+}
+function renderInstall(){
+  var b = document.getElementById("installbtn"), n = document.getElementById("installnote");
+  if(!b || !n) return;
+  var msg, show = false;
+  if(standalone()) msg = "You're in the installed app. It opens offline, and loads the newest version whenever you're online.";
+  else if(!hosted()) msg = "This is a local copy of the page, so it can't be installed. The hosted wizard can.";
+  else if(installPrompt){ show = true; msg = "Its own window and icon. It opens offline, and loads the newest version whenever you're online."; }
+  else msg = "Your browser's menu may offer Install app or Add to Home Screen. Once installed, the wizard opens offline and loads the newest version whenever you're online.";
+  b.hidden = !show;
+  n.textContent = msg;
+}
+function installApp(){
+  var ev = installPrompt;
+  if(!ev || typeof ev.prompt !== "function") return;
+  installPrompt = null;
+  renderInstall();
+  try{
+    Promise.resolve(ev.prompt()).then(function(){ return ev.userChoice; }).then(function(c){
+      if(!(c && c.outcome === "accepted")){ installPrompt = ev; renderInstall(); }
+    }, function(){ installPrompt = ev; renderInstall(); });
+  }catch(e){ installPrompt = ev; renderInstall(); }
+}
+function setupApp(){
+  if(!hosted()) return;
+  window.addEventListener("beforeinstallprompt", function(ev){ ev.preventDefault(); installPrompt = ev; renderInstall(); });
+  window.addEventListener("appinstalled", function(){ installPrompt = null; renderInstall(); toast(true, "Installed. The wizard now opens from your apps, offline too."); });
+  try{ if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").then(null, function(){}); }catch(e){}
 }
 function toggleStats(){
   var os = document.getElementById("ostats"), note = document.getElementById("ostnote"), b = document.getElementById("statsbtn");
@@ -1714,12 +1760,14 @@ function extraClose(){
   if(m) m.className = "mback";
 }
 
-function buildExport(){
+function buildExport(){ return exportFor(QUESTIONS, state.answers, CONFIG); }
+function exportFor(qs, ans, cfg){
   var answers = [];
-  for(var i=0;i<QUESTIONS.length;i++){
-    var q = QUESTIONS[i];
+  for(var i=0;i<qs.length;i++){
+    var q = qs[i];
     if(isBatch(q)){
-      var a = batchState(q);
+      var a = ans[q.id];
+      if(!a || a.status !== "batch" || !a.items){ a = { status:"batch", items:{} }; }
       var items = [];
       for(var j=0;j<q.items.length;j++){
         var it = q.items[j];
@@ -1728,10 +1776,10 @@ function buildExport(){
       }
       var be = { id:q.id, section:q.section, issue:q.title };
       if(hasQuestion(q)) be.question = q.question;
-      be.status = "batch"; be.answered_items = batchDone(q); be.total_items = q.items.length; be.items = items;
+      be.status = "batch"; be.answered_items = batchDoneIn(q, ans); be.total_items = q.items.length; be.items = items;
       answers.push(be);
     } else {
-      var s = state.answers[q.id] || { status:"open", answer:"" };
+      var s = ans[q.id] || { status:"open", answer:"" };
       var entry = { id:q.id, section:q.section, issue:q.title };
       if(hasQuestion(q)) entry.question = q.question;
       entry.status = done1(s) ? s.status : "open"; entry.answer = done1(s) ? (Array.isArray(s.answer) ? s.answer.slice() : s.answer) : "";
@@ -1741,12 +1789,12 @@ function buildExport(){
       var fl = fups(q);
       if(fl.length){
         entry.followups = fl.map(function(f){
-          var fa = state.answers[f.id], st = "open", ans = "";
+          var fa = ans[f.id], st = "open", fans = "";
           if(done1(s) && !fupApplies(f, s)) st = "not_needed";
-          else if(done1(s) && done1(fa)){ st = fa.status; ans = fa.answer; }
+          else if(done1(s) && done1(fa)){ st = fa.status; fans = fa.answer; }
           var fe = { id:f.id, issue:f.title };
           if(hasQuestion(f)) fe.question = f.question;
-          fe.status = st; fe.answer = ans;
+          fe.status = st; fe.answer = fans;
           if(done1(s) && fupApplies(f, s) && hasNote(fa)) fe.comment = noteOf(fa).trim();
           return fe;
         });
@@ -1754,15 +1802,16 @@ function buildExport(){
       answers.push(entry);
     }
   }
+  var n = countAnswered(qs, ans);
   return {
     meta: {
       tool: "decision-wizard",
       wizard_version: WIZARD_VERSION,
-      wizard_title: CONFIG.title || "",
+      wizard_title: cfg.title || "",
       exported_at: new Date().toISOString(),
-      total: QUESTIONS.length,
-      answered: answeredCount(),
-      open: QUESTIONS.length - answeredCount()
+      total: qs.length,
+      answered: n,
+      open: qs.length - n
     },
     answers: answers
   };
@@ -2443,12 +2492,13 @@ function ingestText(text, src){
   try{ p = JSON.parse(text); }
   catch(e){ ingestFail("That is not valid JSON: " + e.message, true); return false; }
   if(p && typeof p === "object" && !Array.isArray(p) && p.meta && p.meta.tool === "decision-wizard"){
+    if(p.meta.kind === "backup" && Array.isArray(p.rounds)) return ingestBackup(p);
     if(p.round && typeof p.round === "object" && Array.isArray(p.round.questions)) return ingestBundle(p, src);
     if(Array.isArray(p.answers)) return ingestAnswers(p);
   }
   if(Array.isArray(p)) return ingestRound(p, null, src);
   if(p && typeof p === "object" && Array.isArray(p.questions)) return ingestRound(p.questions, p.config, src);
-  ingestFail("This JSON is not a round, a saved file, or an answers file. Nothing was loaded.", true);
+  ingestFail("This JSON is not a round, a saved file, an answers file, or a backup. Nothing was loaded.", true);
   return false;
 }
 function ingestRound(qarr, rawCfg, src){
@@ -2576,7 +2626,7 @@ function saveText(){
   exp.round = { config: CONFIG, questions: QUESTIONS };
   return JSON.stringify(exp, null, 2);
 }
-function downloadText(text, name, lead){
+function downloadFile(text, name){
   try{
     var blob = new Blob([text], { type: "application/json" });
     var url = URL.createObjectURL(blob);
@@ -2587,11 +2637,133 @@ function downloadText(text, name, lead){
     a.click();
     document.body.removeChild(a);
     setTimeout(function(){ URL.revokeObjectURL(url); }, 2000);
+    return true;
+  }catch(e){ return false; }
+}
+function downloadText(text, name, lead){
+  if(downloadFile(text, name)){
     markSent();
     toast(true, (lead || "Downloaded ") + name + ".");
-  }catch(e){
+  } else {
     toast(false, "The download was blocked here. Copy answers JSON on the summary still works.");
   }
+}
+
+/* A backup: every round in this browser, each in the saved-file form, in one file. Loading it brings them back. */
+function backupName(){
+  var d = new Date();
+  return "decision-wizard-backup-" + d.getFullYear() + "-" + pad2(d.getMonth() + 1) + "-" + pad2(d.getDate()) + ".json";
+}
+function backupBundle(){
+  var rounds = [];
+  for(var i=0;i<LIB.rounds.length;i++){
+    var e = LIB.rounds[i], r, st, cfg;
+    if(e.key === CURKEY){ r = { config: CONFIG, questions: QUESTIONS.slice() }; st = state; }
+    else { r = readJSON(RPFX + e.key); st = validState(readJSON(APFX + e.key)); }
+    if(!r || !Array.isArray(r.questions)) continue;
+    cfg = normConfig(r.config);
+    var b = exportFor(r.questions, st.answers, cfg);
+    b.round = { config: cfg, questions: r.questions };
+    b.kept = { titled: !!e.titled, current: e.key === CURKEY, idx: st.idx, startedAt: e.startedAt, changed: e.changed, opened: e.opened, lastActiveAt: e.lastActiveAt, finishedAt: e.finishedAt, pausedMs: e.pausedMs, pausedAt: e.pausedAt };
+    rounds.push(b);
+  }
+  return { meta: { tool: "decision-wizard", kind: "backup", wizard_version: WIZARD_VERSION, exported_at: new Date().toISOString(), rounds: rounds.length }, rounds: rounds };
+}
+function backupText(){ return JSON.stringify(backupBundle(), null, 2); }
+function saveBackup(){
+  var b = backupBundle(), name = backupName();
+  var say = function(ok, msg){ if(drawerOpen && drawerId === "drawer"){ setStatus("loader-status", ok, msg); } else { toast(ok, msg); } };
+  if(!b.rounds.length){ say(false, "There are no rounds to back up yet."); return; }
+  if(downloadFile(JSON.stringify(b, null, 2), name)) say(true, "Backed up " + plural(b.rounds.length, "round", "rounds") + " to " + name + ".");
+  else say(false, "The download was blocked here, so nothing was backed up.");
+}
+function findUntitled(incoming){
+  var s = JSON.stringify(incoming);
+  for(var i=0;i<LIB.rounds.length;i++){
+    var e = LIB.rounds[i];
+    if(e.titled) continue;
+    var r = readJSON(RPFX + e.key);
+    if(r && JSON.stringify({ config: normConfig(r.config), questions: r.questions }) === s) return e;
+  }
+  return null;
+}
+function ingestBackup(b){
+  var list = Array.isArray(b.rounds) ? b.rounds : [];
+  var madeAt = Date.parse(b.meta && b.meta.exported_at) || Date.now();
+  var plan = [], skipped = 0;
+  for(var i=0;i<list.length;i++){
+    var x = list[i];
+    if(!x || typeof x !== "object" || !x.round || typeof x.round !== "object" || !Array.isArray(x.round.questions) || validateQuestions(x.round.questions) || versionProblem(x.round.config)){ skipped++; continue; }
+    var kept = (x.kept && typeof x.kept === "object") ? x.kept : {};
+    var qarr = x.round.questions, cfg = normConfig(x.round.config), titled = hasTitle(x.round.config) && kept.titled !== false;
+    var incoming = { config: cfg, questions: qarr };
+    var conv = answersFromExport(Array.isArray(x.answers) ? x.answers : [], qarr);
+    var ex = titled ? findByTitle(cfg.title) : findUntitled(incoming);
+    var item = { incoming: incoming, cfg: cfg, titled: titled, qarr: qarr, answers: conv.answers, kept: kept, ex: ex, action: "add", lost: 0 };
+    if(ex){
+      var old = readJSON(RPFX + ex.key) || { config: normConfig(null), questions: [] }, oldState = validState(readJSON(APFX + ex.key));
+      if(JSON.stringify(old) === JSON.stringify(incoming) && normAnswers(qarr, oldState.answers) === normAnswers(qarr, conv.answers)) item.action = "same";
+      else if((kept.changed || 0) > (ex.changed || 0)) item.action = "replace";
+      else { item.action = "keep"; item.lost = lostAnswers(oldState.answers, conv.answers); }
+    }
+    plan.push(item);
+  }
+  if(!plan.length){
+    ingestFail(skipped ? "None of the rounds in this backup could be read. Nothing was loaded." : "This backup holds no rounds. Nothing was loaded.", true);
+    return false;
+  }
+  var conflicts = plan.filter(function(p){ return p.action === "keep"; });
+  var apply = function(useBackup){
+    var added = 0, updated = 0, kept = 0, failed = 0, openKey = null, viewChanged = false, now = Date.now();
+    for(var k=0;k<plan.length;k++){
+      var p = plan[k];
+      if(p.action === "same" || (p.action === "keep" && !useBackup)){ kept++; continue; }
+      var key = p.ex ? p.ex.key : newKey();
+      var idx = (typeof p.kept.idx === "number" && p.kept.idx >= 0 && p.kept.idx <= p.qarr.length) ? Math.floor(p.kept.idx) : firstOpenIn(p.qarr, p.answers);
+      var st = { idx: idx, answers: p.answers };
+      if(!writePair(key, p.incoming, st)){ failed++; continue; }
+      var e = upsertEntry(key, p.cfg, p.titled, p.qarr, st);
+      if(typeof p.kept.startedAt === "number") e.startedAt = p.kept.startedAt;
+      if(typeof p.kept.changed === "number") e.changed = p.kept.changed;
+      if(typeof p.kept.opened === "number") e.opened = p.kept.opened;
+      if(typeof p.kept.lastActiveAt === "number") e.lastActiveAt = p.kept.lastActiveAt;
+      e.pausedMs = typeof p.kept.pausedMs === "number" ? p.kept.pausedMs : 0;
+      if(typeof p.kept.finishedAt === "number") e.finishedAt = p.kept.finishedAt; else delete e.finishedAt;
+      var frozen = !!(e.finishedAt && e.total > 0 && e.answered === e.total);
+      delete e.pausedAt;
+      if(key === CURKEY){
+        loadRoundIntoView(key);
+        viewChanged = true;
+      } else if(!frozen){
+        e.pausedAt = typeof p.kept.pausedAt === "number" ? p.kept.pausedAt : madeAt;
+      }
+      if(p.ex) updated++; else added++;
+      if(p.kept.current) openKey = key;
+    }
+    if(failed) warnFull();
+    var parts = [];
+    if(added) parts.push(plural(added, "round added", "rounds added"));
+    if(updated) parts.push(plural(updated, "round updated", "rounds updated"));
+    if(kept) parts.push(kept + " already here or kept as " + (kept === 1 ? "it is" : "they are"));
+    if(skipped) parts.push(plural(skipped, "round couldn't be read", "rounds couldn't be read"));
+    if(failed) parts.push(plural(failed, "round didn't fit", "rounds didn't fit"));
+    var msg = (added || updated) ? "Restored from the backup: " + parts.join(", ") + "." : "Nothing to restore: " + parts.join(", ") + ".";
+    if(!CURKEY){
+      var start = openKey || (mostRecent() ? mostRecent().key : null);
+      if(start && switchTo(start)){ ingestDone(msg, true); return true; }
+    }
+    saveLib();
+    if(viewChanged){ applyConfig(); render(); updateExportNode(); }
+    renderLib();
+    ingestNote(msg);
+    return true;
+  };
+  if(!conflicts.length) return apply(false);
+  var one = conflicts.length === 1, rest = plan.length - conflicts.length, lost = 0;
+  for(var c=0;c<conflicts.length;c++){ lost += conflicts[c].lost; }
+  var message = (one ? '"' + conflicts[0].cfg.title + '" changed' : conflicts.length + " rounds changed") + " here after this backup was made. Keep " + (one ? "it as it is" : "them as they are") + ", or replace " + (one ? "it" : "them") + " with the backup's older " + (one ? "version" : "versions") + "?" + (rest ? " The other " + plural(rest, "round is", "rounds are") + " restored either way." : "");
+  return confirmBox({ title: one ? "This round is newer here" : "Some rounds are newer here", message: message, ok: "Use the backup's", cancel: "Keep mine", answers: lost })
+    .then(function(yes){ return apply(!!yes); });
 }
 function writeToHandle(h, text){
   return Promise.resolve(typeof h.queryPermission === "function" ? h.queryPermission({ mode: "readwrite" }) : "granted")
@@ -2740,6 +2912,7 @@ function wipeAll(){
   SETTINGS.sound = true;
   SETTINGS.timerHover = true;
   SETTINGS.timerBar = false;
+  SETTINGS.recs = true;
   SETTINGS.name = "";
   STATS = JSON.parse(JSON.stringify(STATS_DEFAULT));
   applySettings();
@@ -3681,6 +3854,7 @@ function confirmBox(o){
     document.getElementById("ctitle").textContent = o.title;
     document.getElementById("cmsg").textContent = o.message;
     yes.textContent = o.ok || "Go ahead";
+    no.textContent = o.cancel || "Cancel";
     fig.innerHTML = mascotOn() ? ART[SETTINGS.mascot].warn : "";
     line.textContent = (mascotOn() && SETTINGS.talk && o.answers > 0) ? lineFor("warn", { answers: o.answers }) : "";
     playSound("warn");
@@ -3756,6 +3930,8 @@ document.addEventListener("click", function(ev){
   else if(act === "bubble-act"){ var ba = bubbleAction; hideBubble(); if(ba && ba.fn) ba.fn(); }
   else if(OPTKEYS[act]){ setOption(OPTKEYS[act], el.getAttribute("data-v")); }
   else if(act === "wipe-all"){ wipeAll(); }
+  else if(act === "backup-all"){ saveBackup(); }
+  else if(act === "install-app"){ installApp(); }
   else if(act === "stats-toggle"){ toggleStats(); }
   else if(act === "extra-open"){ extraOpen(parseInt(el.getAttribute("data-x"), 10) || 0); }
   else if(act === "modal-close"){ extraClose(); }
@@ -3866,6 +4042,7 @@ render();
 updateExportNode();
 if(!CURKEY){ openDrawer(); }
 scheduleBlink();
+setupApp();
 (function(){ var v = document.getElementById("oversion"); if(v) v.textContent = "Decision Wizard " + WIZARD_VERSION; })();
 scheduleTimerTick();
 (function(){
@@ -3960,6 +4137,9 @@ if(typeof window !== "undefined"){
     bpick: bpick,
     bcomment: bcomment,
     setNote: setNote,
+    backupText: backupText,
+    saveBackup: saveBackup,
+    renderInstall: renderInstall,
     rankMove: rankMove,
     rankRecord: rankRecord,
     numRecord: numRecord,

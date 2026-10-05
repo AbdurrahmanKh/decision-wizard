@@ -6,6 +6,16 @@ The Decision Wizard is a single web page that works with Claude's **d-wizard** s
 
 **Open the wizard: https://AbdurrahmanKh.github.io/decision-wizard/**
 
+## Install it as an app
+
+The hosted wizard installs as an app, with its own window and icon. It opens offline, and whenever you're online it loads the newest version.
+
+- **On a computer,** in Chrome or Edge: open the wizard's Options and press **Install**, or use **Install app** in the browser's menu.
+- **On Android,** in Chrome: open the page, then **Install app** from the menu, or the **Install** button in Options. It replaces a shortcut to the page.
+- **On an iPhone or iPad,** in Safari: **Share**, then **Add to Home Screen**.
+
+A local copy of `index.html` keeps working as a plain page; installing is for the hosted wizard.
+
 ## Install the skill
 
 - **Claude:** d-wizard comes with the team plugin, so most people have nothing to install. For your own copy, download `d-wizard.skill` from the [latest release](https://github.com/AbdurrahmanKh/decision-wizard/releases/latest) and upload it. In Claude, go to Customize > Skills, click **+**, then **Create skill**, then **Upload a skill**, and choose the file. If an older d-wizard is already in your list, delete it first.
@@ -22,15 +32,18 @@ The Decision Wizard is a single web page that works with Claude's **d-wizard** s
 
 Rounds and answers are kept in your own browser, and files go only where you save them. Nothing you answer is sent anywhere; the page only loads its fonts from Google Fonts.
 
+Each copy of the wizard keeps its own list of rounds, and clearing a browser's site data erases that list. **Back up all rounds**, in the Load panel and next to Clear everything in Options, writes every round and its answers to one file. Load that file in any copy of the wizard to bring the rounds back: it adds what's missing, updates what the backup has a newer copy of, and asks before touching a round that changed after the backup was made.
+
 ## What's in this repository
 
 - `index.html`: the wizard, and this site's homepage.
+- `manifest.webmanifest`, `sw.js`, and `icons/`: what makes the hosted wizard installable as an app, with its icons. The service worker keeps a copy for offline use and loads the newest version whenever you're online.
 - `d-wizard/`: the skill. This folder is its source; `references/example-round.json` is a complete worked round.
 - `.nojekyll`: tells GitHub Pages to serve every file exactly as uploaded.
 
 ## Versions
 
-- **Wizard: 0.4.0.** It's shown at the bottom of the wizard's Options panel.
+- **Wizard: 0.5.0.** It's shown at the bottom of the wizard's Options panel.
 - **Skill: 0.4.0.** It's in the skill's `SKILL.md`. It needs wizard 0.3.0 or later, and 0.4.0 for rounds with ranking, number, or bracket questions.
 
 A minor update bumps the last number (0.2.2). A major update bumps the middle number (0.3.0). What changed in each version is in [CHANGELOG.md](CHANGELOG.md).
