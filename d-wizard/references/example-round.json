@@ -8,7 +8,8 @@
     {
       "id": "B1",
       "section": "Blocking",
-      "title": "Guest checkout: keep or remove",
+      "title": "Guest checkout",
+      "question": "What should happen to guest checkout?",
       "context": "The two research docs contradict each other. The build cannot start until one wins.",
       "detail": [
         {
@@ -47,7 +48,8 @@
           "when": [
             "Remove it, accounts required"
           ],
-          "title": "What happens to orders placed as a guest before the change?",
+          "title": "Earlier guest orders",
+          "question": "What happens to orders placed as a guest before the change?",
           "options": [
             "Link them to new accounts by email",
             "Leave them as guest orders"
@@ -58,47 +60,55 @@
     {
       "id": "B2",
       "section": "Blocking",
-      "title": "Payment providers for launch",
+      "title": "Launch payment providers",
+      "question": "Which payment providers should the store launch with?",
       "context": "Fees and coverage differ; each card sums up one route, and the full comparison is in the popup.",
-      "extra": {
-        "label": "Show the provider comparison",
-        "blocks": [
-          {
-            "kind": "table",
-            "title": "Three providers, key numbers",
-            "columns": [
-              "Provider",
-              "Fee",
-              "Settlement",
-              "Regional coverage"
-            ],
-            "rows": [
-              [
-                "PayA",
-                "2.9% + 0.30",
-                "2 days",
-                "Global"
+      "extra": [
+        {
+          "label": "Show the provider comparison",
+          "blocks": [
+            {
+              "kind": "table",
+              "title": "Three providers, key numbers",
+              "columns": [
+                "Provider",
+                "Fee",
+                "Settlement",
+                "Regional coverage"
               ],
-              [
-                "PayB",
-                "2.2% flat",
-                "7 days",
-                "Regional only"
-              ],
-              [
-                "PayC",
-                "3.4% + 0.10",
-                "Next day",
-                "Global, weak locally"
+              "rows": [
+                [
+                  "PayA",
+                  "2.9% + 0.30",
+                  "2 days",
+                  "Global"
+                ],
+                [
+                  "PayB",
+                  "2.2% flat",
+                  "7 days",
+                  "Regional only"
+                ],
+                [
+                  "PayC",
+                  "3.4% + 0.10",
+                  "Next day",
+                  "Global, weak locally"
+                ]
               ]
-            ]
-          },
-          {
-            "kind": "text",
-            "text": "Integration effort is roughly equal for all three per the platform team's estimate from the kickoff. Contract terms are annual for PayB, monthly for the other two."
-          }
-        ]
-      },
+            }
+          ]
+        },
+        {
+          "label": "Integration and contracts",
+          "blocks": [
+            {
+              "kind": "text",
+              "text": "Integration effort is roughly equal for all three per the platform team's estimate from the kickoff. Contract terms are annual for PayB, monthly for the other two."
+            }
+          ]
+        }
+      ],
       "options": [
         {
           "label": "PayA only",
@@ -118,7 +128,8 @@
     {
       "id": "C1",
       "section": "Copy review",
-      "title": "Approve the checkout button copy",
+      "title": "Checkout button copy",
+      "question": "Which of these button lines are ready to ship?",
       "type": "batch",
       "context": "One shared answer per line; the pen adds a comment on any line. The full screen flow these appear in is linked below.",
       "detail": [
@@ -161,22 +172,23 @@
     {
       "id": "C2",
       "section": "Copy review",
-      "title": "Tone for error messages across the flow",
+      "title": "Error message tone",
+      "question": "What tone should the error messages take across the flow?",
       "context": "Skip is disabled here: the copywriter is blocked until this lands. If none of the candidates fit, type the direction.",
-      "skip": false,
-      "options": [
-        "Plain and technical: state the error, state the fix",
-        "Warm and apologetic: soften first, then the fix",
-        "Route to the brand voice owner"
-      ],
-      "customLabel": "Different direction (type it)",
       "detail": [
         {
           "kind": "code",
           "src": "src/checkout/errors.en.json",
           "text": "{\n  \"card_declined\": \"Transaction failed. Error 402.\",\n  \"address_invalid\": \"Invalid input.\",\n  \"session_expired\": \"Session timeout.\"\n}"
         }
-      ]
+      ],
+      "options": [
+        "Plain and technical: state the error, state the fix",
+        "Warm and apologetic: soften first, then the fix",
+        "Route to the brand voice owner"
+      ],
+      "customLabel": "Different direction (type it)",
+      "skip": false
     }
   ]
 }
