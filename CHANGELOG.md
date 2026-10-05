@@ -2,6 +2,22 @@
 
 What changed in the Decision Wizard and the d-wizard skill, newest first. The wizard and the skill keep their own version numbers.
 
+## Wizard 0.3.0 and skill 0.3.0, 5 October 2026
+
+### Added
+- Wizard: a note on every question. A pen under the answers of every question and follow-up opens a note, so a pick can keep a condition ("B, but only for clans over 20 members"), and a question you leave open can still carry your view. Notes come back as `comment`, the field grouped rows already use, and show under their answers on the summary.
+- Wizard: Wizard recommendations. When a round recommends an option, a small wizard hat marks it, with "I recommend this because..." under it when there's a reason. It shows on plain options, cards, follow-ups, and grouped rows, and picking still moves on. A Wizard recommendations switch in Options turns it off; it's on from the first visit.
+- Wizard: rounds can name the wizard version they need, in `config.needs_wizard`, and the wizard keeps it with the round.
+- Skill: recommendations, with `recommend` and `because` on questions, follow-ups, and grouped rows. Claude recommends wherever it has a view, with a reason whenever it has one.
+- Skill: every round names the wizard version it needs, and the skill reads notes: a note next to a pick is part of the decision, and a note on an open question works like Discuss.
+
+### Changed
+- Wizard: grouped rows call their pen comments notes, to match.
+- Wizard: a round is refused if its recommendation names an option it doesn't have.
+
+### Fixed
+- Wizard: opening a saved file whose only changes were follow-up answers now loads them, instead of saying the file matches what the browser already had.
+
 ## Wizard 0.2.1, 5 October 2026
 
 ### Changed

@@ -30,7 +30,7 @@ Rounds and answers are kept in your own browser, and files go only where you sav
 
 ## Versions
 
-- **Wizard: 0.2.1.** It's shown at the bottom of the wizard's Options panel.
-- **Skill: 0.2.0.** It's in the skill's `SKILL.md`.
+- **Wizard: 0.3.0.** It's shown at the bottom of the wizard's Options panel.
+- **Skill: 0.3.0.** It's in the skill's `SKILL.md`. It needs wizard 0.3.0 or later.
 
 A minor update bumps the last number (0.2.2). A major update bumps the middle number (0.3.0). What changed in each version is in [CHANGELOG.md](CHANGELOG.md).

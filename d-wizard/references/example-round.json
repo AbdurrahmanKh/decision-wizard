@@ -2,7 +2,8 @@
   "config": {
     "title": "Checkout Redesign, Round 1",
     "tagline": "4 decisions before the build starts",
-    "product": "Web store"
+    "product": "Web store",
+    "needs_wizard": "0.3.0"
   },
   "questions": [
     {
@@ -42,6 +43,8 @@
         "Keep it, but ask for account creation after payment",
         "Remove it, accounts required"
       ],
+      "recommend": "Keep it, but ask for account creation after payment",
+      "because": "it keeps the 41% of purchases that come through guest checkout and still gives the CRM team an account to reach.",
       "followups": [
         {
           "id": "B1a",
@@ -53,7 +56,8 @@
           "options": [
             "Link them to new accounts by email",
             "Leave them as guest orders"
-          ]
+          ],
+          "recommend": "Link them to new accounts by email"
         }
       ]
     },
@@ -123,6 +127,8 @@
           "text": "PayB where it covers the region, PayA everywhere else. Two contracts to manage."
         }
       ],
+      "recommend": "PayA plus PayB, regional routing",
+      "because": "PayB costs less where it covers the region, and PayA keeps every other region open.",
       "customLabel": "Different combination (type it)"
     },
     {
@@ -131,11 +137,11 @@
       "title": "Checkout button copy",
       "question": "Which of these button lines are ready to ship?",
       "type": "batch",
-      "context": "One shared answer per line; the pen adds a comment on any line. The full screen flow these appear in is linked below.",
+      "context": "One shared answer per line; the pen adds a note on any line. The full screen flow these appear in is linked below.",
       "detail": [
         {
           "kind": "note",
-          "text": "Unanswered rows export as still open. Rework plus a comment means the comment gets applied and the line comes back for a re-approve."
+          "text": "Unanswered rows export as still open. Rework plus a note means the note gets applied and the line comes back for a re-approve."
         }
       ],
       "links": [
@@ -156,7 +162,9 @@
         {
           "id": "pay",
           "label": "Payment page: Pay now",
-          "note": "Legal asked for the total amount to appear on or next to this button"
+          "note": "Legal asked for the total amount to appear on or next to this button",
+          "recommend": "Rework",
+          "because": "it needs the total amount on or next to it before legal signs off."
         },
         {
           "id": "confirm",
@@ -165,7 +173,9 @@
         {
           "id": "error",
           "label": "Payment failure: Something went wrong, try again",
-          "note": "Support flags this line weekly as too vague"
+          "note": "Support flags this line weekly as too vague",
+          "recommend": "Rework",
+          "because": "support flags it every week as too vague."
         }
       ]
     },

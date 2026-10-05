@@ -2,8 +2,8 @@
 name: "d-wizard"
 description: Communicate a set of questions, decisions, or approvals as a Decision Wizard questions JSON instead of long prose. Use this skill whenever the user says "d-wizard", "communicate through the wizard", "wizard this", "ask me through the wizard", "decision wizard", "decision round", or asks to turn open questions into a wizard; and proactively when open decisions need evidence attached to be answered well (conflicting sources, a table to compare), when content items need one-by-one approval (copy lines, assets, table rows, sections), or when new open decisions come up while acting on a previous round's answers, on any topic. Also use it to interpret and act on an answers JSON the user pastes back or points to as a file, recognizable by meta.tool = "decision-wizard". Do not use it for quick clarifications, for approving your own next steps, for a single question, or for questions meant for a teammate.
 metadata:
-  version: "0.2.0"
-compatibility: Needs Decision Wizard 0.2.0 or later. Wizard 0.1.0 still opens these rounds, but shows only each title, not the question.
+  version: "0.3.0"
+compatibility: Needs Decision Wizard 0.3.0 or later. Older wizards still open these rounds, but show no recommendations and give no way to add a note to a pick.
 ---
 
 # Decision Wizard
@@ -39,7 +39,7 @@ Self-contained also means a question never leans on memory: never write "as disc
 
 ### Decisions stay decided
 
-A decision is made the moment the user gives it: a picked answer, a typed answer, or a position stated in a comment, including a comment next to Discuss or Rework. From then on it is settled, and asking it again wastes the user's time.
+A decision is made the moment the user gives it: a picked answer, a typed answer, or a position stated in a comment, including a comment next to Discuss or Rework and a note on a question left open. From then on it is settled, and asking it again wastes the user's time.
 
 - Never put a settled decision into a later round: not as a question, not as a row to confirm, and not as a note that hands the user's own words back to them.
 - When you agree with what the user wrote, that is the decision. Say so in your reply in one line; don't ask them to confirm it.
@@ -54,10 +54,12 @@ Top level:
 
 ```json
 {
-  "config": { "title": "Round title", "tagline": "One line under the title", "product": "Team or product label" },
+  "config": { "title": "Round title", "tagline": "One line under the title", "product": "Team or product label", "needs_wizard": "0.3.0" },
   "questions": [ ]
 }
 ```
+
+`config.needs_wizard` names the oldest wizard the round is made for. Always set it to `"0.3.0"`, the version this skill writes for; a wizard older than that warns when the round loads.
 
 `config.title` is the round's identity in the user's wizard. The wizard keeps every round the user loads, and a round arriving with the title of one already saved replaces it as a new version: answers carry over for questions whose id, title, question, and options are unchanged (in a batch, rows whose id and label are unchanged), and the wizard asks before clearing the rest. So give every new round its own title that names the round number ("Checkout Redesign, Round 2"). Reuse a title only to resend a corrected version of the same round, and keep every unchanged question identical so its answer survives.
 
@@ -77,8 +79,12 @@ Per question:
 | customLabel | no | Label for the typed-answer option, naming what to type (e.g. "New thresholds (type them)"). Defaults to "Custom answer (type it)" |
 | custom | no | `false` removes the typed-answer option |
 | skip | no | `false` removes the Skip button. Use rarely; skipping exports the question as still open, which is usually the honest state |
-| followups | no | Questions that open under the same issue once its answer calls for them, on single questions only: `"followups":[{"id":"F1a","when":["It rises"],"title":"How it climbs","question":"How fast should it climb?","options":[...]}]`. `when` lists the main question's option labels that open the follow-up, spelled exactly; leave it out to open on any answer, a typed one included. A follow-up takes `question`, `context`, `detail`, `links`, `options` (strings or cards), `customLabel`, and `custom`, but not `extra`, `type`, or follow-ups of its own. Its id is unique across the round. It counts under its issue, so the wizard moves on only once every follow-up that opened is answered |
-| type + items | no | `"type":"batch"` turns the question into a table: `"items":[{"id":"row1","label":"Row label","note":"Optional context under the label"}]`. Every row takes one answer from the shared options set, and every row also accepts a free comment from the user regardless of its answer |
+| recommend | no | The label of the option you recommend, spelled exactly as in `options`. The wizard marks it with a small wizard hat. Works on single questions, cards, and follow-ups; on a grouped question, put it on each row instead. The wizard refuses a round whose `recommend` names no option |
+| because | no | Your reason, one line written to finish the sentence "I recommend this because": `"because": "it keeps the 41% of purchases that come through guest checkout."`. The wizard shows it under the recommended option, and on a grouped row as "I recommend Rework because ...". Only with `recommend` |
+| followups | no | Questions that open under the same issue once its answer calls for them, on single questions only: `"followups":[{"id":"F1a","when":["It rises"],"title":"How it climbs","question":"How fast should it climb?","options":[...]}]`. `when` lists the main question's option labels that open the follow-up, spelled exactly; leave it out to open on any answer, a typed one included. A follow-up takes `question`, `context`, `detail`, `links`, `options` (strings or cards), `customLabel`, `custom`, `recommend`, and `because`, but not `extra`, `type`, or follow-ups of its own. Its id is unique across the round. It counts under its issue, so the wizard moves on only once every follow-up that opened is answered |
+| type + items | no | `"type":"batch"` turns the question into a table: `"items":[{"id":"row1","label":"Row label","note":"Optional context under the label"}]`. Every row takes one answer from the shared options set, and a row can carry its own `recommend` and `because`, naming one of the shared options |
+
+Every question, follow-up, and grouped row also has a pen for the user's note, so a pick can come back with a condition attached ("B, but only for clans over 20 members"), and a question can come back open with only a note. You don't add anything to the round for it.
 
 ## Authoring rules
 
@@ -90,6 +96,7 @@ Per question:
 - When the decision is a choice between two or three routes that each need a sentence to understand, make the options cards: the label names the route, the text says what it means. Every alternative is its own option. Never put one alternative in a row's label and the other in its note, or one in the question and the other in the context. When several items each need their own alternatives, write one card question per item rather than a batch.
 - When a question only matters after a certain answer ("only needed if", "skip it otherwise"), make it a follow-up of that question with `when`. Never ship it as a standalone question that tells the user when to skip it.
 - Try to batch, actively. AI-authored rounds under-batch by default, so before delivering, scan the round: three or more questions sharing one answer set (Approve / Rework, Keep / Remove, Yes / No) are one batch question you failed to make. Fold them. Per-row context goes in the item's `note`; the full source material goes in `extra`. The only reason not to batch is items genuinely needing different answer sets.
+- Recommend wherever you have a view. Put `recommend` on every question where you would pick one option, and add `because` whenever you have a reason, which should be most of the time. Base it on the evidence in the question, and keep the context complete: the hat is a pointer, never a substitute for what the reader needs to judge the question. Leave it off when you have no basis for a view, and never recommend against a decision the user already made.
 - Long tables and long text go in `extra`, split into labeled popups by topic, never crammed into the card.
 - Write in the user's working language. Right-to-left text is safe in every field.
 - No em dashes and no en dashes anywhere in the content; use hyphens, colons, or periods.
@@ -118,9 +125,10 @@ What comes back:
 {
   "meta": { "tool": "decision-wizard", "wizard_title": "...", "exported_at": "...", "total": 9, "answered": 8, "open": 1 },
   "answers": [
-    { "id": "A1", "section": "...", "issue": "The title", "question": "The question", "status": "picked", "answer": "The chosen option text" },
+    { "id": "A1", "section": "...", "issue": "The title", "question": "The question", "status": "picked", "answer": "The chosen option text", "comment": "The user's note, when there is one" },
     { "id": "A2", "section": "...", "issue": "...", "status": "custom", "answer": "What the user typed" },
     { "id": "A3", "section": "...", "issue": "...", "status": "open", "answer": "" },
+    { "id": "A5", "section": "...", "issue": "...", "status": "open", "answer": "", "comment": "A note with no pick" },
     { "id": "A4", "section": "...", "issue": "...", "status": "picked", "answer": "It rises",
       "followups": [ { "id": "A4a", "issue": "...", "status": "picked", "answer": "Double each level" },
                      { "id": "A4b", "issue": "...", "status": "not_needed", "answer": "" } ] },
@@ -130,13 +138,14 @@ What comes back:
 }
 ```
 
-`issue` is the title and `question` is the question; rounds made before the question line come back without `question`. A file saved from the wizard carries the same `meta` and `answers`, plus the whole round under `round` (`{"config": {...}, "questions": [...]}`). When `round` is present, it is the exact version the user answered: read options, notes, and row labels from it, and use it to reconcile ids.
+`issue` is the title and `question` is the question; rounds made before the question line come back without `question`. A note the user wrote comes back as `comment` on its question, follow-up, or row; questions and follow-ups without one have no `comment` field. A file saved from the wizard carries the same `meta` and `answers`, plus the whole round under `round` (`{"config": {...}, "questions": [...]}`). When `round` is present, it is the exact version the user answered: read options, notes, and row labels from it, and use it to reconcile ids.
 
 Handling rules:
 
 - `open` means still undecided. Record it as open wherever the decision lives. Never fill it in yourself.
 - Every answer, typed answer, and position stated in a comment is settled, per Decisions stay decided. A Discuss or Rework answer whose comment states a position is that position; only what the comment leaves open is still open.
 - `custom` is the user's verbatim decision and is authoritative. Act on it. Ask a follow-up only when it is genuinely ambiguous, and quote the ambiguous part when asking.
+- A `comment` next to a pick is part of the decision: act on the pick with the comment's condition or detail attached. A `comment` on an open question works like Discuss: a position it states is settled, and only what it leaves open stays open.
 - Follow-ups come back inside their issue. `not_needed` means the main answer did not call for it: record it as not applicable and never answer it. A follow-up still `open` under an answered main question means the issue is only partly decided, and `meta.answered` does not count it.
 - In batches, a comment belongs to its row. A rework-style answer plus a comment means: apply the comment and show the reworked result for a quick re-approve. A comment without an answer is context, and the row is still open.
 - Unmatched ids on import mean the round changed between export and import; reconcile before acting on anything.

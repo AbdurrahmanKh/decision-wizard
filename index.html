@@ -402,6 +402,26 @@ footer{margin-top:34px;padding-top:14px;border-top:3px solid var(--ink);font-siz
   .mframe,.mframe.pop,.mframe.dance,.mframe.loop{animation:none}
   .mburst{display:none}
 }
+.rhat{flex:none;display:inline-flex;width:26px;height:26px;margin:-2px -2px -4px auto;color:var(--gold)}
+.rhat svg{display:block;width:100%;height:100%}
+.ocard .rhat{margin:-3px -4px 0 auto}
+.rwhy{display:block;margin-top:6px;font-size:calc(14px*var(--fs));line-height:1.45;color:var(--amber);font-weight:500}
+.ocard .rwhy{margin-top:0}
+.bhat{display:inline-flex;vertical-align:-3px;margin:0 6px 0 -4px;color:var(--gold)}
+.bopt.sel .bhat{color:var(--green)}
+.bhat svg{display:block;width:17px;height:17px}
+.bwhy{display:flex;gap:6px;align-items:flex-start;font-size:calc(13px*var(--fs));color:var(--amber);margin-top:4px;line-height:1.45;font-weight:500}
+.bwhy svg{flex:none;width:17px;height:17px;margin-top:0;color:var(--gold)}
+.nrow{margin-top:12px}
+.npen{display:inline-flex;align-items:center;gap:7px;border:1.5px dashed var(--line);background:transparent;color:var(--muted);border-radius:999px;padding:5px 14px 5px 12px;font-size:calc(13.5px*var(--fs));font-weight:600;cursor:pointer;font-family:inherit}
+.npen:hover{border-color:var(--green2)}
+.npen.has{border-color:var(--gold);color:var(--amber);border-style:solid;background:var(--gold-soft)}
+.npen:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.npanel{margin-top:8px}
+.npanel textarea{width:100%;border:1px solid var(--line);border-radius:9px;padding:9px 12px;font-family:inherit;font-size:calc(15px*var(--fs));background:var(--field);color:var(--ink);resize:vertical;min-height:64px;line-height:1.5}
+.npanel textarea:focus-visible{outline:3px solid var(--gold);outline-offset:1px}
+.sumnote{display:flex;gap:6px;align-items:baseline;margin-top:4px;font-size:calc(13.5px*var(--fs));color:var(--muted)}
+.sumnote b{flex:none;color:var(--amber);font-weight:700}
 [hidden]{display:none!important}
 @media (max-width:700px){.mcard{margin:12px auto}#mbody{padding:4px 14px 16px}.ctx{padding:12px 12px 10px}}
 </style>
@@ -472,9 +492,9 @@ footer{margin-top:34px;padding-top:14px;border-top:3px solid var(--ink);font-siz
     <div id="liblist"></div>
     <details class="fmt">
       <summary>What the files look like</summary>
-      <div class="ldef"><b>Round.</b> Either a bare array of questions, or an object {config, questions} where config sets {title, tagline, product}. Each question: <b>id</b>, <b>section</b>, <b>title</b>, <b>options</b> (array of strings). Ids must be unique, and so must row ids inside one batch. Optional: <b>question</b> (the question itself, shown large, with the title as a small topic line above it; the sidebar keeps the title); <b>context</b>; <b>detail</b> (array of {kind: quote, note, or code, src, text}; code keeps indentation and line breaks and shows src exactly as written, such as a file path and line); <b>links</b> (array of {label, url}); <b>extra</b> ({label, blocks:[{kind: text, text}, {kind: table, title, columns, rows}, {kind: quote, src, text}, {kind: note, text}, or {kind: code, src, text}]}, or a list of them for several buttons) for context popups; <b>customLabel</b>; <b>custom</b>: false; <b>skip</b>: false. For a batch table set <b>type</b>: "batch" and <b>items</b>: [{id, label, note}], sharing one options set per row; every row also takes a pen comment.</div>
+      <div class="ldef"><b>Round.</b> Either a bare array of questions, or an object {config, questions} where config sets {title, tagline, product}. Each question: <b>id</b>, <b>section</b>, <b>title</b>, <b>options</b> (array of strings). Ids must be unique, and so must row ids inside one batch. Optional: <b>question</b> (the question itself, shown large, with the title as a small topic line above it; the sidebar keeps the title); <b>context</b>; <b>detail</b> (array of {kind: quote, note, or code, src, text}; code keeps indentation and line breaks and shows src exactly as written, such as a file path and line); <b>links</b> (array of {label, url}); <b>extra</b> ({label, blocks:[{kind: text, text}, {kind: table, title, columns, rows}, {kind: quote, src, text}, {kind: note, text}, or {kind: code, src, text}]}, or a list of them for several buttons) for context popups; <b>customLabel</b>; <b>custom</b>: false; <b>skip</b>: false; <b>recommend</b> (the label of the recommended option) with <b>because</b> (the reason, finishing "I recommend this because"), on a question, a follow-up, or a batch row. For a batch table set <b>type</b>: "batch" and <b>items</b>: [{id, label, note}], sharing one options set per row. Every question and every row takes a note with the pen. In config, <b>needs_wizard</b> names the oldest wizard version the round is made for.</div>
       <div class="ldef"><b>Saved file.</b> What Save writes: the answers JSON (meta and answers, the same as Copy answers JSON) with the whole round under <b>round</b>, so opening it picks up where you left off.</div>
-      <div class="ldef"><b>Answers JSON.</b> Answers on their own merge into the round with the same title, or into the open round: matching ids overwrite, and open entries are ignored.</div>
+      <div class="ldef"><b>Answers JSON.</b> Answers on their own merge into the round with the same title, or into the open round: matching ids overwrite, and open entries are ignored unless they carry a note. A note comes back as <b>comment</b>.</div>
       <div class="ldef"><b>The list.</b> Every round stays in this browser, with its answers, until you delete it. A round whose title is already in the list replaces the saved one, and answers to questions that did not change stay.</div>
     </details>
   </div>
@@ -502,6 +522,9 @@ footer{margin-top:34px;padding-top:14px;border-top:3px solid var(--ink);font-siz
     <div class="orow" id="row-timerbar"><span class="olab">Next to the progress bar</span><div class="seg sm" role="group" aria-label="Round timer next to the progress bar"><button type="button" data-action="set-timerbar" data-v="on" aria-pressed="false">On</button><button type="button" data-action="set-timerbar" data-v="off" aria-pressed="false">Off</button></div></div>
     <div class="orow" id="row-timerreset"><span class="olab">This round's clock<span class="otime" id="otime"></span></span><button type="button" class="btn sec obtn" id="timerresetbtn" data-action="timer-reset">Reset</button></div>
     <div class="onote">The clock starts when a round is first loaded and stops once every question has an answer. It pauses while your companion naps, and while you have another round open.</div>
+    <div class="dsec">Recommendations</div>
+    <div class="orow" id="row-recs"><span class="olab">Wizard recommendations</span><div class="seg sm" role="group" aria-label="Wizard recommendations"><button type="button" data-action="set-recs" data-v="on" aria-pressed="false">On</button><button type="button" data-action="set-recs" data-v="off" aria-pressed="false">Off</button></div></div>
+    <div class="onote">When a round recommends an answer, a small wizard hat marks it, with the reason under it when there is one.</div>
     <div class="dsec">Theme</div>
     <div class="seg" role="group" aria-label="Theme">
       <button type="button" data-action="set-theme" data-v="dark" aria-pressed="false">Dark</button>
@@ -545,7 +568,7 @@ footer{margin-top:34px;padding-top:14px;border-top:3px solid var(--ink);font-siz
 <script>
 "use strict";
 /* The wizard's version. Bump the last number (0.1.1) for a minor update, the middle one (0.2.0) for a major one. */
-var WIZARD_VERSION = "0.2.1";
+var WIZARD_VERSION = "0.3.0";
 
 var CONFIG = { title:"Decision Wizard", tagline:"", product:"" };
 
@@ -564,6 +587,7 @@ var HANDLES = {};
 var state = { idx: 0, answers: {} };
 var customOpen = false;
 var openComments = {};
+var openNotes = {};
 var drawerOpen = false;
 var drawerId = null;
 var lastFocus = null;
@@ -576,14 +600,27 @@ function lsDel(k){ try{ if(typeof localStorage !== "undefined") localStorage.rem
 function readJSON(k){ var raw = lsGet(k); if(!raw) return null; try{ return JSON.parse(raw); }catch(e){ return null; } }
 function validState(s){ return (s && typeof s.idx === "number" && s.answers && typeof s.answers === "object") ? s : { idx: 0, answers: {} }; }
 function hasTitle(c){ return !!(c && typeof c === "object" && typeof c.title === "string" && c.title.trim()); }
+var VER_RE = /^\d+(\.\d+){0,2}$/;
 function normConfig(c){
   c = (c && typeof c === "object") ? c : {};
-  return {
+  var out = {
     title: hasTitle(c) ? c.title : "Decision Wizard",
     tagline: typeof c.tagline === "string" ? c.tagline : "",
     product: typeof c.product === "string" ? c.product : ""
   };
+  if(typeof c.needs_wizard === "string" && VER_RE.test(c.needs_wizard.trim())) out.needs_wizard = c.needs_wizard.trim();
+  return out;
 }
+/* Versions compare number by number: 0.10.0 is newer than 0.9.2. */
+function cmpVer(a, b){
+  var x = String(a).split("."), y = String(b).split(".");
+  for(var i=0;i<3;i++){
+    var d = (parseInt(x[i], 10) || 0) - (parseInt(y[i], 10) || 0);
+    if(d) return d < 0 ? -1 : 1;
+  }
+  return 0;
+}
+function needsNewer(cfg){ return !!(cfg && cfg.needs_wizard && cmpVer(cfg.needs_wizard, WIZARD_VERSION) > 0); }
 function libEntry(key){
   for(var i=0;i<LIB.rounds.length;i++){ if(LIB.rounds[i].key === key) return LIB.rounds[i]; }
   return null;
@@ -673,6 +710,7 @@ function loadRoundIntoView(key){
   state = validState(readJSON(APFX + key));
   CURKEY = key;
   openComments = {};
+  openNotes = {};
   customOpen = false;
   return true;
 }
@@ -682,6 +720,7 @@ function clearView(){
   state = { idx: 0, answers: {} };
   CURKEY = null;
   openComments = {};
+  openNotes = {};
   customOpen = false;
 }
 function switchTo(key){
@@ -732,7 +771,7 @@ function applyConfig(){
   headMeta();
 }
 var SETKEY = "decision-wizard-settings-v1";
-var SETTINGS = { theme: "dark", size: "normal", mascot: "quill", talk: true, quips: true, sound: true, name: "", timerHover: true, timerBar: false };
+var SETTINGS = { theme: "dark", size: "normal", mascot: "quill", talk: true, quips: true, sound: true, name: "", timerHover: true, timerBar: false, recs: true };
 function loadSettings(){
   var s = readJSON(SETKEY);
   if(s && typeof s === "object"){
@@ -744,6 +783,7 @@ function loadSettings(){
     if(typeof s.sound === "boolean") SETTINGS.sound = s.sound;
     if(typeof s.timerHover === "boolean") SETTINGS.timerHover = s.timerHover;
     if(typeof s.timerBar === "boolean") SETTINGS.timerBar = s.timerBar;
+    if(typeof s.recs === "boolean") SETTINGS.recs = s.recs;
     if(typeof s.name === "string") SETTINGS.name = s.name.slice(0, 30);
   } else {
     var t = lsGet(TKEY);
@@ -765,7 +805,7 @@ function applySettings(){
   applyMascot();
   renderOptions();
 }
-var OPTKEYS = { "set-theme": "theme", "set-size": "size", "set-mascot": "mascot", "set-talk": "talk", "set-quips": "quips", "set-sound": "sound", "set-timerhover": "timerHover", "set-timerbar": "timerBar" };
+var OPTKEYS = { "set-theme": "theme", "set-size": "size", "set-mascot": "mascot", "set-talk": "talk", "set-quips": "quips", "set-sound": "sound", "set-timerhover": "timerHover", "set-timerbar": "timerBar", "set-recs": "recs" };
 function renderOptions(){
   var bs = document.querySelectorAll('#optdrawer [data-action^="set-"]');
   for(var i=0;i<bs.length;i++){
@@ -805,12 +845,13 @@ function setOption(k, v){
   if(k === "theme"){ if(v !== "dark" && v !== "light" && v !== "system") return; SETTINGS.theme = v; }
   else if(k === "size"){ if(v !== "compact" && v !== "normal" && v !== "large") return; SETTINGS.size = v; }
   else if(k === "mascot"){ if(v !== "quill" && v !== "swoop" && v !== "none") return; SETTINGS.mascot = v; }
-  else if(k === "talk" || k === "quips" || k === "sound" || k === "timerHover" || k === "timerBar"){ SETTINGS[k] = (v === "on" || v === true); }
+  else if(k === "talk" || k === "quips" || k === "sound" || k === "timerHover" || k === "timerBar" || k === "recs"){ SETTINGS[k] = (v === "on" || v === true); }
   else if(k === "name"){ SETTINGS.name = String(v || "").trim().slice(0, 30); }
   else return;
   saveSettings();
   applySettings();
   updateTimers();
+  if(k === "recs" && QUESTIONS.length) scrollKeep(render);
   var map = null;
   if(k === "theme") map = { light: ["opt_light", "warn"], dark: ["opt_dark", "pick"], system: ["opt_system", "pick"] }[SETTINGS.theme];
   else if(k === "size") map = { large: ["opt_large", "pick"], compact: ["opt_compact", "skip"], normal: ["opt_normal", "pick"] }[SETTINGS.size];
@@ -857,6 +898,10 @@ function isCardList(opts){ return Array.isArray(opts) && opts.some(function(o){ 
 /* Follow-ups: questions under the same issue that open once its answer calls for them. */
 function fups(q){ return (q && !isBatch(q) && Array.isArray(q.followups)) ? q.followups : []; }
 function done1(a){ return !!(a && (a.status === "picked" || a.status === "custom")); }
+/* A note rides on an answer as comment, the field grouped rows already use. A note with no pick leaves the question open. */
+function noteOf(a){ return (a && typeof a.comment === "string") ? a.comment : ""; }
+function hasNote(a){ return !!noteOf(a).trim(); }
+function withNote(prev, a){ if(hasNote(prev)) a.comment = prev.comment; return a; }
 function fupApplies(f, a){
   if(!done1(a)) return false;
   if(!Array.isArray(f.when) || !f.when.length) return true;
@@ -1061,20 +1106,22 @@ function chromeControls(q){
   return h;
 }
 
-function optionsHTML(opts, saved, act, fattr){
+function optionsHTML(opts, saved, act, fattr, rec){
   var card = isCardList(opts), h = "";
   h += card ? '<div class="ocards" style="--n:' + opts.length + '">' : '<div class="opts">';
   for(var i=0;i<opts.length;i++){
     var lab = optLabel(opts[i]), sel = saved && saved.status === "picked" && saved.answer === lab;
+    var isRec = !!(rec && rec.label === lab), why = (isRec && rec.because) ? whyText(rec) : "";
     if(card){
       var tx = optText(opts[i]);
-      h += '<button type="button" class="ocard' + (sel ? " sel" : "") + '" data-action="' + act + '" data-i="' + i + '"' + fattr + '>';
-      h += '<span class="ochead"><span class="num">' + (i+1) + '</span><span class="ct" ' + dirA(lab) + '>' + esc(lab) + '</span></span>';
+      h += '<button type="button" class="ocard' + (sel ? " sel" : "") + (isRec ? " rec" : "") + '" data-action="' + act + '" data-i="' + i + '"' + fattr + '>';
+      h += '<span class="ochead"><span class="num">' + (i+1) + '</span><span class="ct" ' + dirA(lab) + '>' + esc(lab) + '</span>' + (isRec ? hatHTML() : '') + '</span>';
       if(tx) h += '<span class="cx" ' + dirA(tx) + '>' + esc(tx) + '</span>';
+      if(why) h += '<span class="rwhy" ' + dirA(rec.because) + '>' + esc(why) + '</span>';
       h += '</button>';
     } else {
-      h += '<button type="button" class="opt' + (sel ? " sel" : "") + '" data-action="' + act + '" data-i="' + i + '"' + fattr + '>';
-      h += '<span class="num">' + (i+1) + '</span><span class="lab" ' + dirA(lab) + '>' + esc(lab) + '</span></button>';
+      h += '<button type="button" class="opt' + (sel ? " sel" : "") + (isRec ? " rec" : "") + '" data-action="' + act + '" data-i="' + i + '"' + fattr + '>';
+      h += '<span class="num">' + (i+1) + '</span><span class="lab" ' + dirA(lab) + '>' + esc(lab) + (why ? '<span class="rwhy" ' + dirA(rec.because) + '>' + esc(why) + '</span>' : '') + '</span>' + (isRec ? hatHTML() : '') + '</button>';
     }
   }
   h += '</div>';
@@ -1092,6 +1139,14 @@ function customHTML(label, saved, ids, acts, fattr, separate){
   if(separate) h += '</div>';
   return h;
 }
+function noteShown(id){ var o = openNotes[id]; return o === true || (o !== false && hasNote(state.answers[id])); }
+function noteHTML(id){
+  var a = state.answers[id], has = hasNote(a), show = noteShown(id);
+  var h = '<div class="nrow">';
+  h += '<button type="button" class="npen' + (has ? " has" : "") + '" data-action="note-toggle" data-note="' + esc(id) + '" aria-expanded="' + (show ? "true" : "false") + '" aria-controls="np-' + esc(id) + '">&#9998; <span>' + (has ? "Note" : "Add a note") + '</span></button>';
+  h += '<div class="npanel" id="np-' + esc(id) + '"' + (show ? "" : " hidden") + '><textarea dir="auto" data-role="note" data-note="' + esc(id) + '" aria-label="Note" placeholder="A note that travels with your answer">' + esc(noteOf(a)) + '</textarea></div>';
+  return h + '</div>';
+}
 function dirA(t){
   /* Direction from the words, leaving out [bracketed] terms: "[نجوم المباريات]: most match MVPs" reads left to right,
      a mostly Arabic line reads right to left, and a line that is only a bracketed term follows its own letters. */
@@ -1107,8 +1162,17 @@ var ICO = {
   info: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>',
   table: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M3 15h18M9 4v16"/></svg>',
   text: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 6h14M5 11h14M5 16h9"/></svg>',
-  quote: '<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M7 7h4v4c0 3-1.5 5-4 6l-.8-1.4C7.6 14.8 8.3 13.6 8.4 12H7zm7 0h4v4c0 3-1.5 5-4 6l-.8-1.4c1.4-.8 2.1-2 2.2-3.6H14z"/></svg>'
+  quote: '<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M7 7h4v4c0 3-1.5 5-4 6l-.8-1.4C7.6 14.8 8.3 13.6 8.4 12H7zm7 0h4v4c0 3-1.5 5-4 6l-.8-1.4c1.4-.8 2.1-2 2.2-3.6H14z"/></svg>',
+  hat: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5.2 17.2 10.4 4.1c.4-1 1.4-1.6 2.4-1.3 1.4.4 2.9 1.6 4.6 3.9.3.4-.2.9-.6.6-1.1-.8-2.2-1.2-3.2-1.1l3.3 11z"/><path d="M1.8 18.6c0-1.4 4.5-2.6 10.2-2.6s10.2 1.2 10.2 2.6S17.7 21 12 21 1.8 20 1.8 18.6z"/><path style="fill:var(--card)" d="M11.5 9.4l.7 1.5 1.6.2-1.2 1.1.3 1.6-1.4-.8-1.4.8.3-1.6-1.2-1.1 1.6-.2z"/><path style="fill:var(--card)" d="M7.4 15.2c2.9.6 6.3.6 9.2 0l.3 1c-3 .7-6.8.7-9.8 0z"/></svg>'
 };
+/* Recommendations: a round can name the option it recommends, with the reason. Wizard recommendations in Options turns them off. */
+function recOf(o){
+  if(!SETTINGS.recs || !o || typeof o.recommend !== "string") return null;
+  var why = typeof o.because === "string" ? o.because.trim().replace(/^because\s+/i, "") : "";
+  return { label: o.recommend, because: why };
+}
+function hatHTML(cls){ return '<span class="' + (cls || "rhat") + '" role="img" aria-label="Recommended" title="Recommended">' + ICO.hat + '</span>'; }
+function whyText(rec, named){ return "I recommend " + (named ? named : "this") + " because " + rec.because; }
 function extras(q){
   var x = q && q.extra, arr = Array.isArray(x) ? x : (x ? [x] : []);
   return arr.filter(function(e){ return e && Array.isArray(e.blocks) && e.blocks.length; });
@@ -1177,13 +1241,14 @@ function renderSingle(q){
   h += headHTML(q);
   if(saved && saved.status !== "open" && saved.status !== "batch"){ h += '<div class="recorded">Recorded: ' + (saved.status === "custom" ? "custom answer" : "picked") + '</div>'; }
   if(card){
-    h += optionsHTML(q.options, saved, "pick", "");
+    h += optionsHTML(q.options, saved, "pick", "", recOf(q));
     if(q.custom !== false){ h += customHTML(q.customLabel, saved, ["cpanel", "ctext", "cok"], ["custom-open", "custom-confirm", "custom-cancel"], "", true); }
   } else {
-    h += optionsHTML(q.options, saved, "pick", "").replace(/<\/div>$/, "");
+    h += optionsHTML(q.options, saved, "pick", "", recOf(q)).replace(/<\/div>$/, "");
     if(q.custom !== false){ h += customHTML(q.customLabel, saved, ["cpanel", "ctext", "cok"], ["custom-open", "custom-confirm", "custom-cancel"], "", false); }
     h += '</div>';
   }
+  h += noteHTML(q.id);
   if(live.length){
     h += '<div class="fups" id="fups">';
     h += '<div class="fuphead">' + (saved.status === "picked" ? 'Because you picked <b ' + dirA(saved.answer) + '>' + esc(saved.answer) + '</b>' : 'Because of your answer') + '</div>';
@@ -1197,8 +1262,9 @@ function renderSingle(q){
         h += '<div class="fuptitle"><span class="fid">' + esc(f.id) + '</span><span ' + dirA(f.title) + '>' + esc(f.title) + '</span></div>';
       }
       var fcard = isCardList(f.options);
-      h += optionsHTML(f.options, fa, "fpick", fattr);
+      h += optionsHTML(f.options, fa, "fpick", fattr, recOf(f));
       if(f.custom !== false){ h += customHTML(f.customLabel, fa, ["fcp-" + fi, "fct-" + fi, "fcok-" + fi], ["fcustom-open", "fcustom-confirm", "fcustom-cancel"], fattr, true); }
+      h += noteHTML(f.id);
       h += contextHTML({ context: f.context, detail: f.detail, links: f.links });
       h += '</div>';
     }
@@ -1227,27 +1293,29 @@ function renderBatch(q){
   h += '<div class="qcard">';
   h += '<div class="corner"><span class="n">' + esc(q.id) + '</span><span class="s">&#10022;</span></div>';
   h += headHTML(q);
-  h += '<div class="bmeta"><span><b>' + done + '</b> of <b>' + q.items.length + '</b> rows answered</span><span>Pen adds a comment on any row</span></div>';
+  h += '<div class="bmeta"><span><b>' + done + '</b> of <b>' + q.items.length + '</b> rows answered</span><span>Pen adds a note on any row</span></div>';
   h += '<table class="btable">';
   for(var i=0;i<q.items.length;i++){
     var it = q.items[i];
-    var ia = a.items[it.id] || {};
-    h += '<tr><td class="bl"><span class="bname" ' + dirA(it.label) + '>' + esc(it.label) + '</span>' + (it.note ? '<div class="bnote" ' + dirA(it.note) + '>' + esc(it.note) + '</div>' : '') + '</td>';
+    var ia = a.items[it.id] || {}, ir = recOf(it);
+    h += '<tr><td class="bl"><span class="bname" ' + dirA(it.label) + '>' + esc(it.label) + '</span>' + (it.note ? '<div class="bnote" ' + dirA(it.note) + '>' + esc(it.note) + '</div>' : '');
+    if(ir && ir.because) h += '<div class="bwhy">' + ICO.hat + '<span ' + dirA(ir.because) + '>' + esc(whyText(ir, ir.label)) + '</span></div>';
+    h += '</td>';
     h += '<td class="bops">';
     for(var o=0;o<q.options.length;o++){
-      var sel = ia.answer === q.options[o];
-      h += '<button type="button" class="bopt' + (sel ? " sel" : "") + '" data-action="bpick" data-item="' + esc(it.id) + '" data-i="' + o + '">' + esc(q.options[o]) + '</button>';
+      var sel = ia.answer === q.options[o], brec = !!(ir && ir.label === q.options[o]);
+      h += '<button type="button" class="bopt' + (sel ? " sel" : "") + (brec ? " rec" : "") + '" data-action="bpick" data-item="' + esc(it.id) + '" data-i="' + o + '">' + (brec ? hatHTML("bhat") : '') + esc(q.options[o]) + '</button>';
     }
     var hasC = ia.comment && ia.comment.trim().length > 0;
-    h += '<button type="button" class="bpen' + (hasC ? " has" : "") + '" data-action="bpen" data-item="' + esc(it.id) + '" aria-label="Comment">&#9998;</button>';
+    h += '<button type="button" class="bpen' + (hasC ? " has" : "") + '" data-action="bpen" data-item="' + esc(it.id) + '" aria-label="Note">&#9998;</button>';
     h += '</td></tr>';
     var show = hasC || openComments[q.id + ":" + it.id];
-    h += '<tr class="bcrow" id="crow-' + esc(it.id) + '" style="' + (show ? "" : "display:none") + '"><td colspan="2"><textarea dir="auto" data-role="bcomment" data-item="' + esc(it.id) + '" placeholder="Comment for this row">' + esc(ia.comment || "") + '</textarea></td></tr>';
+    h += '<tr class="bcrow" id="crow-' + esc(it.id) + '" style="' + (show ? "" : "display:none") + '"><td colspan="2"><textarea dir="auto" data-role="bcomment" data-item="' + esc(it.id) + '" placeholder="Note for this row">' + esc(ia.comment || "") + '</textarea></td></tr>';
   }
   h += '</table>';
   h += contextHTML(q);
   h += '<div class="crow" style="margin-top:14px"><button type="button" class="btn" data-action="batch-continue">Continue (' + done + '/' + q.items.length + ' answered)</button></div>';
-  h += '<div class="hint">Unanswered rows stay open in the export. Comments travel with their row.</div>';
+  h += '<div class="hint">Unanswered rows stay open in the export. Notes travel with their row.</div>';
   h += '</div>';
   h += chromeControls(q);
   document.getElementById("app").innerHTML = h;
@@ -1287,7 +1355,8 @@ function buildExport(){
       var s = state.answers[q.id] || { status:"open", answer:"" };
       var entry = { id:q.id, section:q.section, issue:q.title };
       if(hasQuestion(q)) entry.question = q.question;
-      entry.status = s.status; entry.answer = s.answer;
+      entry.status = done1(s) ? s.status : "open"; entry.answer = done1(s) ? s.answer : "";
+      if(hasNote(s)) entry.comment = noteOf(s).trim();
       var fl = fups(q);
       if(fl.length){
         entry.followups = fl.map(function(f){
@@ -1297,6 +1366,7 @@ function buildExport(){
           var fe = { id:f.id, issue:f.title };
           if(hasQuestion(f)) fe.question = f.question;
           fe.status = st; fe.answer = ans;
+          if(done1(s) && fupApplies(f, s) && hasNote(fa)) fe.comment = noteOf(fa).trim();
           return fe;
         });
       }
@@ -1330,9 +1400,10 @@ function batchCell(q){
   for(var k in tally){ if(Object.prototype.hasOwnProperty.call(tally,k)){ parts.push(esc(k) + ": " + tally[k]); } }
   var done = batchDone(q);
   var pill = done === q.items.length ? '<span class="pill picked">batch</span>' : '<span class="pill open">' + done + '/' + q.items.length + '</span>';
-  return pill + ' <span dir="auto">' + (parts.length ? parts.join(", ") : "no rows answered") + (comments ? " (" + comments + " comments)" : "") + '</span>';
+  return pill + ' <span dir="auto">' + (parts.length ? parts.join(", ") : "no rows answered") + (comments ? " (" + plural(comments, "note", "notes") + ")" : "") + '</span>';
 }
 
+function sumNote(a){ var t = noteOf(a).trim(); return '<div class="sumnote"><b>Note</b><span ' + dirA(t) + '>' + esc(t) + '</span></div>'; }
 function renderSummary(){
   customOpen = false;
   var exp = buildExport();
@@ -1354,12 +1425,14 @@ function renderSummary(){
                : a.status === "custom" ? '<span class="pill custom">custom</span>'
                : '<span class="pill open">open</span>';
       ansText = a.status === "open" || !a.answer ? pill : pill + ' <span ' + dirA(a.answer) + '>' + esc(a.answer) + '</span>';
+      if(hasNote(a)) ansText += sumNote(a);
       if(done1(a)){
         var lf = liveFups(q, state.answers);
         for(var fx=0;fx<lf.length;fx++){
           var fa = state.answers[lf[fx].id];
           var fp = !done1(fa) ? '<span class="pill open">open</span>' : fa.status === "custom" ? '<span class="pill custom">custom</span>' : '<span class="pill picked">picked</span>';
           ansText += '<div class="sumfup"><span class="sfid">' + esc(lf[fx].id) + '</span>' + fp + (done1(fa) ? ' <span ' + dirA(fa.answer) + '>' + esc(fa.answer) + '</span>' : '') + '</div>';
+          if(hasNote(fa)) ansText += sumNote(fa);
         }
       }
     }
@@ -1412,7 +1485,7 @@ function pick(i){
   var val = optLabel(q.options[i]);
   var prev = state.answers[q.id], was = done1(prev);
   var wasDone = answeredCount() === QUESTIONS.length;
-  state.answers[q.id] = { status:"picked", answer:val };
+  state.answers[q.id] = withNote(prev, { status:"picked", answer:val });
   if(!was) countDecision();
   markChanged();
   saveState();
@@ -1425,7 +1498,7 @@ function fpick(fi, i){
   var val = optLabel(f.options[i]);
   var prev = state.answers[f.id], was = done1(prev);
   var wasDone = answeredCount() === QUESTIONS.length;
-  state.answers[f.id] = { status:"picked", answer:val };
+  state.answers[f.id] = withNote(prev, { status:"picked", answer:val });
   if(!was) countDecision();
   markChanged();
   saveState();
@@ -1452,7 +1525,7 @@ function confirmFupCustom(fi){
   if(!val) return;
   var prev = state.answers[f.id], was = done1(prev);
   var wasDone = answeredCount() === QUESTIONS.length;
-  state.answers[f.id] = { status:"custom", answer:val };
+  state.answers[f.id] = withNote(prev, { status:"custom", answer:val });
   if(!was) countDecision();
   if(!prev || prev.status !== "custom") countTyped();
   markChanged();
@@ -1501,6 +1574,28 @@ function bcomment(itemId, val){
   markChanged();
   saveState();
 }
+function noteIds(q){ return (q && !isBatch(q)) ? [q.id].concat(fups(q).map(function(f){ return f.id; })) : []; }
+function setNote(id, val){
+  var q = cur();
+  if(!q || noteIds(q).indexOf(id) === -1) return;
+  var prev = state.answers[id];
+  var a = prev ? { status: prev.status, answer: prev.answer } : { status:"open", answer:"" };
+  if(String(val || "").trim()) a.comment = String(val);
+  state.answers[id] = a;
+  markChanged();
+  saveState();
+}
+function toggleNote(id){
+  var q = cur();
+  if(!q || noteIds(q).indexOf(id) === -1) return;
+  var p = document.getElementById("np-" + id), b = document.querySelector('.npen[data-note="' + id + '"]');
+  if(!p) return;
+  var show = p.hasAttribute("hidden");
+  openNotes[id] = show;
+  if(show){ p.removeAttribute("hidden"); } else { p.setAttribute("hidden", ""); }
+  if(b) b.setAttribute("aria-expanded", show ? "true" : "false");
+  if(show){ var t = p.querySelector("textarea"); if(t && t.focus) t.focus(); }
+}
 function openCustom(prefill){
   var p = document.getElementById("cpanel");
   var t = document.getElementById("ctext");
@@ -1525,7 +1620,7 @@ function confirmCustom(){
   if(!val) return;
   var prev = state.answers[q.id], was = done1(prev);
   var wasDone = answeredCount() === QUESTIONS.length;
-  state.answers[q.id] = { status:"custom", answer:val };
+  state.answers[q.id] = withNote(prev, { status:"custom", answer:val });
   if(!was) countDecision();
   if(!prev || prev.status !== "custom") countTyped();
   markChanged();
@@ -1536,7 +1631,7 @@ function confirmCustom(){
 function skip(quiet){
   var q = cur();
   if(!q) return;
-  if(!isBatch(q) && !done1(state.answers[q.id])){ state.answers[q.id] = { status:"open", answer:"" }; }
+  if(!isBatch(q) && !done1(state.answers[q.id])){ state.answers[q.id] = withNote(state.answers[q.id], { status:"open", answer:"" }); }
   saveState();
   if(sleeping) wakeUp();
   if(quiet) faceFlash("skip", 1600); else react("skip");
@@ -1564,6 +1659,7 @@ function resetAll(){
     if(!yes) return;
     state = { idx: 0, answers: {} };
     openComments = {};
+    openNotes = {};
     var re = libEntry(CURKEY);
     if(re){ resetClock(re); delete re.finishedAt; saveLib(); }
     markChanged();
@@ -1675,6 +1771,18 @@ function optionsProblem(opts, where, allowCards){
   if(cards && opts.length > 3) return where + " shows its options as cards, and cards allow at most 3 options.";
   return null;
 }
+function recProblem(o, labels, where){
+  if(o.recommend === undefined) return o.because !== undefined ? where + " gives because without recommend." : null;
+  if(!labels) return where + " is a grouped question, so its recommendations go on each row.";
+  if(typeof o.recommend !== "string" || labels.indexOf(o.recommend) === -1) return where + " recommends \"" + String(o.recommend) + "\", which is not one of its options.";
+  if(o.because !== undefined && typeof o.because !== "string") return where + ": because must be text.";
+  return null;
+}
+function versionProblem(c){
+  if(!c || typeof c !== "object" || c.needs_wizard === undefined) return null;
+  if(typeof c.needs_wizard === "string" && VER_RE.test(c.needs_wizard.trim())) return null;
+  return "config.needs_wizard must be a version number like 0.3.0. Nothing was loaded.";
+}
 function validateQuestions(qarr){
   if(!Array.isArray(qarr) || qarr.length < 1) return "Expected an array of questions, or an object with config and questions. Nothing was loaded.";
   var seenQ = Object.create(null);
@@ -1691,6 +1799,8 @@ function validateQuestions(qarr){
     if(q.question !== undefined && typeof q.question !== "string") return where + ": question must be text. Nothing was loaded.";
     var op = optionsProblem(q.options, where, q.type !== "batch");
     if(op) return op + " Nothing was loaded.";
+    var rp = recProblem(q, q.type === "batch" ? null : q.options.map(optLabel), where);
+    if(rp) return rp + " Nothing was loaded.";
     if(q.followups !== undefined){
       if(q.type === "batch") return where + " is a grouped question; follow-ups work on single questions only. Nothing was loaded.";
       if(!Array.isArray(q.followups)) return where + ": followups must be a list. Nothing was loaded.";
@@ -1704,6 +1814,8 @@ function validateQuestions(qarr){
         if(f.question !== undefined && typeof f.question !== "string") return where + ", follow-up " + f.id + ": question must be text. Nothing was loaded.";
         var fop = optionsProblem(f.options, where + ", follow-up " + f.id, true);
         if(fop) return fop + " Nothing was loaded.";
+        var frp = recProblem(f, f.options.map(optLabel), where + ", follow-up " + f.id);
+        if(frp) return frp + " Nothing was loaded.";
         if(f.when !== undefined){
           if(!Array.isArray(f.when) || !f.when.every(function(w){ return typeof w === "string"; })) return where + ", follow-up " + f.id + ": when must be a list of the main question's option labels. Nothing was loaded.";
           for(var wz=0;wz<f.when.length;wz++){ if(plabs.indexOf(f.when[wz]) === -1) return where + ", follow-up " + f.id + " opens on \"" + f.when[wz] + "\", which is not one of the main question's options. Nothing was loaded."; }
@@ -1716,6 +1828,8 @@ function validateQuestions(qarr){
         var rid = q.items[r].id;
         if(rid in seenRow) return "Question " + (i+1) + " (" + q.id + ") reuses row id " + rid + " from row " + seenRow[rid] + ". Every row in a batch needs its own id. Nothing was loaded.";
         seenRow[rid] = r+1;
+        var rrp = recProblem(q.items[r], q.options, where + ", row " + rid);
+        if(rrp) return rrp + " Nothing was loaded.";
       }
     }
   }
@@ -1723,6 +1837,12 @@ function validateQuestions(qarr){
 }
 function unitHas(ia){ return !!(ia && (ia.answer || (ia.comment && String(ia.comment).trim()))); }
 function own(o, k){ return !!o && Object.prototype.hasOwnProperty.call(o, k); }
+function noteIn(e){ return typeof e.comment === "string" && !!e.comment.trim(); }
+function fromEntry(e){
+  var a = (e.status === "picked" || e.status === "custom") ? { status: e.status, answer: String(e.answer) } : { status: "open", answer: "" };
+  if(noteIn(e)) a.comment = String(e.comment);
+  return a;
+}
 function answersFromExport(arr, qs){
   var byId = Object.create(null);
   for(var i=0;i<qs.length;i++){ byId[qs[i].id] = qs[i]; }
@@ -1745,15 +1865,15 @@ function answersFromExport(arr, qs){
         }
         if(got){ out[q.id] = a; applied++; } else { ignored++; }
       } else { ignored++; }
-    } else if((e.status === "picked" || e.status === "custom") && e.answer){
-      out[q.id] = { status: e.status, answer: String(e.answer) };
+    } else if(((e.status === "picked" || e.status === "custom") && e.answer) || (e.status === "open" && noteIn(e))){
+      out[q.id] = fromEntry(e);
       applied++;
-      if(Array.isArray(e.followups)){
+      if(done1(out[q.id]) && Array.isArray(e.followups)){
         var fids = Object.create(null);
         fups(q).forEach(function(f){ fids[f.id] = true; });
         for(var m=0;m<e.followups.length;m++){
           var fe = e.followups[m];
-          if(fe && typeof fe.id === "string" && fids[fe.id] && (fe.status === "picked" || fe.status === "custom") && fe.answer){ out[fe.id] = { status: fe.status, answer: String(fe.answer) }; applied++; }
+          if(fe && typeof fe.id === "string" && fids[fe.id] && (((fe.status === "picked" || fe.status === "custom") && fe.answer) || (fe.status === "open" && noteIn(fe)))){ out[fe.id] = fromEntry(fe); applied++; }
         }
       }
     } else { ignored++; }
@@ -1772,7 +1892,11 @@ function normAnswers(qs, ans){
       }
       out.push(rows);
     } else {
-      out.push(a && (a.status === "picked" || a.status === "custom") ? [a.status, a.answer] : ["open", ""]);
+      out.push(a && (done1(a) || hasNote(a)) ? [done1(a) ? a.status : "open", done1(a) ? a.answer : "", noteOf(a).trim()] : ["open", "", ""]);
+      fups(q).forEach(function(f){
+        var fa = own(ans, f.id) ? ans[f.id] : null;
+        out.push(fa && (done1(fa) || hasNote(fa)) ? [f.id, done1(fa) ? fa.status : "open", done1(fa) ? fa.answer : "", noteOf(fa).trim()] : [f.id]);
+      });
     }
   }
   return JSON.stringify(out);
@@ -1788,8 +1912,8 @@ function lostAnswers(oldA, newA){
         var ia = a.items[rid], ib = (b && b.status === "batch" && own(b.items, rid)) ? b.items[rid] : null;
         if(!ib || (ib.answer || "") !== (ia.answer || "") || String(ib.comment || "").trim() !== String(ia.comment || "").trim()) lost++;
       }
-    } else if(a && (a.status === "picked" || a.status === "custom")){
-      if(!b || b.status !== a.status || b.answer !== a.answer) lost++;
+    } else if(a && (done1(a) || hasNote(a))){
+      if(!b || (done1(b) ? b.status : "open") !== (done1(a) ? a.status : "open") || (done1(b) ? b.answer : "") !== (done1(a) ? a.answer : "") || noteOf(b).trim() !== noteOf(a).trim()) lost++;
     }
   }
   return lost;
@@ -1802,7 +1926,7 @@ function carryAnswers(oldQs, newQs, oldA){
     if(!own(oldA, id)) continue;
     var a0 = oldA[id];
     if(a0 && a0.status === "batch" && a0.items){ for(var r0 in a0.items){ if(own(a0.items, r0) && unitHas(a0.items[r0])) had++; } }
-    else if(a0 && (a0.status === "picked" || a0.status === "custom")) had++;
+    else if(a0 && (done1(a0) || hasNote(a0))) had++;
   }
   for(var j=0;j<newQs.length;j++){
     var nq = newQs[j], oq = byId[nq.id], a = own(oldA, nq.id) ? oldA[nq.id] : null;
@@ -1819,13 +1943,13 @@ function carryAnswers(oldQs, newQs, oldA){
         if(orow && orow.label === row.label && unitHas(ia)){ items[row.id] = ia; kept++; any = true; }
       }
       if(any){ out[nq.id] = { status: "batch", items: items }; }
-    } else if(a.status === "picked" || a.status === "custom"){
+    } else if(done1(a) || hasNote(a)){
       out[nq.id] = a; kept++;
       var ofu = Object.create(null);
       fups(oq).forEach(function(f){ ofu[f.id] = f; });
       fups(nq).forEach(function(f){
         var of = ofu[f.id], fa = own(oldA, f.id) ? oldA[f.id] : null;
-        if(of && done1(fa) && of.title === f.title && (!hasQuestion(of) || of.question === f.question) && JSON.stringify(of.options) === JSON.stringify(f.options) && JSON.stringify(of.when || null) === JSON.stringify(f.when || null)){ out[f.id] = fa; kept++; }
+        if(of && (done1(fa) || hasNote(fa)) && of.title === f.title && (!hasQuestion(of) || of.question === f.question) && JSON.stringify(of.options) === JSON.stringify(f.options) && JSON.stringify(of.when || null) === JSON.stringify(f.when || null)){ out[f.id] = fa; kept++; }
       });
     }
   }
@@ -1881,7 +2005,7 @@ function ingestText(text, src){
   return false;
 }
 function ingestRound(qarr, rawCfg, src){
-  var err = validateQuestions(qarr);
+  var err = validateQuestions(qarr) || versionProblem(rawCfg);
   if(err){ ingestFail(err, true); return false; }
   var titled = hasTitle(rawCfg);
   var cfg = normConfig(rawCfg);
@@ -1908,7 +2032,7 @@ function ingestRound(qarr, rawCfg, src){
 }
 function ingestBundle(b, src){
   var qarr = b.round.questions;
-  var err = validateQuestions(qarr);
+  var err = validateQuestions(qarr) || versionProblem(b.round.config);
   if(err){ ingestFail(err, true); return false; }
   var titled = hasTitle(b.round.config);
   var cfg = normConfig(b.round.config);
@@ -1945,7 +2069,12 @@ function ingestAnswers(p){
     ingestFail(conv.unknown ? 'None of these answers match the questions in "' + CONFIG.title + '".' : "Every answer in this file is still open, so there was nothing to import.");
     return false;
   }
-  for(var id in conv.answers){ if(own(conv.answers, id)) state.answers[id] = conv.answers[id]; }
+  for(var id in conv.answers){
+    if(!own(conv.answers, id)) continue;
+    var na = conv.answers[id];
+    if(!done1(na) && na.status !== "batch" && done1(state.answers[id])) continue;
+    state.answers[id] = na;
+  }
   state.idx = QUESTIONS.length;
   markChanged();
   saveState();
@@ -3138,6 +3267,7 @@ document.addEventListener("click", function(ev){
   if(act === "pick"){ pick(parseInt(el.getAttribute("data-i"), 10)); }
   else if(act === "bpick"){ bpick(el.getAttribute("data-item"), parseInt(el.getAttribute("data-i"), 10)); }
   else if(act === "bpen"){ bpen(el.getAttribute("data-item")); }
+  else if(act === "note-toggle"){ toggleNote(el.getAttribute("data-note")); }
   else if(act === "batch-continue"){ advance(); }
   else if(act === "custom-open"){ openCustom(); }
   else if(act === "custom-confirm"){ confirmCustom(); }
@@ -3189,6 +3319,12 @@ document.addEventListener("input", function(ev){
   } else if(t.classList && t.classList.contains("fctext")){
     var fok = document.getElementById("fcok-" + t.getAttribute("data-f"));
     if(fok){ fok.disabled = !(t.value && t.value.trim().length > 0); }
+  } else if(t.getAttribute && t.getAttribute("data-role") === "note"){
+    var nid = t.getAttribute("data-note");
+    setNote(nid, t.value || "");
+    openNotes[nid] = true;
+    var nb = document.querySelector('.npen[data-note="' + nid + '"]');
+    if(nb){ var nh = !!(t.value || "").trim(); nb.classList.toggle("has", nh); var ns = nb.querySelector("span"); if(ns) ns.textContent = nh ? "Note" : "Add a note"; }
   } else if(t.getAttribute && t.getAttribute("data-role") === "bcomment"){
     bcomment(t.getAttribute("data-item"), t.value || "");
     var q = cur();
@@ -3355,6 +3491,8 @@ if(typeof window !== "undefined"){
     pick: pick,
     bpick: bpick,
     bcomment: bcomment,
+    setNote: setNote,
+    toggleNote: toggleNote,
     skip: skip,
     back: back,
     finishNow: finishNow,
