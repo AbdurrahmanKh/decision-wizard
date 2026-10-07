@@ -505,6 +505,8 @@ footer{margin-top:34px;padding-top:14px;border-top:3px solid var(--ink);font-siz
 .lnew{font-weight:800;color:var(--btn-fg);background:var(--btn-bg);border-radius:999px;padding:0 8px}
 .lproj{font-weight:700;color:var(--ink)}
 .hbadge{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:#D2A62F;color:#221B06;font-size:calc(11.5px*var(--fs));font-weight:800;font-variant-numeric:tabular-nums}
+.fopen{margin:0 0 10px}
+.lempty + .fopen{margin-top:10px}
 .notices{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:44;display:flex;flex-direction:column-reverse;gap:8px;width:min(620px,calc(100% - 24px));pointer-events:none}
 .notices:empty{display:none}
 .wrap::after{content:"";display:block;height:var(--lift,0px)}
@@ -594,7 +596,7 @@ footer{margin-top:34px;padding-top:14px;border-top:3px solid var(--ink);font-siz
       <div class="ldef"><b>Saved file.</b> What Save writes: the answers JSON (meta and answers, the same as Copy answers JSON) with the whole round under <b>round</b>, so opening it picks up where you left off.</div>
       <div class="ldef"><b>Answers JSON.</b> Answers on their own merge into the round with the same title, or into the open round: matching ids overwrite, and open entries are ignored unless they carry a note. A note comes back as <b>comment</b>.</div>
       <div class="ldef"><b>Backup.</b> What Back up all rounds writes: every round in this browser with its answers, each in the saved-file form, under <b>rounds</b>. Loading a backup adds the rounds that are missing here and brings back the ones the backup has a newer copy of. When a round changed here after the backup was made, the wizard asks whether to keep it.</div>
-      <div class="ldef"><b>Project folders.</b> When a round names its folder, the wizard offers to save your answers into it. Pick the folder once, in Chrome or Edge on a computer. From then on your answers are written into the round's file as you go, in the saved-file form, and a new round landing in that folder opens by itself, or waits in the list while you are partway through another.</div>
+      <div class="ldef"><b>Project folders.</b> When a round names its folder, the wizard offers to save your answers into it. Pick the folder once, in Chrome or Edge on a computer, when a round asks or with Open a project folder. From then on your answers are written into the round's file as you go, in the saved-file form, and a new round landing in that folder opens by itself, or waits in the list while you are partway through another.</div>
       <div class="ldef"><b>The list.</b> Every round stays in this browser, with its answers, until you delete it. A round whose title is already in the list replaces the saved one, and answers to questions that did not change stay.</div>
     </details>
   </div>
@@ -673,7 +675,7 @@ footer{margin-top:34px;padding-top:14px;border-top:3px solid var(--ink);font-siz
 <script>
 "use strict";
 /* The wizard's version. Bump the last number (0.1.1) for a minor update, the middle one (0.2.0) for a major one. */
-var WIZARD_VERSION = "0.6.0";
+var WIZARD_VERSION = "0.6.1";
 
 var CONFIG = { title:"Decision Wizard", tagline:"", product:"" };
 
@@ -3784,6 +3786,72 @@ function askProject(key, src, kind, wrong, sub){
     });
   });
 }
+/* Open a project folder: connect a project's wizard-rounds folder from Load, with no round loaded first. The rounds in
+   it name their project and folder, so the newest of them sets both. The newest round still as Claude wrote it then
+   opens, as if it were chosen by hand; every other file in the folder is noted and left alone, as on any connection. */
+function openProjectFolder(){
+  if(!fsSupported()) return Promise.resolve(false);
+  return pickFolder().then(function(dir){
+    if(!dir) return false;
+    return folderRounds(dir).then(function(list){
+      if(!list.length) return innerRounds(dir).then(function(sub){ return folderMiss(dir, sub); });
+      return sameKnown(dir).then(function(known){ return connectDir(dir, known, list); });
+    });
+  }).then(null, function(){ toast(false, "That folder could not be read."); return false; });
+}
+/* The rounds in a folder that name a project folder, newest first. Saved files count, so a folder whose rounds are
+   all answered is still a project's folder. */
+function folderRounds(dir){
+  return listJson(dir).then(function(files){
+    return Promise.all(files.map(function(h){
+      return readRound(h).then(function(r){
+        if(!r || !r.config || typeof r.config !== "object" || !cleanStr(r.config.folder)) return null;
+        return { h: h, r: r, t: r.file.lastModified || 0 };
+      });
+    }));
+  }).then(function(list){
+    return list.filter(Boolean).sort(function(a, b){ return (b.t - a.t) || (a.h.name < b.h.name ? -1 : 1); });
+  });
+}
+function innerRounds(dir){
+  if(typeof dir.getDirectoryHandle !== "function") return Promise.resolve("");
+  return Promise.resolve().then(function(){ return dir.getDirectoryHandle("wizard-rounds"); }).then(function(d){ return d ? d.name : ""; }, function(){ return ""; });
+}
+function folderMiss(dir, sub){
+  var o = sub
+    ? { title: "One folder deeper", message: 'The folder you picked, "' + dir.name + '", holds a "' + sub + '" folder. Pick "' + sub + '" itself: that is where Claude Code writes the rounds.' }
+    : { title: "No rounds from Claude Code here", message: 'The folder you picked, "' + dir.name + '", holds no round that names its project. Pick the wizard-rounds folder of a project Claude Code works in.' };
+  o.ok = "Pick again"; o.cancel = "Not now"; o.calm = true;
+  return confirmBox(o).then(function(yes){ return yes ? openProjectFolder() : false; });
+}
+function connectDir(dir, known, list){
+  var lead = list[0].r.config, raw = folderKey(lead.folder), rec = known, isNew = !known;
+  if(rec){
+    if(rec.keys.indexOf(raw) === -1) rec.keys.push(raw);
+    rec.handle = dir;
+  } else {
+    rec = { key: raw, keys: [raw], path: cleanStr(lead.folder), project: cleanStr(lead.project) || "", handle: dir, seen: {}, addedAt: Date.now(), perm: "prompt" };
+  }
+  /* As with a folder picked for a round: every file already in it is noted before the folder joins the list. */
+  return (isNew ? markAllSeen(rec) : Promise.resolve()).then(function(){ return dirPut(rec); }).then(function(){ return dirPerm(rec); }).then(function(p){
+    if(isNew){ stopWatch(raw); FOLDERS[rec.key] = rec; }
+    ALIAS[raw] = rec.key;
+    if(p !== "granted"){
+      tellPages("folders");
+      foldersChanged();
+      toast(true, recName(rec) + "'s folder is remembered. Press Allow on it here to let the wizard write into it.");
+      return true;
+    }
+    grantDone(rec);
+    var fresh = null;
+    for(var i=0;i<list.length;i++){ if(!list[i].r.saved){ fresh = list[i]; break; } }
+    if(!fresh){
+      toast(true, "Connected to " + recName(rec) + ". No round in it is waiting for answers. Its new rounds open here by themselves.");
+      return true;
+    }
+    return Promise.resolve(ingestText(fresh.r.text, { handle: fresh.h })).then(function(){ return true; });
+  });
+}
 /* A file opened by hand may sit in a folder the wizard already has. The file itself settles it: when a known folder
    holds it, that folder is the round's, whatever path the round names, just as when the wizard finds it there. */
 function placeFile(p, src){
@@ -3931,14 +3999,15 @@ function projectAct(v){
   if(v === "allow"){ allowFolder(e.fkey); return; }
   getHandle(key).then(function(h){ if(CURKEY === key) askProject(key, { handle: h }); });
 }
+var FOLDER_OPEN_BTN = '<div class="crow fopen"><button type="button" class="btn sec" data-action="folder-open">Open a project folder</button></div>';
 function renderFolders(){
   var el = document.getElementById("folderlist");
   if(!el) return;
   var list = folderList();
   if(!list.length){
-    el.innerHTML = '<div class="lempty">' + (fsSupported()
-      ? "None yet. A round from Claude Code names its project's folder. Load one and pick that folder once: the wizard then saves your answers into it, and opens that project's new rounds by itself."
-      : "Saving into a project's folder, and opening its new rounds by themselves, need Chrome or Edge on a computer.") + '</div>';
+    el.innerHTML = fsSupported()
+      ? '<div class="lempty">None yet. Rounds Claude Code writes name their project\'s folder. Open that folder here, or load one of its rounds and pick the folder when the wizard asks. From then on the wizard saves your answers into it, and opens that project\'s new rounds by itself.</div>' + FOLDER_OPEN_BTN
+      : '<div class="lempty">Saving into a project\'s folder, and opening its new rounds by themselves, need Chrome or Edge on a computer.</div>';
     return;
   }
   var h = "";
@@ -3950,6 +4019,7 @@ function renderFolders(){
     if(!ok && !gone) h += '<button type="button" class="fbtn" data-action="folder-allow" data-key="' + esc(rec.key) + '">Allow</button>';
     h += '<button type="button" class="ldel" data-action="folder-forget" data-key="' + esc(rec.key) + '" aria-label="Forget ' + esc(name) + '">Forget</button></div>';
   });
+  h += FOLDER_OPEN_BTN;
   h += '<div class="onote">The wizard watches these folders while it is open. In a browser tab, the browser asks for your OK again on a later visit: choose Allow on every visit there, and it stops asking. The installed app keeps access by itself.</div>';
   el.innerHTML = h;
 }
@@ -5490,6 +5560,7 @@ document.addEventListener("click", function(ev){
   else if(act === "project-act"){ projectAct(el.getAttribute("data-v")); }
   else if(act === "folder-allow"){ allowFolder(el.getAttribute("data-key")); }
   else if(act === "folder-forget"){ forgetFolder(el.getAttribute("data-key")); }
+  else if(act === "folder-open"){ openProjectFolder(); }
   else if(act === "notice-act"){ noticeAct(el.getAttribute("data-id")); }
   else if(act === "notice-close"){ dropNotice(el.getAttribute("data-id")); }
   else if(act === "stats-toggle"){ toggleStats(); }
@@ -5558,6 +5629,8 @@ document.addEventListener("keydown", function(ev){
     return;
   }
   if(customOpen && ev.key === "Escape"){ cancelCustom(); return; }
+  /* Keys held with Ctrl, Alt, or Cmd are the browser's shortcuts (Ctrl+2 is its second tab), so they never pick. */
+  if(ev.ctrlKey || ev.altKey || ev.metaKey) return;
   var q = cur();
   if(q && qType(q) === "bracket"){
     var bn = parseInt(ev.key, 10);
@@ -5762,6 +5835,7 @@ if(typeof window !== "undefined"){
     projectName: projectName,
     partway: partway,
     typingNow: typingNow,
+    openProjectFolder: openProjectFolder,
     get following(){ return { wait: followWait, behind: followNew, blind: blindKeys }; }
   };
 }

@@ -2,6 +2,17 @@
 
 What changed in the Decision Wizard and the d-wizard skill, newest first. The wizard and the skill keep their own version numbers.
 
+## Wizard 0.6.1 and skill 0.5.1, 7 October 2026
+
+### Added
+- Wizard: Open a project folder, in Load. Pick a project's `wizard-rounds/` folder and the wizard connects it, with no round loaded first, and opens the newest round in it that has no answers yet. The rounds in the folder name the project. A folder with no rounds from Claude Code, or a project's root with `wizard-rounds/` inside it, gets a short note and Pick again.
+
+### Changed
+- Skill: a project's `wizard-rounds/` folder is Claude Code's. Everywhere else, Claude included when it can reach your folders, a round comes to you as a file in the conversation, without a project or folder, and never lands in one of your folders.
+
+### Fixed
+- Wizard: a number pressed with Ctrl, Alt, or Cmd no longer picks an option. Ctrl+2, the browser's key for its second tab, used to record option 2 on the way.
+
 ## Wizard 0.6.0 and skill 0.5.0, 7 October 2026
 
 ### Added

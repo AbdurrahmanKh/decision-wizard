@@ -2,7 +2,7 @@
 name: "d-wizard"
 description: Communicate a set of questions, decisions, or approvals as a Decision Wizard questions JSON instead of long prose. Use this skill whenever the user says "d-wizard", "communicate through the wizard", "wizard this", "ask me through the wizard", "decision wizard", "decision round", or asks to turn open questions into a wizard; and proactively when open decisions need evidence attached to be answered well (conflicting sources, a table to compare), when content items need one-by-one approval (copy lines, assets, table rows, sections), or when new open decisions come up while acting on a previous round's answers, on any topic. Also use it to interpret and act on an answers JSON the user pastes back, points to as a file, or says is ready in the project's wizard-rounds folder, recognizable by meta.tool = "decision-wizard". Do not use it for quick clarifications, for approving your own next steps, for a single question, or for questions meant for a teammate.
 metadata:
-  version: "0.5.0"
+  version: "0.5.1"
 compatibility: Needs Decision Wizard 0.3.0 or later, 0.4.0 for rounds with ranking, number, or bracket questions, and 0.6.0 for a project's rounds to open in the wizard by themselves and for answers to be saved back into the round file. Older wizards still open plain rounds, but show no recommendations and give no way to add a note to a pick.
 ---
 
@@ -10,7 +10,7 @@ compatibility: Needs Decision Wizard 0.3.0 or later, 0.4.0 for rounds with ranki
 
 The Decision Wizard is a standalone HTML page, hosted at https://abdurrahmankh.github.io/decision-wizard/; the user may also keep a copy of their own. You will never see it, never generate it, and never edit it; it may not even exist in your context, and that is fine. Your entire job is to produce one valid **questions JSON**. The user loads it into their wizard, clicks through the questions one at a time, and returns an **answers JSON**, pasted or as a file. This replaces walls of prose: instead of explaining five issues in one long message, you ship five self-contained questions and receive five decisions.
 
-Inside a project folder the wizard can carry both ends by itself. Once the user has connected the project's `wizard-rounds/` folder to their wizard, a round you write there opens in the wizard without being loaded, and their answers are saved into the round file as they go, where you read them. This needs wizard 0.6.0 in Chrome or Edge on a computer; everywhere else the round is loaded and the answers are returned by hand, as before.
+In Claude Code, inside a project, the wizard can carry both ends by itself. Once the user has connected the project's `wizard-rounds/` folder to their wizard, a round Claude Code writes there opens in the wizard without being loaded, and the answers are saved into the round file as they go, where Claude Code reads them. This needs wizard 0.6.0 in Chrome or Edge on a computer. The folder is Claude Code's alone: everywhere else, Claude included when it can reach the user's folders, a round goes to the user as a file in the conversation, and the answers come back by hand, as before.
 
 If the user asks where the wizard is, or may not have one, point them to https://abdurrahmankh.github.io/decision-wizard/. Any copy of the wizard, hosted or their own, opens any valid questions JSON. Do not attempt to build or describe the HTML, and never open, read, or edit the user's own copy.
 
@@ -63,7 +63,7 @@ Top level:
 
 `config.needs_wizard` names the oldest wizard the round is made for: `"0.4.0"` when the round has a ranking, number, or bracket question, and `"0.3.0"` otherwise. A wizard older than the version a round names warns when the round loads.
 
-`config.project` and `config.folder` go only on a round you write into a project's `wizard-rounds/` folder (see Delivering a round):
+`config.project` and `config.folder` go only on a round Claude Code writes into a project's `wizard-rounds/` folder (see Delivering a round):
 
 ```json
 "config": { "title": "Checkout Redesign, Round 2", "needs_wizard": "0.3.0", "project": "web-store", "folder": "/Users/sam/code/web-store/wizard-rounds" }
@@ -72,7 +72,7 @@ Top level:
 - `project` is the project's name: the name of the repository, or of its root folder.
 - `folder` is the full path of the `wizard-rounds/` folder the round file is in, written the way the user's file manager shows it. On Windows that is the drive letter and backslashes, each backslash doubled in JSON (`"D:\\code\\web-store\\wizard-rounds"`), never a `/mnt/d/...` or `/d/...` form.
 
-The wizard shows both when the round loads, so the user sees which project the round is from and where the answers will be saved, and it uses the folder to recognize the project the next time. The first round from a project asks the user to pick that folder once, since a web page cannot open a folder from a written path. Leave both fields out everywhere else: a round delivered as a chat file or a code block has no folder to name. They never change `needs_wizard`; an older wizard ignores them.
+The wizard shows both when the round loads, so the user sees which project the round is from and where the answers will be saved, and it uses the folder to recognize the project the next time. The first round from a project asks the user to pick that folder once, since a web page cannot open a folder from a written path. Leave both fields out everywhere else: a round delivered as a file in the conversation or as a code block has no folder to name. They never change `needs_wizard`; an older wizard ignores them.
 
 `config.title` is the round's identity in the user's wizard, within its project. The wizard keeps every round the user loads, and a round arriving with the title of one already saved replaces it as a new version: answers carry over for questions whose id, title, question, and options are unchanged (in a batch, rows whose id and label are unchanged), and the wizard asks before clearing the rest. So give every new round its own title that names the round number ("Checkout Redesign, Round 2"). Reuse a title only to resend a corrected version of the same round, and keep every unchanged question identical so its answer survives.
 
@@ -135,8 +135,8 @@ For a complete worked round demonstrating every feature, read `references/exampl
 
 File first. Whenever you can write files, deliver the round as a `.json` file named `<YYYY-MM-DD>-<topic>-round<N>.json` (today's date, a short kebab-case topic, the round number) and give its path in the message.
 
-- Working inside a project folder (a git repository): write the file to `wizard-rounds/` at the project root, and set `config.project` and `config.folder`. The first time you write a round in a project, check that `wizard-rounds/` is listed in the project's `.gitignore` and add it if it is not.
-- Anywhere else: write it wherever your file outputs go, and make it visible to the user the way your environment shows files.
+- In Claude Code, working inside a project (a git repository): write the file to `wizard-rounds/` at the project root, and set `config.project` and `config.folder`. The first time you write a round in a project, check that `wizard-rounds/` is listed in the project's `.gitignore` and add it if it is not.
+- Anywhere else, Claude included: write it wherever your file outputs go, and make it visible to the user the way your environment shows files, as a file in the conversation. Never write a round into one of the user's own folders, a project's `wizard-rounds/` folder included, even when you can reach them: that folder is Claude Code's, and the user's folders hold their work.
 - Only when no file tools exist: output the JSON in a single fenced `json` code block.
 
 Surround the round with at most three short sentences. Do not restate the questions in prose; the JSON is the communication, and duplicating it defeats the purpose.
