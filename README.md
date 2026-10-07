@@ -28,9 +28,19 @@ A local copy of `index.html` keeps working as a plain page; installing is for th
 3. **Load and answer.** Open the wizard, press **Load**, and choose the file, drag it in, or paste it. Answer each question, or skip it to leave it open.
 4. **Send the answers back.** Choose **Copy answers JSON** in the companion's menu or on the last screen, and paste it to Claude. Or use **Save round JSON file** and give Claude the file. In Chrome or Edge, saving writes the answers into the round file itself, so in Claude Code you just say the answers are ready.
 
+## Project folders, for Claude Code
+
+A round Claude Code writes names its project and the `wizard-rounds/` folder it's in. The first time you load a round from a project, the wizard says which project it's from and where it will save, and asks you to pick that folder once, because a web page can't open a folder from a written path. The wizard checks that the folder holds the round, then remembers it for the project. From then on:
+
+- **Your answers save themselves.** Each answer is written into the round's file a moment after you give it. When you're done, tell Claude the answers are ready; there's nothing to copy.
+- **New rounds open by themselves.** A round that lands in the folder opens right away. If you're partway through another round, it waits in **Load** instead, with a notice and a count on the Load button.
+- **Corrected rounds arrive too.** When Claude rewrites a round you've started, the answers to questions that didn't change stay. If an answer would be cleared, the new version waits: **Review** on the round lets you keep yours or replace them.
+
+This works in Chrome and Edge on a computer, while the wizard is open. In a browser tab, the browser asks for your OK again on a later visit: choose **Allow on every visit** there, and it stops asking. The installed app keeps access by itself. **Load** lists the folders the wizard has, each with **Forget**.
+
 ## Your answers stay with you
 
-Rounds and answers are kept in your own browser, and files go only where you save them. Nothing you answer is sent anywhere; the page only loads its fonts from Google Fonts.
+Rounds and answers are kept in your own browser, and files go only where you save them. With a project folder connected, your answers are also written into that folder's round files, and nowhere else. Nothing you answer is sent anywhere; the page only loads its fonts from Google Fonts.
 
 Each copy of the wizard keeps its own list of rounds, and clearing a browser's site data erases that list. **Back up all rounds**, in the Load panel and next to Clear everything in Options, writes every round and its answers to one file. Load that file in any copy of the wizard to bring the rounds back: it adds what's missing, updates what the backup has a newer copy of, and asks before touching a round that changed after the backup was made.
 
@@ -43,7 +53,7 @@ Each copy of the wizard keeps its own list of rounds, and clearing a browser's s
 
 ## Versions
 
-- **Wizard: 0.5.1.** It's shown at the bottom of the wizard's Options panel.
-- **Skill: 0.4.0.** It's in the skill's `SKILL.md`. It needs wizard 0.3.0 or later, and 0.4.0 for rounds with ranking, number, or bracket questions.
+- **Wizard: 0.6.0.** It's shown at the bottom of the wizard's Options panel.
+- **Skill: 0.5.0.** It's in the skill's `SKILL.md`. It needs wizard 0.3.0 or later, 0.4.0 for rounds with ranking, number, or bracket questions, and 0.6.0 for project folders.
 
 A minor update bumps the last number (0.2.2). A major update bumps the middle number (0.3.0). What changed in each version is in [CHANGELOG.md](CHANGELOG.md).

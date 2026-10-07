@@ -2,6 +2,25 @@
 
 What changed in the Decision Wizard and the d-wizard skill, newest first. The wizard and the skill keep their own version numbers.
 
+## Wizard 0.6.0 and skill 0.5.0, 7 October 2026
+
+### Added
+- Wizard: project folders, for rounds Claude Code writes. A round can name its project and the folder its file is in. When one loads, the wizard says which project it's from and where it will save, and asks you to pick that folder once. It checks that the folder holds the round, then remembers it for the project. Chrome and Edge on a computer.
+- Wizard: answers save themselves. With the folder connected, every answer and note is written into the round's file a moment later, in the saved-file form. A chip beside the section names the project and says when it last saved, and the summary says where the answers are. A round you haven't touched stays exactly as Claude wrote it.
+- Wizard: new rounds open by themselves. A round that lands in a connected folder opens right away. While you're partway through another round it waits in Load instead, with a notice, a count on the Load button, and a New mark in the list. A corrected version of a round you already have arrives the same way, and the answers to questions that didn't change stay. When answers would be cleared, the new version waits for your look instead, with Review on the round, and nothing is saved over Claude's file until you've chosen.
+- Wizard: Load lists the project folders the wizard has, each with its state, Allow when the browser wants your OK again, and Forget.
+- Skill: a round written into a project's `wizard-rounds/` folder names the project and the folder, in `config.project` and `config.folder`, and Claude reads the answers from the round file once you say you've answered.
+
+### Changed
+- Wizard: a round's title is its identity within its project, so two projects can each have a round with the same title. Rounds with no project behave as before.
+- Wizard: Save writes into the project's folder when the round's folder is connected.
+- Wizard: with several wizard pages open, each page follows the rounds another one adds or deletes, and the answers given there to the round it has open.
+- Skill: the message around a round can be three short sentences, and a round in a project folder is handed over without asking for a paste back.
+
+### Fixed
+- Wizard: a bracket you were partway through is kept when a new version of its round loads, as long as its question didn't change.
+- Wizard: Clear everything no longer waits for other open wizard pages to let go of the stored file handles.
+
 ## Wizard 0.5.1, 6 October 2026
 
 ### Fixed

@@ -1,14 +1,16 @@
 ---
 name: "d-wizard"
-description: Communicate a set of questions, decisions, or approvals as a Decision Wizard questions JSON instead of long prose. Use this skill whenever the user says "d-wizard", "communicate through the wizard", "wizard this", "ask me through the wizard", "decision wizard", "decision round", or asks to turn open questions into a wizard; and proactively when open decisions need evidence attached to be answered well (conflicting sources, a table to compare), when content items need one-by-one approval (copy lines, assets, table rows, sections), or when new open decisions come up while acting on a previous round's answers, on any topic. Also use it to interpret and act on an answers JSON the user pastes back or points to as a file, recognizable by meta.tool = "decision-wizard". Do not use it for quick clarifications, for approving your own next steps, for a single question, or for questions meant for a teammate.
+description: Communicate a set of questions, decisions, or approvals as a Decision Wizard questions JSON instead of long prose. Use this skill whenever the user says "d-wizard", "communicate through the wizard", "wizard this", "ask me through the wizard", "decision wizard", "decision round", or asks to turn open questions into a wizard; and proactively when open decisions need evidence attached to be answered well (conflicting sources, a table to compare), when content items need one-by-one approval (copy lines, assets, table rows, sections), or when new open decisions come up while acting on a previous round's answers, on any topic. Also use it to interpret and act on an answers JSON the user pastes back, points to as a file, or says is ready in the project's wizard-rounds folder, recognizable by meta.tool = "decision-wizard". Do not use it for quick clarifications, for approving your own next steps, for a single question, or for questions meant for a teammate.
 metadata:
-  version: "0.4.0"
-compatibility: Needs Decision Wizard 0.3.0 or later, and 0.4.0 for rounds with ranking, number, or bracket questions. Older wizards still open plain rounds, but show no recommendations and give no way to add a note to a pick.
+  version: "0.5.0"
+compatibility: Needs Decision Wizard 0.3.0 or later, 0.4.0 for rounds with ranking, number, or bracket questions, and 0.6.0 for a project's rounds to open in the wizard by themselves and for answers to be saved back into the round file. Older wizards still open plain rounds, but show no recommendations and give no way to add a note to a pick.
 ---
 
 # Decision Wizard
 
 The Decision Wizard is a standalone HTML page, hosted at https://abdurrahmankh.github.io/decision-wizard/; the user may also keep a copy of their own. You will never see it, never generate it, and never edit it; it may not even exist in your context, and that is fine. Your entire job is to produce one valid **questions JSON**. The user loads it into their wizard, clicks through the questions one at a time, and returns an **answers JSON**, pasted or as a file. This replaces walls of prose: instead of explaining five issues in one long message, you ship five self-contained questions and receive five decisions.
+
+Inside a project folder the wizard can carry both ends by itself. Once the user has connected the project's `wizard-rounds/` folder to their wizard, a round you write there opens in the wizard without being loaded, and their answers are saved into the round file as they go, where you read them. This needs wizard 0.6.0 in Chrome or Edge on a computer; everywhere else the round is loaded and the answers are returned by hand, as before.
 
 If the user asks where the wizard is, or may not have one, point them to https://abdurrahmankh.github.io/decision-wizard/. Any copy of the wizard, hosted or their own, opens any valid questions JSON. Do not attempt to build or describe the HTML, and never open, read, or edit the user's own copy.
 
@@ -61,7 +63,18 @@ Top level:
 
 `config.needs_wizard` names the oldest wizard the round is made for: `"0.4.0"` when the round has a ranking, number, or bracket question, and `"0.3.0"` otherwise. A wizard older than the version a round names warns when the round loads.
 
-`config.title` is the round's identity in the user's wizard. The wizard keeps every round the user loads, and a round arriving with the title of one already saved replaces it as a new version: answers carry over for questions whose id, title, question, and options are unchanged (in a batch, rows whose id and label are unchanged), and the wizard asks before clearing the rest. So give every new round its own title that names the round number ("Checkout Redesign, Round 2"). Reuse a title only to resend a corrected version of the same round, and keep every unchanged question identical so its answer survives.
+`config.project` and `config.folder` go only on a round you write into a project's `wizard-rounds/` folder (see Delivering a round):
+
+```json
+"config": { "title": "Checkout Redesign, Round 2", "needs_wizard": "0.3.0", "project": "web-store", "folder": "/Users/sam/code/web-store/wizard-rounds" }
+```
+
+- `project` is the project's name: the name of the repository, or of its root folder.
+- `folder` is the full path of the `wizard-rounds/` folder the round file is in, written the way the user's file manager shows it. On Windows that is the drive letter and backslashes, each backslash doubled in JSON (`"D:\\code\\web-store\\wizard-rounds"`), never a `/mnt/d/...` or `/d/...` form.
+
+The wizard shows both when the round loads, so the user sees which project the round is from and where the answers will be saved, and it uses the folder to recognize the project the next time. The first round from a project asks the user to pick that folder once, since a web page cannot open a folder from a written path. Leave both fields out everywhere else: a round delivered as a chat file or a code block has no folder to name. They never change `needs_wizard`; an older wizard ignores them.
+
+`config.title` is the round's identity in the user's wizard, within its project. The wizard keeps every round the user loads, and a round arriving with the title of one already saved replaces it as a new version: answers carry over for questions whose id, title, question, and options are unchanged (in a batch, rows whose id and label are unchanged), and the wizard asks before clearing the rest. So give every new round its own title that names the round number ("Checkout Redesign, Round 2"). Reuse a title only to resend a corrected version of the same round, and keep every unchanged question identical so its answer survives.
 
 Per question:
 
@@ -122,17 +135,29 @@ For a complete worked round demonstrating every feature, read `references/exampl
 
 File first. Whenever you can write files, deliver the round as a `.json` file named `<YYYY-MM-DD>-<topic>-round<N>.json` (today's date, a short kebab-case topic, the round number) and give its path in the message.
 
-- Working inside a project folder (a git repository): write the file to `wizard-rounds/` at the project root. The first time you write a round in a project, check that `wizard-rounds/` is listed in the project's `.gitignore` and add it if it is not.
+- Working inside a project folder (a git repository): write the file to `wizard-rounds/` at the project root, and set `config.project` and `config.folder`. The first time you write a round in a project, check that `wizard-rounds/` is listed in the project's `.gitignore` and add it if it is not.
 - Anywhere else: write it wherever your file outputs go, and make it visible to the user the way your environment shows files.
 - Only when no file tools exist: output the JSON in a single fenced `json` code block.
 
-Surround the round with at most two sentences. Do not restate the questions in prose; the JSON is the communication, and duplicating it defeats the purpose. Tell the user to load the file into their wizard, at https://abdurrahmankh.github.io/decision-wizard/ if they don't have one, or to paste the block, and to return the exported answers as a paste or a file path.
+Surround the round with at most three short sentences. Do not restate the questions in prose; the JSON is the communication, and duplicating it defeats the purpose.
+
+- A round in a project's `wizard-rounds/` folder: give the file's path, say that it opens by itself in a wizard that already has this project's folder, and that otherwise they load the file once and pick the folder when the wizard asks. Ask them to tell you when they have answered; there is nothing to paste back.
+- Any other round: tell the user to load the file into their wizard, at https://abdurrahmankh.github.io/decision-wizard/ if they don't have one, or to paste the block, and to return the exported answers as a paste or a file path.
+
+To correct a round the user may already have, write the corrected round to the same file under the same title. A wizard that has the folder picks up the new version by itself, keeps the answers to questions that did not change, and asks the user before clearing any. A new round is always a new file with a new title.
 
 In Claude Code, after writing the first round of a session, also open the hosted wizard in the user's browser so it is ready to load the file: run the system's command for opening a link (`open` on macOS, `xdg-open` on Linux, `start` or `Start-Process` on Windows) with https://abdurrahmankh.github.io/decision-wizard/. Claude Code asks the user's permission before running it unless they have already allowed it. Open it once per session, not for every round; skip it if the user has said not to; and never open a local copy. Where you cannot run commands, as in Claude, give the link instead.
 
 ## Consuming the answers JSON
 
-The answers arrive pasted in the chat or as a file path. Recognize them by `meta.tool = "decision-wizard"`, never by file name. If the user says the answers are ready without giving a path or a paste, look in `wizard-rounds/` for the newest `.json` file whose `meta.tool` is `decision-wizard`. A round file you wrote carries `config` at the top level and no `meta`, but it can come back changed: when the user opens a round file in a browser that allows it and saves, the wizard writes the answers into that same file. Downloaded saves are named `<title>-answers-<YYYY-MM-DD>.json`. If nothing is there, ask for the path or a paste.
+The answers arrive pasted in the chat, as a file path, or inside the round file itself. Recognize them by `meta.tool = "decision-wizard"`, never by file name.
+
+For a round you wrote into a project's `wizard-rounds/` folder, read that file again when the user says they have answered, or says anything that implies it:
+
+- **The file now carries `meta` and `answers`:** a wizard that has the folder wrote them, and keeps the file current with every answer. Act on it.
+- **The file is still exactly as you wrote it,** with `config` at the top level and no `meta`: no answer has reached it. The user's wizard may not have the folder, or may be an older one. Look for another `.json` file in `wizard-rounds/` whose `meta.tool` is `decision-wizard` and whose `meta.wizard_title` is this round's title; downloaded saves are named `<title>-answers-<YYYY-MM-DD>.json`. If there is none, ask for a paste or a file path.
+
+If the user says answers are ready and you wrote no round in this conversation, look in `wizard-rounds/` for the newest `.json` file whose `meta.tool` is `decision-wizard`, and say which round you took it to be. Do not write to a round file the user is answering, except to send a corrected version of the round.
 
 What comes back:
 
@@ -156,11 +181,12 @@ What comes back:
 }
 ```
 
-`issue` is the title and `question` is the question; rounds made before the question line come back without `question`. A ranking comes back with `"status":"ranked"` and its list, best first; a number question with a number and its `unit`; a bracket with its winner and every match. A note the user wrote comes back as `comment` on its question, follow-up, or row; questions and follow-ups without one have no `comment` field. A file saved from the wizard carries the same `meta` and `answers`, plus the whole round under `round` (`{"config": {...}, "questions": [...]}`). When `round` is present, it is the exact version the user answered: read options, notes, and row labels from it, and use it to reconcile ids.
+`issue` is the title and `question` is the question; rounds made before the question line come back without `question`. A ranking comes back with `"status":"ranked"` and its list, best first; a number question with a number and its `unit`; a bracket with its winner and every match. A note the user wrote comes back as `comment` on its question, follow-up, or row; questions and follow-ups without one have no `comment` field. A file saved from the wizard, by the Save button or into the project's folder, carries the same `meta` and `answers`, plus the whole round under `round` (`{"config": {...}, "questions": [...]}`). When `round` is present, it is the exact version the user answered: read options, notes, and row labels from it, and use it to reconcile ids.
 
 Handling rules:
 
 - `open` means still undecided. Record it as open wherever the decision lives. Never fill it in yourself.
+- A round file is saved as the user goes, so it can be read mid-round. `meta.open` counts what is still open: when the user says they are done and questions are open, those are deliberately open; when they have not said so, the round may simply not be finished.
 - Every answer, typed answer, and position stated in a comment is settled, per Decisions stay decided. A Discuss or Rework answer whose comment states a position is that position; only what the comment leaves open is still open.
 - `custom` is the user's verbatim decision and is authoritative. Act on it. Ask a follow-up only when it is genuinely ambiguous, and quote the ambiguous part when asking.
 - A `comment` next to a pick is part of the decision: act on the pick with the comment's condition or detail attached. A `comment` on an open question works like Discuss: a position it states is settled, and only what it leaves open stays open.

@@ -282,7 +282,7 @@ details.fmt summary{cursor:pointer;font-size:calc(13px*var(--fs));font-weight:70
 .dropveil.on{display:flex}
 .dropveil div{border:3px dashed #D2A62F;border-radius:20px;background:var(--card);color:var(--ink);padding:28px 36px;text-align:center;font-family:'Bricolage Grotesque',sans-serif;font-size:calc(24px*var(--fs));font-weight:800;pointer-events:none}
 .dropveil small{display:block;font-family:'IBM Plex Sans',sans-serif;font-size:calc(14px*var(--fs));font-weight:500;color:var(--muted);margin-top:6px}
-.toast{position:fixed;left:50%;bottom:20px;transform:translate(-50%,20px);width:max-content;max-width:min(560px,calc(100% - 32px));background:var(--btn-bg);color:var(--btn-fg);border-radius:12px;padding:11px 16px;font-size:calc(14px*var(--fs));font-weight:600;line-height:1.45;box-shadow:0 10px 30px rgba(0,0,0,.25);z-index:80;opacity:0;pointer-events:none;transition:opacity .18s,transform .18s}
+.toast{position:fixed;left:50%;bottom:calc(20px + var(--lift,0px));transform:translate(-50%,20px);width:max-content;max-width:min(560px,calc(100% - 32px));background:var(--btn-bg);color:var(--btn-fg);border-radius:12px;padding:11px 16px;font-size:calc(14px*var(--fs));font-weight:600;line-height:1.45;box-shadow:0 10px 30px rgba(0,0,0,.25);z-index:80;opacity:0;pointer-events:none;transition:opacity .18s,transform .18s}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 .toast.bad{background:var(--red);color:#fff}
 
@@ -471,6 +471,52 @@ footer{margin-top:34px;padding-top:14px;border-top:3px solid var(--ink);font-siz
 .sumsub{color:var(--muted);font-size:calc(13.5px*var(--fs))}
 .lbar{margin:0 0 10px}
 .odanger .crow{margin-top:0}
+.chiprow{display:flex;align-items:center;justify-content:space-between;gap:8px 12px;flex-wrap:wrap;margin:4px 0 14px}
+.chiprow .section-chip{margin:0}
+.pchip{display:inline-flex;align-items:center;gap:7px;max-width:100%;min-height:26px;font-size:calc(12.5px*var(--fs));color:var(--muted);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:2px 11px}
+.pchip svg{flex:none}
+.pchip b{color:var(--ink);font-weight:700;max-width:24ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pchip .pst{white-space:nowrap}
+.pchip.ok svg,.pchip.ok .pst{color:var(--green)}
+.pchip.bad{border-color:var(--red)}
+.pchip.wait{border-color:var(--gold)}
+.pchip.wait .pst{color:var(--amber)}
+.pchip.bad .pst{color:var(--red);font-weight:700}
+.pact{border:0;background:var(--btn-bg);color:var(--btn-fg);border-radius:999px;padding:3px 11px;margin:0 -8px 0 2px;font-size:calc(12.5px*var(--fs));font-weight:700;cursor:pointer;white-space:nowrap}
+.pact:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.sumproj{display:flex;align-items:center;gap:10px;flex-wrap:wrap;border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:10px 14px;margin:0 0 16px;font-size:calc(14.5px*var(--fs));line-height:1.5}
+.sumproj svg{flex:none;color:var(--muted)}
+.sumproj span{flex:1;min-width:200px}
+.sumproj b{overflow-wrap:anywhere}
+.sumproj.ok{border-color:var(--green);background:var(--green-soft)}
+.sumproj.ok svg{color:var(--green)}
+.sumproj.bad{border-color:var(--red);background:var(--red-soft)}
+.sumproj.wait{border-color:var(--gold);background:var(--gold-soft)}
+.frow{display:flex;align-items:stretch;border:1px solid var(--line);border-radius:12px;background:var(--card);margin-bottom:8px;overflow:hidden}
+.frow.ok{border-color:var(--green)}
+.fmain{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;padding:10px 12px}
+.fname{font-weight:700;font-size:calc(14.5px*var(--fs));line-height:1.35}
+.fpath{font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;font-size:calc(11.5px*var(--fs));line-height:1.45;color:var(--muted);overflow-wrap:anywhere}
+.fstate{font-size:calc(12px*var(--fs));font-weight:600;color:var(--amber)}
+.frow.ok .fstate{color:var(--green)}
+.fbtn{flex:none;border:0;border-left:1px solid var(--line2);background:var(--gold-soft);color:var(--amber);padding:0 14px;font-size:calc(12.5px*var(--fs));font-weight:700;cursor:pointer}
+.fbtn:hover{filter:brightness(1.06)}
+.fbtn:focus-visible{outline:3px solid var(--gold);outline-offset:-3px}
+.lnew{font-weight:800;color:var(--btn-fg);background:var(--btn-bg);border-radius:999px;padding:0 8px}
+.lproj{font-weight:700;color:var(--ink)}
+.hbadge{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:#D2A62F;color:#221B06;font-size:calc(11.5px*var(--fs));font-weight:800;font-variant-numeric:tabular-nums}
+.notices{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:44;display:flex;flex-direction:column-reverse;gap:8px;width:min(620px,calc(100% - 24px));pointer-events:none}
+.notices:empty{display:none}
+.wrap::after{content:"";display:block;height:var(--lift,0px)}
+.notice{pointer-events:auto;display:flex;align-items:center;gap:10px;background:var(--card);color:var(--ink);border:1.5px solid var(--gold);border-radius:14px;padding:9px 10px 9px 14px;box-shadow:0 12px 30px rgba(0,0,0,.28);font-size:calc(14px*var(--fs));line-height:1.45}
+.notice.bad{border-color:var(--red)}
+.notice .ntext{flex:1;min-width:0;overflow-wrap:anywhere}
+.notice .btn{flex:none;padding:7px 14px}
+.nclose{flex:none;border:0;background:transparent;color:var(--muted);width:28px;height:28px;border-radius:999px;font-size:calc(13px*var(--fs));cursor:pointer}
+.nclose:hover{background:var(--line2);color:var(--ink)}
+.nclose:focus-visible{outline:3px solid var(--gold);outline-offset:1px}
+.cbox:focus{outline:none}
+.cpath{font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;font-size:calc(13px*var(--fs));line-height:1.5;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 11px;overflow-wrap:anywhere;-webkit-user-select:all;user-select:all}
 [hidden]{display:none!important}
 @media (max-width:700px){.mcard{margin:12px auto}#mbody{padding:4px 14px 16px}.ctx{padding:12px 12px 10px}}
 </style>
@@ -480,7 +526,7 @@ footer{margin-top:34px;padding-top:14px;border-top:3px solid var(--ink);font-siz
   <div class="head-in">
     <h1 id="wiztitle">Decision Wizard</h1>
     <div class="head-meta" id="headmeta"></div>
-    <button type="button" class="hbtn" id="openbtn" data-action="open-drawer" aria-haspopup="dialog" aria-label="Load a round"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span class="hlab">Load</span></button>
+    <button type="button" class="hbtn" id="openbtn" data-action="open-drawer" aria-haspopup="dialog" aria-label="Load a round"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span class="hlab">Load</span><span class="hbadge" id="loadbadge" hidden></span></button>
     <button type="button" class="hbtn" id="savebtn" data-action="save" aria-label="Save the round and its answers"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg><span class="hlab">Save</span></button>
     <button type="button" class="icon-btn" id="optsbtn" data-action="open-options" aria-haspopup="dialog" aria-label="Options"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M19.15 10.08 L22.10 10.58 L22.10 13.42 L19.15 13.92 L18.41 15.70 L20.15 18.14 L18.14 20.15 L15.70 18.41 L13.92 19.15 L13.42 22.10 L10.58 22.10 L10.08 19.15 L8.30 18.41 L5.86 20.15 L3.85 18.14 L5.59 15.70 L4.85 13.92 L1.90 13.42 L1.90 10.58 L4.85 10.08 L5.59 8.30 L3.85 5.86 L5.86 3.85 L8.30 5.59 L10.08 4.85 L10.58 1.90 L13.42 1.90 L13.92 4.85 L15.70 5.59 L18.14 3.85 L20.15 5.86 L18.41 8.30Z"/><circle cx="12" cy="12" r="3"/></svg></button>
   </div>
@@ -537,15 +583,18 @@ footer{margin-top:34px;padding-top:14px;border-top:3px solid var(--ink);font-siz
     <textarea id="qpaste" spellcheck="false" aria-label="Paste a round, a saved file, answers JSON, or a backup" placeholder="A round, a saved file, answers JSON, or a backup"></textarea>
     <div class="crow"><button type="button" class="btn sec" data-action="paste-load">Load</button></div>
     <div class="status" id="loader-status"></div>
+    <div class="dsec">Project folders</div>
+    <div id="folderlist"></div>
     <div class="dsec">Rounds in this browser</div>
     <div class="crow lbar"><button type="button" class="btn sec" data-action="backup-all">Back up all rounds</button><button type="button" class="btn sec" data-action="pick-file">Restore from a backup</button></div>
     <div id="liblist"></div>
     <details class="fmt">
       <summary>What the files look like</summary>
-      <div class="ldef"><b>Round.</b> Either a bare array of questions, or an object {config, questions} where config sets {title, tagline, product}. Each question: <b>id</b>, <b>section</b>, <b>title</b>, <b>options</b> (array of strings). Ids must be unique, and so must row ids inside one batch. Optional: <b>question</b> (the question itself, shown large, with the title as a small topic line above it; the sidebar keeps the title); <b>context</b>; <b>detail</b> (array of {kind: quote, note, or code, src, text}; code keeps indentation and line breaks and shows src exactly as written, such as a file path and line); <b>links</b> (array of {label, url}); <b>extra</b> ({label, blocks:[{kind: text, text}, {kind: table, title, columns, rows}, {kind: quote, src, text}, {kind: note, text}, or {kind: code, src, text}]}, or a list of them for several buttons) for context popups; <b>customLabel</b>; <b>custom</b>: false; <b>skip</b>: false; <b>recommend</b> (the label of the recommended option) with <b>because</b> (the reason, finishing "I recommend this because"), on a question, a follow-up, or a batch row. For a batch table set <b>type</b>: "batch" and <b>items</b>: [{id, label, note}], sharing one options set per row. Every question and every row takes a note with the pen. <b>type</b>: "rank" makes a ranking of 2 to 10 options (recommend is the whole order); "number" takes <b>min</b>, <b>max</b>, <b>step</b>, and <b>unit</b> instead of options (recommend is a number); "bracket" runs 4 to 32 options in knockout pairs, in the listed order. In config, <b>needs_wizard</b> names the oldest wizard version the round is made for.</div>
+      <div class="ldef"><b>Round.</b> Either a bare array of questions, or an object {config, questions} where config sets {title, tagline, product}. Each question: <b>id</b>, <b>section</b>, <b>title</b>, <b>options</b> (array of strings). Ids must be unique, and so must row ids inside one batch. Optional: <b>question</b> (the question itself, shown large, with the title as a small topic line above it; the sidebar keeps the title); <b>context</b>; <b>detail</b> (array of {kind: quote, note, or code, src, text}; code keeps indentation and line breaks and shows src exactly as written, such as a file path and line); <b>links</b> (array of {label, url}); <b>extra</b> ({label, blocks:[{kind: text, text}, {kind: table, title, columns, rows}, {kind: quote, src, text}, {kind: note, text}, or {kind: code, src, text}]}, or a list of them for several buttons) for context popups; <b>customLabel</b>; <b>custom</b>: false; <b>skip</b>: false; <b>recommend</b> (the label of the recommended option) with <b>because</b> (the reason, finishing "I recommend this because"), on a question, a follow-up, or a batch row. For a batch table set <b>type</b>: "batch" and <b>items</b>: [{id, label, note}], sharing one options set per row. Every question and every row takes a note with the pen. <b>type</b>: "rank" makes a ranking of 2 to 10 options (recommend is the whole order); "number" takes <b>min</b>, <b>max</b>, <b>step</b>, and <b>unit</b> instead of options (recommend is a number); "bracket" runs 4 to 32 options in knockout pairs, in the listed order. In config, <b>needs_wizard</b> names the oldest wizard version the round is made for, and a round written into a project sets <b>project</b> (the project's name) and <b>folder</b> (the full path of the folder the round file is in).</div>
       <div class="ldef"><b>Saved file.</b> What Save writes: the answers JSON (meta and answers, the same as Copy answers JSON) with the whole round under <b>round</b>, so opening it picks up where you left off.</div>
       <div class="ldef"><b>Answers JSON.</b> Answers on their own merge into the round with the same title, or into the open round: matching ids overwrite, and open entries are ignored unless they carry a note. A note comes back as <b>comment</b>.</div>
       <div class="ldef"><b>Backup.</b> What Back up all rounds writes: every round in this browser with its answers, each in the saved-file form, under <b>rounds</b>. Loading a backup adds the rounds that are missing here and brings back the ones the backup has a newer copy of. When a round changed here after the backup was made, the wizard asks whether to keep it.</div>
+      <div class="ldef"><b>Project folders.</b> When a round names its folder, the wizard offers to save your answers into it. Pick the folder once, in Chrome or Edge on a computer. From then on your answers are written into the round's file as you go, in the saved-file form, and a new round landing in that folder opens by itself, or waits in the list while you are partway through another.</div>
       <div class="ldef"><b>The list.</b> Every round stays in this browser, with its answers, until you delete it. A round whose title is already in the list replaces the saved one, and answers to questions that did not change stay.</div>
     </details>
   </div>
@@ -598,7 +647,7 @@ footer{margin-top:34px;padding-top:14px;border-top:3px solid var(--ink);font-siz
     <div class="onote" id="installnote"></div>
     <div class="dsec">Saved data</div>
     <div class="odanger">
-      <p>Clear everything this browser keeps for the wizard: every round, its answers, and these options. Files you saved stay where they are.</p>
+      <p>Clear everything this browser keeps for the wizard: every round, its answers, the project folders it remembers, and these options. Files you saved stay where they are.</p>
       <div class="crow"><button type="button" class="btn sec" data-action="backup-all">Back up all rounds first</button><button type="button" class="btn danger" data-action="wipe-all">Clear everything</button></div>
     </div>
     <div class="oversion" id="oversion"></div>
@@ -606,6 +655,7 @@ footer{margin-top:34px;padding-top:14px;border-top:3px solid var(--ink);font-siz
 </aside>
 <input type="file" id="fileinput" accept=".json,application/json" hidden>
 <div class="dropveil" id="dropveil"><div>Drop to open<small>A round, a saved file, answers, or a backup</small></div></div>
+<div class="notices" id="notices" role="status" aria-live="polite"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div class="cback" id="cback">
   <div class="cbox" role="alertdialog" aria-modal="true" aria-labelledby="ctitle" aria-describedby="cmsg">
@@ -614,6 +664,7 @@ footer{margin-top:34px;padding-top:14px;border-top:3px solid var(--ink);font-siz
       <div class="cline" id="cline"></div>
       <h3 id="ctitle"></h3>
       <p id="cmsg"></p>
+      <div class="cpath" id="cpath" dir="ltr" hidden></div>
       <div class="crow"><button type="button" class="btn sec" id="cno">Cancel</button><button type="button" class="btn danger" id="cyes">Go ahead</button></div>
     </div>
   </div>
@@ -622,7 +673,7 @@ footer{margin-top:34px;padding-top:14px;border-top:3px solid var(--ink);font-siz
 <script>
 "use strict";
 /* The wizard's version. Bump the last number (0.1.1) for a minor update, the middle one (0.2.0) for a major one. */
-var WIZARD_VERSION = "0.5.1";
+var WIZARD_VERSION = "0.6.0";
 
 var CONFIG = { title:"Decision Wizard", tagline:"", product:"" };
 
@@ -663,7 +714,30 @@ function normConfig(c){
     product: typeof c.product === "string" ? c.product : ""
   };
   if(typeof c.needs_wizard === "string" && VER_RE.test(c.needs_wizard.trim())) out.needs_wizard = c.needs_wizard.trim();
+  var pj = cleanStr(c.project), fo = cleanStr(c.folder);
+  if(pj) out.project = pj.slice(0, 80);
+  if(fo) out.folder = fo.slice(0, 600);
   return out;
+}
+/* A round from a project names the project and the folder its answers save to. The folder's path, tidied, is the
+   project's key: trailing slashes dropped, and Windows paths compared without case and with either slash. The forms
+   other shells give a Windows drive (/mnt/d/code and /d/code for D:\code) count as the same folder. */
+function cleanStr(v){ return typeof v === "string" ? v.trim() : ""; }
+function folderKey(p){
+  p = cleanStr(p).replace(/[\\\/]+$/, "");
+  if(!p) return "";
+  var m = /^\/(?:mnt\/)?([A-Za-z])\/(.*)$/.exec(p);
+  if(m) p = m[1] + ":/" + m[2];
+  if(/^[A-Za-z]:[\\\/]/.test(p) || /^\\\\/.test(p) || p.indexOf("\\") !== -1) p = p.replace(/\\/g, "/").toLowerCase();
+  return p;
+}
+function projectName(o){
+  if(!o) return "";
+  if(cleanStr(o.project)) return cleanStr(o.project);
+  var parts = cleanStr(o.folder).replace(/[\\\/]+$/, "").split(/[\\\/]+/).filter(function(x){ return !!x; });
+  if(!parts.length) return "";
+  var last = parts[parts.length - 1];
+  return (last.toLowerCase() === "wizard-rounds" && parts.length > 1) ? parts[parts.length - 2] : last;
 }
 /* Versions compare number by number: 0.10.0 is newer than 0.9.2. */
 function cmpVer(a, b){
@@ -686,6 +760,20 @@ function findByTitle(title){
     if(e.titled && e.title === title && (!best || (e.changed || 0) > (best.changed || 0))) best = e;
   }
   return best;
+}
+/* A round's title is its identity within its project. Two projects can each have a "Round 1"; a round with no
+   project matches the saved round of the same title, so adding or dropping the project keeps its answers. */
+function findRound(title, fkey){
+  var exact = null, loose = null;
+  fkey = canonKey(fkey || "");
+  for(var i=0;i<LIB.rounds.length;i++){
+    var e = LIB.rounds[i];
+    if(!e.titled || e.title !== title) continue;
+    var k = canonKey(e.fkey || "");
+    if(k === fkey){ if(!exact || (e.changed || 0) > (exact.changed || 0)) exact = e; }
+    else if(!k || !fkey){ if(!loose || (e.changed || 0) > (loose.changed || 0)) loose = e; }
+  }
+  return exact || loose;
 }
 function mostRecent(){
   var best = null;
@@ -728,6 +816,10 @@ function upsertEntry(key, cfg, titled, questions, stateObj){
   e.title = cfg.title;
   e.titled = !!titled;
   e.tagline = cfg.tagline;
+  var fk = canonKey(folderKey(cfg.folder));
+  if((e.fkey || "") !== fk){ delete e.file; delete e.fsig; delete e.fsaved; }
+  if(fk){ e.fkey = fk; e.folder = cfg.folder; e.project = cleanStr(cfg.project) || (folderRec(fk) || {}).project || projectName(cfg); }
+  else { delete e.fkey; delete e.folder; delete e.project; }
   e.total = questions.length;
   e.answered = countAnswered(questions, stateObj.answers);
   e.changed = Date.now();
@@ -738,6 +830,7 @@ function saveState(){
     if(!lsSet(APFX + CURKEY, JSON.stringify(state))){ warnFull(); }
     var e = libEntry(CURKEY);
     if(e){ e.answered = answeredCount(); e.total = QUESTIONS.length; saveLib(); }
+    queueFileSave(CURKEY);
   }
   updateExportNode();
 }
@@ -782,12 +875,15 @@ function switchTo(key){
   if(!loadRoundIntoView(key)) return false;
   var e = libEntry(key), now = Date.now();
   if(prev) pauseClock(prev, now);
-  if(e){ e.opened = now; resumeClock(e, now); e.lastActiveAt = now; }
+  if(e){ e.opened = now; resumeClock(e, now); e.lastActiveAt = now; delete e.unseen; }
   LIB.current = key;
   saveLib();
   applyConfig();
   render();
   updateExportNode();
+  dropNotice("new:" + key);
+  renderBadge();
+  queueFileSave(key, true);
   return true;
 }
 function migrateV1(){
@@ -1105,7 +1201,12 @@ function renderEmpty(){
   h += '</div>';
   document.getElementById("app").innerHTML = h;
 }
-function render(){ renderCore(); renderHooks(); updateTimers(); try{ cutStaleLine(); fitBatch(); }catch(e){} }
+function render(){
+  var behind = followNew && followKey === CURKEY;
+  followWait = false; followNew = false; followShown = null;
+  renderCore(); renderHooks(); updateTimers(); try{ cutStaleLine(); fitBatch(); }catch(e){}
+  if(behind) tell("ver:" + CURKEY, 'A new version of "' + CONFIG.title + '" arrived.');
+}
 /* The round clock: from the round's first load until every question has an answer, minus the time it was paused:
    while the companion naps, while another round is open, and while the page was closed. */
 function roundClock(){
@@ -1194,7 +1295,8 @@ function chromeTop(q){
   var h = "";
   h += '<div class="progress"><div class="ptrack"><div class="pbar" style="width:' + pct + '%"></div></div>';
   h += '<div class="pcount">Issue ' + (state.idx+1) + ' of ' + QUESTIONS.length + '</div>' + TIMER_PILL + '</div>';
-  h += '<span class="section-chip">' + esc(q.section) + '</span>';
+  var chip = projectChipHTML();
+  h += chip ? '<div class="chiprow"><span class="section-chip">' + esc(q.section) + '</span>' + chip + '</div>' : '<span class="section-chip">' + esc(q.section) + '</span>';
   return h;
 }
 function chromeControls(q){
@@ -1267,6 +1369,7 @@ var ICO = {
   quote: '<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M7 7h4v4c0 3-1.5 5-4 6l-.8-1.4C7.6 14.8 8.3 13.6 8.4 12H7zm7 0h4v4c0 3-1.5 5-4 6l-.8-1.4c1.4-.8 2.1-2 2.2-3.6H14z"/></svg>',
   hat: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5.2 17.2 10.4 4.1c.4-1 1.4-1.6 2.4-1.3 1.4.4 2.9 1.6 4.6 3.9.3.4-.2.9-.6.6-1.1-.8-2.2-1.2-3.2-1.1l3.3 11z"/><path d="M1.8 18.6c0-1.4 4.5-2.6 10.2-2.6s10.2 1.2 10.2 2.6S17.7 21 12 21 1.8 20 1.8 18.6z"/><path style="fill:var(--card)" d="M11.5 9.4l.7 1.5 1.6.2-1.2 1.1.3 1.6-1.4-.8-1.4.8.3-1.6-1.2-1.1 1.6-.2z"/><path style="fill:var(--card)" d="M7.4 15.2c2.9.6 6.3.6 9.2 0l.3 1c-3 .7-6.8.7-9.8 0z"/></svg>'
 };
+ICO.folder = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>';
 ICO.grip = '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><circle cx="9" cy="6" r="1.7"/><circle cx="15" cy="6" r="1.7"/><circle cx="9" cy="12" r="1.7"/><circle cx="15" cy="12" r="1.7"/><circle cx="9" cy="18" r="1.7"/><circle cx="15" cy="18" r="1.7"/></svg>';
 ICO.up = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg>';
 ICO.down = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
@@ -1701,8 +1804,8 @@ function bkAgain(){
   if(!q || qType(q) !== "bracket") return;
   var prev = state.answers[q.id];
   if(!prev || !done1(prev)) return;
-  confirmBox({ title: "Run this bracket again?", message: 'The winner, "' + prev.answer + '", and its matches are cleared, and the bracket starts over.', ok: "Run it again", answers: 0 }).then(function(yes){
-    if(!yes) return;
+  confirmBox({ title: "Run this bracket again?", message: 'The winner, "' + prev.answer + '", and its matches are cleared, and the bracket starts over.', ok: "Run it again", answers: 0, key: CURKEY }).then(function(yes){
+    if(!yes || !cur() || cur().id !== q.id || qType(cur()) !== "bracket") return;
     state.answers[q.id] = withNote(state.answers[q.id], { status:"open", answer:"" });
     markChanged();
     saveState();
@@ -1850,6 +1953,7 @@ function renderSummary(){
   h += '<div class="sumcard">';
   h += '<h2>Answers so far</h2>';
   h += '<div class="sumstats"><b>' + exp.meta.answered + '</b> answered, <b>' + exp.meta.open + '</b> still open. Open items stay flagged in the docs. Click a row to revisit it.</div>';
+  h += sumProjHTML();
   h += '<table class="sum"><tr><th>#</th><th>Section</th><th>Issue</th><th>Answer</th></tr>';
   for(var i=0;i<QUESTIONS.length;i++){
     var q = QUESTIONS[i];
@@ -1953,8 +2057,9 @@ function openFupCustom(fi, prefill, quiet){
   if(!quiet){ customOpen = true; if(t.focus) t.focus(); }
 }
 function cancelFupCustom(fi){
-  var p = document.getElementById("fcp-" + fi);
+  var p = document.getElementById("fcp-" + fi), ft = document.getElementById("fct-" + fi);
   if(p) p.style.display = "none";
+  if(ft) ft.removeAttribute("data-typed");
   customOpen = false;
 }
 function confirmFupCustom(fi){
@@ -2049,6 +2154,8 @@ function openCustom(prefill){
 function cancelCustom(){
   var ps = document.querySelectorAll(".cpanel");
   for(var i=0;i<ps.length;i++) ps[i].style.display = "none";
+  var ts = document.querySelectorAll("#ctext, textarea.fctext");
+  for(var j=0;j<ts.length;j++) ts[j].removeAttribute("data-typed");
   customOpen = false;
 }
 function confirmCustom(){
@@ -2098,8 +2205,9 @@ function firstOpen(){
   gotoOpen(true);
 }
 function resetAll(){
-  confirmBox({ title: "Clear every answer?", message: 'Every answer in "' + (CONFIG.title || "this round") + '" is cleared, and the round starts over.', ok: "Clear answers", answers: answeredCount() }).then(function(yes){
-    if(!yes) return;
+  var rkey = CURKEY;
+  confirmBox({ title: "Clear every answer?", message: 'Every answer in "' + (CONFIG.title || "this round") + '" is cleared, and the round starts over.', ok: "Clear answers", answers: answeredCount(), key: rkey }).then(function(yes){
+    if(!yes || CURKEY !== rkey) return;
     state = { idx: 0, answers: {} };
     openComments = {};
     openNotes = {};
@@ -2164,7 +2272,11 @@ function idbOpen(){
         if(typeof indexedDB === "undefined"){ rej(new Error("No IndexedDB")); return; }
         var r = indexedDB.open("decision-wizard", 1);
         r.onupgradeneeded = function(){ try{ r.result.createObjectStore("handles"); }catch(e){} };
-        r.onsuccess = function(){ res(r.result); };
+        r.onsuccess = function(){
+          /* Another page clearing everything needs this page to let go of the store. */
+          try{ r.result.onversionchange = function(){ try{ r.result.close(); }catch(e){} IDBP = null; }; }catch(e){}
+          res(r.result);
+        };
         r.onerror = function(){ rej(r.error); };
       }catch(e){ rej(e); }
     });
@@ -2420,7 +2532,7 @@ function carryAnswers(oldQs, newQs, oldA){
     if(!own(oldA, id)) continue;
     var a0 = oldA[id];
     if(a0 && a0.status === "batch" && a0.items){ for(var r0 in a0.items){ if(own(a0.items, r0) && unitHas(a0.items[r0])) had++; } }
-    else if(a0 && (done1(a0) || hasNote(a0))) had++;
+    else if(a0 && (done1(a0) || hasNote(a0) || bkMatches(a0).length)) had++;
   }
   for(var j=0;j<newQs.length;j++){
     var nq = newQs[j], oq = byId[nq.id], a = own(oldA, nq.id) ? oldA[nq.id] : null;
@@ -2439,7 +2551,7 @@ function carryAnswers(oldQs, newQs, oldA){
         if(orow && orow.label === row.label && unitHas(ia)){ items[row.id] = ia; kept++; any = true; }
       }
       if(any){ out[nq.id] = { status: "batch", items: items }; }
-    } else if(done1(a) || hasNote(a)){
+    } else if(done1(a) || hasNote(a) || bkMatches(a).length){
       out[nq.id] = a; kept++;
       var ofu = Object.create(null);
       fups(oq).forEach(function(f){ ofu[f.id] = f; });
@@ -2482,15 +2594,34 @@ function commitRound(key, cfg, titled, qarr, incoming, st, src, msg, fresh){
   rememberHandle(key, src.handle);
   if(fresh) countStart();
   switchTo(key);
-  ingestDone(msg + writeBackNote(src.handle), true, fresh);
+  var full = msg + loadNote(key, src.handle);
+  ingestDone(full, true, fresh);
+  projectLoaded(key, src, full);
+  return true;
+}
+function openKnown(key, src, msg){
+  rememberHandle(key, src.handle);
+  switchTo(key);
+  var full = msg + loadNote(key, src.handle);
+  ingestDone(full, true);
+  projectLoaded(key, src, full);
   return true;
 }
 function writeBackNote(h){ return (h && typeof h.createWritable === "function") ? " Save writes back into " + h.name + "." : ""; }
+function loadNote(key, h){
+  var e = libEntry(key);
+  return (e && e.fkey) ? " It's from " + (e.project || "a project folder") + "." : writeBackNote(h);
+}
 function ingestText(text, src){
   src = src || {};
   var p;
   try{ p = JSON.parse(text); }
   catch(e){ ingestFail("That is not valid JSON: " + e.message, true); return false; }
+  var placed = placeFile(p, src);
+  if(placed) return placed.then(function(p2){ return ingestParsed(p2 || p, src); }, function(){ return ingestParsed(p, src); });
+  return ingestParsed(p, src);
+}
+function ingestParsed(p, src){
   if(p && typeof p === "object" && !Array.isArray(p) && p.meta && p.meta.tool === "decision-wizard"){
     if(p.meta.kind === "backup" && Array.isArray(p.rounds)) return ingestBackup(p);
     if(p.round && typeof p.round === "object" && Array.isArray(p.round.questions)) return ingestBundle(p, src);
@@ -2507,16 +2638,14 @@ function ingestRound(qarr, rawCfg, src){
   var titled = hasTitle(rawCfg);
   var cfg = normConfig(rawCfg);
   var incoming = { config: cfg, questions: qarr };
-  var ex = titled ? findByTitle(cfg.title) : null;
+  var ex = roundFor(cfg, titled, src, incoming);
+  if(cfg.folder && !ownTitle(cfg)) titled = false;
   if(!ex){ return commitRound(newKey(), cfg, titled, qarr, incoming, { idx: 0, answers: {} }, src, 'Loaded "' + cfg.title + '".', true); }
   var key = ex.key;
   var old = readJSON(RPFX + key) || { config: normConfig(null), questions: [] };
   var oldState = validState(readJSON(APFX + key));
   if(JSON.stringify(old) === JSON.stringify(incoming)){
-    rememberHandle(key, src.handle);
-    switchTo(key);
-    ingestDone('"' + cfg.title + '" was already here, so it opened with its answers.' + writeBackNote(src.handle), true);
-    return true;
+    return openKnown(key, src, '"' + cfg.title + '" was already here, so it opened with its answers.');
   }
   var carry = carryAnswers(old.questions || [], qarr, oldState.answers);
   var apply = function(){
@@ -2524,8 +2653,28 @@ function ingestRound(qarr, rawCfg, src){
     return commitRound(key, cfg, titled, qarr, incoming, st, src, 'Replaced "' + cfg.title + '" with the new version' + (carry.kept ? ", keeping " + plural(carry.kept, "answer", "answers") : "") + ".");
   };
   if(carry.dropped === 0) return apply();
-  return confirmBox({ title: "Replace the saved round?", message: 'This is a changed version of "' + cfg.title + '". ' + plural(carry.dropped, "answer belongs", "answers belong") + " to questions that changed and will be cleared.", ok: "Replace", answers: carry.dropped })
-    .then(function(yes){ if(!yes){ ingestNote("Nothing changed. The saved round is still in the list."); return false; } return apply(); });
+  var rv = src.review === key, linked = rv && !!linkedRec(ex);
+  return confirmBox({ title: "Replace the saved round?", message: 'This is a changed version of "' + cfg.title + '". ' + plural(carry.dropped, "answer belongs", "answers belong") + " to questions that changed and will be cleared." + (rv ? (linked ? " Keep mine leaves your round as it is, and saves it back over the changed file." : " Keep mine leaves your round as it is.") : ""), ok: "Replace", cancel: rv ? "Keep mine" : "", answers: carry.dropped, key: key, nodefault: rv })
+    .then(function(yes){
+      /* The round, its answers, or the version waiting for this look changed while the question stood open:
+         an answer to the question no longer applies. */
+      var le = libEntry(key);
+      var stale = JSON.stringify(readJSON(RPFX + key) || { config: normConfig(null), questions: [] }) !== JSON.stringify(old)
+        || JSON.stringify(validState(readJSON(APFX + key)).answers) !== JSON.stringify(oldState.answers)
+        || (rv && (!le || !le.update || le.usig !== sigOf(JSON.stringify(incoming))));
+      if(stale){
+        if(yes !== null && le){
+          ingestNote("The round changed while this question was open, so nothing was done.");
+          if(le.update) updNotice(le);
+        }
+        return false;
+      }
+      if(yes) return apply();
+      if(rv && yes === false){ keepMine(key, sigOf(JSON.stringify(incoming))); ingestNote(linked ? "Your round stays as it is, and is saved back into the folder." : "Your round stays as it is."); return false; }
+      if(rv){ var pe = libEntry(key); if(pe && pe.update) updNotice(pe, carry.dropped); }
+      ingestNote("Nothing changed. The saved round is still in the list.");
+      return false;
+    });
 }
 function ingestBundle(b, src){
   var qarr = b.round.questions;
@@ -2537,23 +2686,29 @@ function ingestBundle(b, src){
   var conv = answersFromExport(Array.isArray(b.answers) ? b.answers : [], qarr);
   var n = countAnswered(qarr, conv.answers);
   var st = { idx: firstOpenIn(qarr, conv.answers), answers: conv.answers };
-  var ex = titled ? findByTitle(cfg.title) : null;
+  var ex = roundFor(cfg, titled, src, incoming);
+  if(cfg.folder && !ownTitle(cfg)) titled = false;
   var key = ex ? ex.key : newKey();
   if(ex){
     var old = readJSON(RPFX + key) || { config: normConfig(null), questions: [] };
     var oldState = validState(readJSON(APFX + key));
     if(JSON.stringify(old) === JSON.stringify(incoming) && normAnswers(qarr, oldState.answers) === normAnswers(qarr, conv.answers)){
-      rememberHandle(key, src.handle);
-      switchTo(key);
-      ingestDone('Loaded "' + cfg.title + '". The file matches what this browser already had.' + writeBackNote(src.handle), true);
-      return true;
+      return openKnown(key, src, 'Loaded "' + cfg.title + '". The file matches what this browser already had.');
     }
   }
   var msg = 'Loaded "' + cfg.title + '" with ' + plural(n, "answered question", "answered questions") + ".";
   var lost = ex ? lostAnswers(validState(readJSON(APFX + key)).answers, conv.answers) : 0;
   if(lost === 0) return commitRound(key, cfg, titled, qarr, incoming, st, src, msg);
-  return confirmBox({ title: "Replace the answers in this browser?", message: '"' + cfg.title + '" is already in this browser, and ' + plural(lost, "of its answers is", "of its answers are") + " not in this file. The file's answers take their place.", ok: "Replace", answers: lost })
-    .then(function(yes){ if(!yes){ ingestNote("Nothing changed. The copy in this browser stays as it was."); return false; } return commitRound(key, cfg, titled, qarr, incoming, st, src, msg); });
+  return confirmBox({ title: "Replace the answers in this browser?", message: '"' + cfg.title + '" is already in this browser, and ' + plural(lost, "of its answers is", "of its answers are") + " not in this file. The file's answers take their place.", ok: "Replace", answers: lost, key: key })
+    .then(function(yes){
+      if(JSON.stringify(readJSON(RPFX + key) || { config: normConfig(null), questions: [] }) !== JSON.stringify(old)
+         || JSON.stringify(validState(readJSON(APFX + key)).answers) !== JSON.stringify(oldState.answers)){
+        if(yes !== null && libEntry(key)) ingestNote("The round changed while this question was open, so nothing was done.");
+        return false;
+      }
+      if(!yes){ ingestNote("Nothing changed. The copy in this browser stays as it was."); return false; }
+      return commitRound(key, cfg, titled, qarr, incoming, st, src, msg);
+    });
 }
 function ingestAnswers(p){
   var title = typeof p.meta.wizard_title === "string" ? p.meta.wizard_title : "";
@@ -2616,8 +2771,8 @@ function pasteLoad(){
 }
 
 /* Saving: back into the opened file when the browser allows, a download otherwise. */
-function saveFileName(){
-  var base = String(CONFIG.title || "decisions").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "decisions";
+function saveFileName(title){
+  var base = String(title || CONFIG.title || "decisions").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "decisions";
   var d = new Date();
   return base + "-answers-" + d.getFullYear() + "-" + pad2(d.getMonth() + 1) + "-" + pad2(d.getDate()) + ".json";
 }
@@ -2698,10 +2853,11 @@ function ingestBackup(b){
     var qarr = x.round.questions, cfg = normConfig(x.round.config), titled = hasTitle(x.round.config) && kept.titled !== false;
     var incoming = { config: cfg, questions: qarr };
     var conv = answersFromExport(Array.isArray(x.answers) ? x.answers : [], qarr);
-    var ex = titled ? findByTitle(cfg.title) : findUntitled(incoming);
+    var ex = titled ? findRound(cfg.title, canonKey(folderKey(cfg.folder))) : findUntitled(incoming);
     var item = { incoming: incoming, cfg: cfg, titled: titled, qarr: qarr, answers: conv.answers, kept: kept, ex: ex, action: "add", lost: 0 };
     if(ex){
       var old = readJSON(RPFX + ex.key) || { config: normConfig(null), questions: [] }, oldState = validState(readJSON(APFX + ex.key));
+      item.was = JSON.stringify(old);
       if(JSON.stringify(old) === JSON.stringify(incoming) && normAnswers(qarr, oldState.answers) === normAnswers(qarr, conv.answers)) item.action = "same";
       else if((kept.changed || 0) > (ex.changed || 0)) item.action = "replace";
       else { item.action = "keep"; item.lost = lostAnswers(oldState.answers, conv.answers); }
@@ -2718,6 +2874,7 @@ function ingestBackup(b){
     for(var k=0;k<plan.length;k++){
       var p = plan[k];
       if(p.action === "same" || (p.action === "keep" && !useBackup)){ kept++; continue; }
+      if(p.ex && libEntry(p.ex.key) && JSON.stringify(readJSON(RPFX + p.ex.key) || { config: normConfig(null), questions: [] }) !== p.was){ kept++; continue; }
       var key = p.ex ? p.ex.key : newKey();
       var idx = (typeof p.kept.idx === "number" && p.kept.idx >= 0 && p.kept.idx <= p.qarr.length) ? Math.floor(p.kept.idx) : firstOpenIn(p.qarr, p.answers);
       var st = { idx: idx, answers: p.answers };
@@ -2755,6 +2912,8 @@ function ingestBackup(b){
     saveLib();
     if(viewChanged){ applyConfig(); render(); updateExportNode(); }
     renderLib();
+    renderBadge();
+    folderList().forEach(function(rec){ if(rec.perm === "granted") syncFolder(rec); });
     ingestNote(msg);
     return true;
   };
@@ -2780,6 +2939,8 @@ function writeToHandle(h, text){
 function saveRound(){
   if(!CURKEY || !QUESTIONS.length){ toast(false, "Load a round first. There is nothing to save yet."); return; }
   var text = saveText(), name = saveFileName();
+  var pe = libEntry(CURKEY), prec = recOfEntry(pe);
+  if(prec && prec.perm !== "gone"){ saveIntoFolder(pe, prec); return; }
   getHandle(CURKEY).then(function(h){
     if(!h || typeof h.createWritable !== "function"){ downloadText(text, name); return; }
     return writeToHandle(h, text).then(function(){
@@ -2789,6 +2950,1350 @@ function saveRound(){
       var why = (err && err.name === "NotAllowedError") ? "The browser did not allow writing to " : "Could not write to ";
       downloadText(text, name, why + h.name + ", so it downloaded instead as ");
     });
+  });
+}
+
+/* Project folders. A round from a project names the folder its file is in. Pick that folder once, and the wizard saves
+   your answers into the round's file as you go and opens the project's new rounds by itself (Chrome and Edge on a
+   computer). Folder handles are kept in the same store as file handles, under "dir:" and the folder's key. */
+var FOLDERS = {}, ALIAS = {}, WATCH = {}, SAVE = {}, saveTimers = {}, NOTICES = [];
+var foldersReady = false, IS_WATCHER = false, pollTimer = null, BC = null, PAGE_START = Date.now();
+function fsSupported(){ return typeof window !== "undefined" && typeof window.showDirectoryPicker === "function"; }
+function canonKey(k){ return (k && own(ALIAS, k)) ? ALIAS[k] : (k || ""); }
+function folderRec(k){ k = canonKey(k); return (k && own(FOLDERS, k)) ? FOLDERS[k] : null; }
+function recOfEntry(e){ return (e && e.fkey) ? folderRec(e.fkey) : null; }
+function linkedRec(e){ var r = recOfEntry(e); return (r && r.perm === "granted") ? r : null; }
+function recName(rec){ return rec.project || projectName({ folder: rec.path }) || "this project"; }
+function folderList(){ return Object.keys(FOLDERS).map(function(k){ return FOLDERS[k]; }).sort(function(a, b){ return (a.addedAt || 0) - (b.addedAt || 0); }); }
+function dirPut(rec){
+  var data = { key: rec.key, keys: rec.keys, path: rec.path, project: rec.project, handle: rec.handle, seen: rec.seen, addedAt: rec.addedAt };
+  return idbDo("readwrite", function(st){ return st.put(data, "dir:" + rec.key); }).then(null, function(){});
+}
+function dirAll(){
+  return idbDo("readonly", function(st){ return st.getAll(IDBKeyRange.bound("dir:", "dir:￿")); }).then(function(a){ return a || []; }, function(){ return []; });
+}
+function dirPerm(rec){
+  var h = rec.handle;
+  if(!h || typeof h.queryPermission !== "function"){ rec.perm = "granted"; return Promise.resolve("granted"); }
+  return Promise.resolve().then(function(){ return h.queryPermission({ mode: "readwrite" }); })
+    .then(function(p){ rec.perm = p; return p; }, function(){ rec.perm = "prompt"; return "prompt"; });
+}
+function dirAsk(rec){
+  var h = rec.handle;
+  if(!h || typeof h.requestPermission !== "function") return dirPerm(rec);
+  return Promise.resolve().then(function(){ return h.requestPermission({ mode: "readwrite" }); })
+    .then(function(p){ rec.perm = p; return p; }, function(){ return dirPerm(rec); });
+}
+/* The records are read afresh whenever another page may have changed them. A folder this page already has keeps
+   its record and what the browser said about it, so a save that is on its way is not left without a folder. */
+function loadFolders(){
+  return dirAll().then(function(list){
+    var old = FOLDERS, next = {}, alias = {};
+    list.forEach(function(d){
+      if(!d || typeof d.key !== "string" || !d.handle) return;
+      var rec = own(old, d.key) ? old[d.key] : { key: d.key, perm: "prompt", seen: {} };
+      /* What is known about each file: the stored note, unless this page has a later one of its own (a file it
+         has just written). An older note of this page's must never win, or a file another page already took in
+         would count as new again. */
+      var seen = (d.seen && typeof d.seen === "object") ? d.seen : {};
+      for(var n in rec.seen){ if(own(rec.seen, n) && (!own(seen, n) || stampTime(rec.seen[n]) > stampTime(seen[n]))) seen[n] = rec.seen[n]; }
+      rec.keys = (Array.isArray(d.keys) && d.keys.length) ? d.keys : [d.key];
+      rec.path = d.path || d.key; rec.project = d.project || ""; rec.handle = d.handle; rec.seen = seen; rec.addedAt = d.addedAt || 0;
+      next[rec.key] = rec;
+      rec.keys.forEach(function(k){ alias[k] = rec.key; });
+    });
+    for(var wk in WATCH){ if(own(WATCH, wk)) stopWatch(wk); }
+    FOLDERS = next; ALIAS = alias;
+    return Promise.all(folderList().map(dirPerm));
+  }).then(function(){ foldersReady = true; }, function(){ foldersReady = true; });
+}
+
+/* Reading a folder: its .json files, what each one holds, and which one is a given round. */
+function stampOf(f){ return f.lastModified + ":" + f.size; }
+function stampTime(s){ return parseInt(String(s).split(":")[0], 10) || 0; }
+/* A saved file gives a round with no title the default one, so that title alone says nothing about whose file it is. */
+function ownTitle(c){ return hasTitle(c) && c.title !== normConfig(null).title; }
+/* Whether what a file holds (r, as fileRound gives it) is the round e, given e's own questions. */
+function fileIsRound(e, r, questions){
+  if(e.titled) return hasTitle(r.config) && r.config.title === e.title;
+  return !ownTitle(r.config) && JSON.stringify(r.questions) === JSON.stringify(questions);
+}
+/* A round with no title is known by its file: the round of this folder that holds the file. */
+function untitledAt(rec, name){
+  if(!rec || !name) return null;
+  for(var i=0;i<LIB.rounds.length;i++){
+    var e = LIB.rounds[i];
+    if(!e.titled && e.file === name && recOfEntry(e) === rec) return e;
+  }
+  return null;
+}
+function listJson(dir){
+  var out = [], it;
+  try{ it = dir.values(); }catch(e){ return Promise.reject(e); }
+  var step = function(){
+    return it.next().then(function(r){
+      if(r.done) return out;
+      var h = r.value;
+      if(h && h.kind === "file" && /\.json$/i.test(h.name) && out.length < 2000) out.push(h);
+      return step();
+    });
+  };
+  return step();
+}
+function fileRound(p){
+  if(Array.isArray(p)) return { saved: false, bare: true, config: null, questions: p };
+  if(!p || typeof p !== "object") return null;
+  if(p.meta && p.meta.tool === "decision-wizard"){
+    if(p.meta.kind !== "backup" && p.round && typeof p.round === "object" && Array.isArray(p.round.questions)) return { saved: true, config: p.round.config, questions: p.round.questions };
+    return null;
+  }
+  return Array.isArray(p.questions) ? { saved: false, config: p.config, questions: p.questions } : null;
+}
+function readRound(h){
+  return h.getFile().then(function(f){
+    if(f.size > 8000000) return null;
+    return readFileText(f).then(function(text){
+      var p;
+      try{ p = JSON.parse(text); }catch(e){ return null; }
+      var r = fileRound(p);
+      if(r){ r.file = f; r.text = text; }
+      return r;
+    });
+  }).then(null, function(){ return null; });
+}
+/* The file in a folder that holds a given round: the newest one that is the round by its title, or, for a round
+   with no title, by its questions. Files other rounds hold, and rounds that can't be loaded, are passed by. */
+function findFileFor(dir, e, taken){
+  var mine = readJSON(RPFX + e.key), qs = (mine && Array.isArray(mine.questions)) ? mine.questions : null;
+  if(!e.titled && !qs) return Promise.resolve(null);
+  return listJson(dir).then(function(files){
+    return Promise.all(files.map(function(h){ return (taken && own(taken, h.name)) ? null : h.getFile().then(function(f){ return { h: h, lm: f.lastModified }; }, function(){ return null; }); }));
+  }).then(function(list){
+    list = list.filter(function(x){ return !!x; }).sort(function(a, b){ return b.lm - a.lm; });
+    var i = 0;
+    var next = function(){
+      if(i >= list.length) return null;
+      var x = list[i++];
+      return readRound(x.h).then(function(r){
+        var ok = r && fileIsRound(e, r, qs) && (r.saved || !(validateQuestions(r.questions) || versionProblem(r.config)));
+        return ok ? x.h.name : next();
+      });
+    };
+    return next();
+  });
+}
+/* The files other rounds of the same folder hold: a round looking for its own file passes those by. */
+function takenNames(e){
+  var out = {}, k = canonKey(e.fkey || "");
+  LIB.rounds.forEach(function(x){ if(x.key !== e.key && x.file && canonKey(x.fkey || "") === k) out[x.file] = true; });
+  return out;
+}
+function findRoundFile(dir, e, src){
+  var via = Promise.resolve(null);
+  if(src && src.handle && typeof dir.resolve === "function"){
+    via = Promise.resolve().then(function(){ return dir.resolve(src.handle); }).then(function(parts){ return (parts && parts.length === 1) ? parts[0] : null; }, function(){ return null; });
+  }
+  return via.then(function(n){ return n || findFileFor(dir, e, takenNames(e)); });
+}
+/* Which round is being loaded by hand. A round with a title of its own is the round of that title in its folder.
+   A round from a project folder with no title of its own (a saved file gives such a round the default title) is
+   known by its file, or failing that by what it holds. Anything else is as it always was: by its title. */
+function roundFor(cfg, titled, src, incoming){
+  if(titled && ownTitle(cfg)) return findRound(cfg.title, canonKey(folderKey(cfg.folder)));
+  if(cfg.folder) return (src ? untitledAt(src.rec, src.fname) : null) || findUntitled(incoming);
+  return titled ? findRound(cfg.title, "") : null;
+}
+/* A file opened by hand that sits in the round's folder is the round's file from then on. */
+function linkOpened(e, rec, src){
+  if(!src || !src.handle || typeof rec.handle.resolve !== "function") return ensureLinked(e, rec, src);
+  return Promise.resolve().then(function(){ return rec.handle.resolve(src.handle); }).then(function(parts){
+    var n = (parts && parts.length === 1) ? parts[0] : null;
+    if(n && n !== e.file){ patchEntry(e, { file: n, fsig: undefined }); releaseFile(rec, n, e.key); }
+    return n || ensureLinked(e, rec, src);
+  }, function(){ return ensureLinked(e, rec, src); });
+}
+function ensureLinked(e, rec, src){
+  if(e.file) return Promise.resolve(e.file);
+  return findRoundFile(rec.handle, e, src).then(function(n){ if(n){ patchEntry(e, { file: n }); releaseFile(rec, n, e.key); } return n; }, function(){ return null; });
+}
+
+/* Watching. One open wizard page watches the folders (the others follow what it stores). A folder is read again
+   when the browser reports a change in it, every few seconds, and when you come back to the page. Most of the
+   timed looks are light: they only check for files not seen before; every fifth also checks the known files for
+   changes. A scan only reads: it brings in rounds Claude wrote, and never touches a file. */
+var pollCount = 0;
+function pollScan(){ pollCount++; scanAll(pollCount % 5 !== 0); }
+function startWatch(rec){
+  if(!IS_WATCHER || rec.perm !== "granted") return;
+  var w = WATCH[rec.key] || (WATCH[rec.key] = {});
+  if(w.on) return;
+  w.on = true;
+  if(typeof window.FileSystemObserver === "function"){
+    try{
+      w.observer = new window.FileSystemObserver(function(){ scanSoon(rec); });
+      Promise.resolve(w.observer.observe(rec.handle)).then(null, function(){ w.observer = null; });
+    }catch(e){ w.observer = null; }
+  }
+}
+function stopWatch(key){
+  var w = WATCH[key];
+  if(w){
+    try{ if(w.observer) w.observer.disconnect(); }catch(e){}
+    if(w.timer) clearTimeout(w.timer);
+  }
+  delete WATCH[key];
+}
+function scanSoon(rec, ms){
+  var w = WATCH[rec.key];
+  if(!w || !w.on) return;
+  if(w.timer) clearTimeout(w.timer);
+  w.timer = setTimeout(function(){ w.timer = null; scanFolder(rec); }, ms || TIMING.scanDelay);
+}
+function scanAll(light){
+  if(!IS_WATCHER || !foldersReady || !watchReady) return Promise.resolve();
+  return Promise.all(folderList().map(function(rec){
+    if(rec.perm === "granted"){ startWatch(rec); return scanFolder(rec, light === true); }
+    if(rec.perm === "gone"){ return light === true ? undefined : scanFolder(rec); }
+    return dirPerm(rec).then(function(p){ if(p === "granted"){ startWatch(rec); foldersChanged(); return scanFolder(rec); } });
+  }));
+}
+/* A folder the browser no longer lets the wizard into waits for an OK; one that can't be read at all (moved, deleted,
+   or on a drive that's away) is looked for again now and then. */
+function folderTrouble(rec, err){
+  var was = rec.perm;
+  rec.perm = (err && (err.name === "NotAllowedError" || err.name === "SecurityError")) ? "prompt" : "gone";
+  stopWatch(rec.key);
+  if(was !== rec.perm) foldersChanged();
+}
+function scanFolder(rec, light){
+  var w = WATCH[rec.key] || (WATCH[rec.key] = {});
+  if(w.busy){ w.again = true; if(!light) w.full = true; return w.busy; }
+  var changed = false, retry = false;
+  w.busy = listJson(rec.handle).then(function(files){
+    var names = {}, chain = Promise.resolve();
+    files.forEach(function(h){
+      names[h.name] = true;
+      if(light && own(rec.seen, h.name)) return;
+      chain = chain.then(function(){
+        return h.getFile().then(function(f){
+          var stamp = stampOf(f);
+          if(rec.seen[h.name] === stamp) return;
+          return considerFile(rec, h.name, f, stamp).then(function(done){
+            if(done){ rec.seen[h.name] = stamp; changed = true; } else { retry = true; }
+          });
+        }).then(null, function(err){ if(err && (err.name === "NotAllowedError" || err.name === "SecurityError")) throw err; });
+      });
+    });
+    return chain.then(function(){
+      for(var n in rec.seen){ if(own(rec.seen, n) && !names[n]){ delete rec.seen[n]; changed = true; dropNotice("bad:" + rec.key + ":" + n); } }
+    });
+  }).then(function(){
+    if(rec.perm !== "granted"){ rec.perm = "granted"; startWatch(rec); foldersChanged(); syncFolder(rec); }
+  }, function(err){ folderTrouble(rec, err); });
+  var after = function(){
+    w.busy = null;
+    if(changed) dirPut(rec);
+    if(w.again){ var full = !!w.full; w.again = false; w.full = false; return scanFolder(rec, !full); }
+    if(retry) scanSoon(rec, 900);
+  };
+  w.busy = w.busy.then(after, after);
+  return w.busy;
+}
+/* One file that is new or changed. Answers true once the file is dealt with, false to look at it again shortly
+   (a file caught half written). */
+function considerFile(rec, name, f, stamp){
+  var w = WATCH[rec.key] || {};
+  if(f.size > 8000000) return Promise.resolve(true);
+  return readFileText(f).then(function(text){
+    if(!text.trim()) return true;
+    var p;
+    try{ p = JSON.parse(text); }
+    catch(e){
+      /* Caught half written, most likely: say nothing unless it still reads the same a moment later. */
+      var halves = w.half || (w.half = {}), h = halves[name], now = Date.now();
+      if(!h || h.stamp !== stamp){ halves[name] = { stamp: stamp, at: now }; return false; }
+      if(now - h.at < 800) return false;
+      delete halves[name];
+      fileNotice(rec, name, "isn't valid JSON: " + e.message);
+      return true;
+    }
+    if(w.half) delete w.half[name];
+    var r = fileRound(p), badId = "bad:" + rec.key + ":" + name;
+    if(!r){ dropNotice(badId); return true; }
+    var inc = fromFolder(rec, r);
+    if(r.saved){
+      /* A saved file is never loaded from here; it only shows which round's file it is. */
+      var se = ownTitle(r.config) ? null : untitledAt(rec, name);
+      if(!se && inc.titled){
+        se = findRound(inc.cfg.title, rec.key);
+        if(se && !(se.fkey && canonKey(se.fkey) === rec.key)) se = null;
+      }
+      if(inc.titled || se){
+        releaseFile(rec, name, se ? se.key : null, inc.titled ? inc.cfg.title : undefined);
+        if(se && !se.file) patchEntry(se, { file: name });
+        foldersChanged();
+      }
+      dropNotice(badId);
+      return true;
+    }
+    var err = validateQuestions(r.questions) || versionProblem(r.config);
+    if(err){ if(!r.bare) fileNotice(rec, name, "can't be loaded. " + err.replace(/ Nothing was loaded\.$/, "")); return true; }
+    dropNotice(badId);
+    arriveRound(rec, name, inc);
+    return true;
+  });
+}
+/* A round found in a folder, made ready the way the list keeps it. The folder it sits in is its folder, whatever
+   path it names. Nothing else about it is touched, so a round kept here always reads the same as its file. */
+function fromFolder(rec, r){
+  var titled = hasTitle(r.config), cfg = normConfig(r.config);
+  if(canonKey(folderKey(cfg.folder)) !== rec.key){ cfg.folder = rec.path; cfg = normConfig(cfg); }
+  return { titled: titled, cfg: cfg, incoming: { config: cfg, questions: r.questions } };
+}
+/* One file holds one round. When a file turns out to hold a round, every other round of the folder that named
+   the file lets go of it, and a changed version that was waiting in it for a look is gone. */
+function releaseFile(rec, name, keepKey, sameTitle){
+  var any = false;
+  LIB.rounds.forEach(function(x){
+    if(x.key === keepKey) return;
+    if(sameTitle !== undefined && x.titled && x.title === sameTitle) return;
+    var mine = recOfEntry(x) === rec, fix = null;
+    if(mine && x.file === name) fix = { file: undefined, fsig: undefined };
+    if(x.update === name && (x.ufolder ? canonKey(x.ufolder) === rec.key : mine)){
+      fix = fix || {};
+      fix.update = undefined; fix.ufolder = undefined; fix.usig = undefined;
+      dropNotice("upd:" + x.key);
+    }
+    if(fix){ patchEntry(x, fix); any = true; }
+  });
+  if(any) projectUI();
+}
+/* The folder a waiting changed version sits in: the round's own, or, for a round kept from before it had one,
+   the folder the version turned up in. */
+function holdRec(e){
+  var r = (e && e.ufolder && folderRec(e.ufolder)) || recOfEntry(e);
+  return (r && r.perm === "granted") ? r : null;
+}
+function fileNotice(rec, name, what){
+  addNotice({ id: "bad:" + rec.key + ":" + name, bad: true, text: name + ", in " + recName(rec) + "'s folder, " + what });
+}
+function arriveRound(rec, name, inc){
+  var cfg = inc.cfg, qarr = inc.incoming.questions, incoming = inc.incoming;
+  /* A round with no title of its own is known by what it holds, or by its file. */
+  var titled = inc.titled && ownTitle(cfg);
+  var ex = titled ? findRound(cfg.title, rec.key) : (findUntitled(incoming) || untitledAt(rec, name));
+  if(!ex){
+    var key = newKey(), st = { idx: 0, answers: {} };
+    if(!writePair(key, incoming, st)){ warnFull(); return; }
+    var e = upsertEntry(key, cfg, titled, qarr, st);
+    e.file = name; e.arrived = Date.now(); e.unseen = true; e.pausedAt = e.startedAt;
+    saveLib();
+    releaseFile(rec, name, key);
+    countStart();
+    announce(e);
+    return;
+  }
+  releaseFile(rec, name, ex.key);
+  var old = readJSON(RPFX + ex.key) || { config: normConfig(null), questions: [] };
+  if(JSON.stringify(old) === JSON.stringify(incoming)){
+    /* A changed version is waiting in another file: a copy of the round as it was changes nothing. */
+    if(ex.update && ex.update !== name) return;
+    /* The round as the wizard has it, written out again: the file holds no answers now, so whatever the wizard
+       has goes back into it. (An untouched round is still left exactly as written.) */
+    var fix = { fsig: undefined };
+    if(ex.file !== name) fix.file = name;
+    if(ex.update){ fix.update = undefined; fix.ufolder = undefined; fix.usig = undefined; dropNotice("upd:" + ex.key); }
+    patchEntry(ex, fix);
+    var sv0 = SAVE[ex.key];
+    if(sv0){ sv0.err = null; sv0.half = null; }
+    queueFileSave(ex.key, true);
+    foldersChanged();
+    return;
+  }
+  /* A version you turned down with Keep mine is not offered again. */
+  if(ex.declined && ex.declined === sigOf(JSON.stringify(incoming))) return;
+  var here = ex.key === CURKEY;
+  var oldState = here ? state : validState(readJSON(APFX + ex.key));
+  var carry = carryAnswers(old.questions || [], qarr, oldState.answers);
+  if(carry.dropped > 0){
+    /* It waits for a look when answers would be cleared. Until then nothing is saved over it: the changed file
+       stays as Claude wrote it. */
+    patchEntry(ex, { update: name, ufolder: rec.key, usig: sigOf(JSON.stringify(incoming)) });
+    updNotice(ex, carry.dropped);
+    foldersChanged();
+    return;
+  }
+  var st2 = { idx: here ? keepPlace(QUESTIONS, state.idx, qarr) : firstOpenIn(qarr, carry.answers), answers: carry.answers };
+  if(!writePair(ex.key, incoming, st2)){ warnFull(); return; }
+  /* The same questions under the same name: only where the round lives is new. */
+  var oc = normConfig(old.config);
+  var moved = JSON.stringify([old.questions, oc.title, oc.tagline, oc.product, oc.needs_wizard]) === JSON.stringify([qarr, cfg.title, cfg.tagline, cfg.product, cfg.needs_wizard]);
+  upsertEntry(ex.key, cfg, titled, qarr, st2);
+  ex.file = name; delete ex.fsig; delete ex.update; delete ex.ufolder; delete ex.usig;
+  saveLib();
+  dropNotice("upd:" + ex.key);
+  if(here) takeVersion(!moved, false);
+  renderArrivals();
+  var from = ex.project || recName(rec);
+  if(moved) tell("ver:" + ex.key, '"' + cfg.title + '" is in ' + from + "'s folder, so your answers save into " + name + ".");
+  else tell("ver:" + ex.key, 'A new version of "' + cfg.title + '" arrived from ' + from + (carry.kept ? ", and your " + plural(carry.kept, "answer", "answers") + " stayed." : "."));
+  queueFileSave(ex.key);
+}
+/* Where the page was, found again in a new version of the round: the same question when it is still there. */
+function keepPlace(oldQs, idx, newQs){
+  if(oldQs.length && idx >= oldQs.length) return newQs.length;
+  var id = oldQs[idx] ? oldQs[idx].id : null;
+  for(var i=0;i<newQs.length;i++){ if(newQs[i].id === id) return i; }
+  return Math.min(idx, newQs.length);
+}
+function holdName(e){
+  if(e.project) return e.project;
+  var r = (e.ufolder && folderRec(e.ufolder)) || recOfEntry(e);
+  return r ? recName(r) : "the project";
+}
+function updNotice(e, dropped){
+  addNotice({ id: "upd:" + e.key, label: "Review", fn: function(){ reviewUpdate(e.key); },
+              text: 'A changed version of "' + e.title + '" arrived from ' + (e.fkey ? (e.project || "its folder") : holdName(e)) + "." + (dropped ? " " + plural(dropped, "of your answers belongs", "of your answers belong") + " to questions that changed." : "") + (e.fkey ? " Saving into the folder waits for your look." : "") });
+}
+/* Review reads the changed file again, as it is now, and puts it through the usual load. */
+function reviewUpdate(key){
+  var e = libEntry(key), rec = e ? holdRec(e) : null;
+  if(!e || !e.update) return;
+  if(!rec){ toast(false, "The wizard can't read " + holdName(e) + "'s folder right now."); updNotice(e); return; }
+  var name = e.update;
+  var settled = function(taken){
+    var fix = { update: undefined, ufolder: undefined, usig: undefined, fsig: undefined };
+    if(taken && e.file === name) fix.file = undefined;
+    patchEntry(e, fix);
+    dropNotice("upd:" + key);
+    foldersChanged();
+    toast(true, "The changed version is no longer in the folder, so your round stays as it is.");
+    queueFileSave(key, true);
+  };
+  Promise.resolve().then(function(){ return rec.handle.getFileHandle(name); }).then(function(h){
+    return readRound(h).then(function(r){
+      if(!r){ toast(false, "The changed file can't be read right now. Press Review again in a moment."); updNotice(e); return; }
+      if(r.saved || validateQuestions(r.questions) || versionProblem(r.config)){ settled(false); return; }
+      var inc = fromFolder(rec, r);
+      /* The file has since been given to another round: that one is taken in, and this round stays as it is. */
+      if(e.titled ? !fileIsRound(e, r) : ownTitle(r.config)){ settled(true); arriveRound(rec, name, inc); return; }
+      /* The look is at the file as it is now, which may be newer than the version that set the wait. */
+      patchEntry(e, { usig: sigOf(JSON.stringify(inc.incoming)) });
+      ingestText(JSON.stringify(inc.incoming), { dirFile: name, review: key, rec: rec, fname: name });
+    });
+  }, function(err){
+    if(err && err.name === "NotFoundError"){ settled(false); return; }
+    toast(false, "The wizard can't read " + holdName(e) + "'s folder right now.");
+    updNotice(e);
+  });
+}
+function keepMine(key, sig){
+  var e = libEntry(key);
+  if(!e) return;
+  patchEntry(e, { update: undefined, ufolder: undefined, usig: undefined, declined: sig, fsig: undefined });
+  dropNotice("upd:" + key);
+  foldersChanged();
+  queueFileSave(key, true);
+}
+/* A new round opens right away, unless you are partway through another round: then it waits in Load, with a notice. */
+function hasInput(answers){
+  for(var id in answers){
+    if(!own(answers, id) || !answers[id]) continue;
+    var a = answers[id];
+    if(a.status === "batch" && a.items){ for(var r in a.items){ if(own(a.items, r) && unitHas(a.items[r])) return true; } }
+    else if(done1(a) || hasNote(a) || bkMatches(a).length) return true;
+  }
+  return false;
+}
+function partway(){ return !!CURKEY && QUESTIONS.length > 0 && answeredCount() < QUESTIONS.length && hasInput(state.answers); }
+/* A text field has the cursor: the page is not redrawn from outside while it does, whether or not anything is in it yet. */
+function typingNow(){
+  var a = document.activeElement;
+  return !!(a && (a.tagName === "TEXTAREA" || (a.tagName === "INPUT" && ["range", "file", "checkbox", "radio", "button", "submit"].indexOf(a.type) === -1)));
+}
+/* ...and this window is the one being typed in. */
+function typingHere(){
+  var f = true;
+  try{ f = document.hasFocus(); }catch(e){}
+  return f && typingNow();
+}
+function popupOpen(){ var m = document.getElementById("modal"); return !!(m && m.className.indexOf("on") !== -1); }
+var autoOpened = null;
+function announce(e){
+  renderArrivals();
+  /* A round that opened by itself and hasn't been touched yet holds its place, so two rounds landing together
+     don't hide each other: the first is on screen, the next waits. */
+  var holding = !!(CURKEY && CURKEY !== e.key && autoOpened === CURKEY && !hasInput(state.answers));
+  if(!confirmOpen && !popupOpen() && !typingNow() && !partway() && !holding){ openArrival(e.key, true); return; }
+  addNotice({ id: "new:" + e.key, text: "A new round from " + (e.project || "a project folder") + ' is waiting in Load: "' + (e.title || "Untitled round") + '".', label: "Open it", fn: function(){ openArrival(e.key); } });
+}
+function openArrival(key, byItself){
+  var e = libEntry(key);
+  dropNotice("new:" + key);
+  if(!e || !switchTo(key)) return;
+  autoOpened = byItself ? key : null;
+  if(drawerOpen && drawerId === "drawer") closeDrawer();
+  toast(true, "New round from " + (e.project || "a project folder") + ': "' + (e.title || "Untitled round") + '".');
+  greetRound({ fresh: true });
+}
+/* A change to the round on screen that the wizard made by itself is said in a toast while the window is in use.
+   When it isn't, the words wait as a notice, and go a little after you are back. */
+function tell(id, msg){
+  var inUse = true;
+  try{ inUse = document.hasFocus(); }catch(e){}
+  if(inUse) toast(true, msg); else addNotice({ id: id, text: msg, info: true });
+}
+function backNotices(){
+  NOTICES.forEach(function(n){
+    if(!n.info || n.going) return;
+    n.going = true;
+    setTimeout(function(){ if(NOTICES.indexOf(n) !== -1) dropNotice(n.id); }, TIMING.back);
+  });
+}
+function addNotice(n){
+  NOTICES = NOTICES.filter(function(x){ return x.id !== n.id; });
+  NOTICES.push(n);
+  renderNotices();
+}
+function dropNotice(id){
+  var n = NOTICES.length;
+  NOTICES = NOTICES.filter(function(x){ return x.id !== id; });
+  if(NOTICES.length !== n) renderNotices();
+}
+function renderNotices(){
+  var el = document.getElementById("notices");
+  if(!el) return;
+  el.innerHTML = NOTICES.map(function(n){
+    return '<div class="notice' + (n.bad ? " bad" : "") + '"><span class="ntext" ' + dirA(n.text) + '>' + esc(n.text) + '</span>'
+      + (n.label ? '<button type="button" class="btn" data-action="notice-act" data-id="' + esc(n.id) + '">' + esc(n.label) + '</button>' : '')
+      + '<button type="button" class="nclose" data-action="notice-close" data-id="' + esc(n.id) + '" aria-label="Dismiss">&#10005;</button></div>';
+  }).join("");
+  /* Toasts ride above the notices, so neither covers the other. */
+  try{ document.documentElement.style.setProperty("--lift", NOTICES.length ? (el.offsetHeight + 10) + "px" : "0px"); }catch(e){}
+}
+function noticeAct(id){
+  if(confirmOpen) return;
+  var n = null;
+  for(var i=0;i<NOTICES.length;i++){ if(NOTICES[i].id === id) n = NOTICES[i]; }
+  if(!n) return;
+  dropNotice(id);
+  if(n.fn) n.fn();
+}
+
+/* Saving into the folder. Each change to a linked round is written into its file a moment later, in the same form
+   Save writes. An untouched round stays exactly as Claude wrote it. */
+function sigOf(s){
+  var h = 2166136261;
+  for(var i=0;i<s.length;i++){ h ^= s.charCodeAt(i); h = (h + ((h << 1) + (h << 4) + (h << 7) + (h << 8) + (h << 24))) >>> 0; }
+  return h.toString(36) + ":" + s.length;
+}
+function roundText(key){
+  var r, st, cfg;
+  if(key === CURKEY){ r = { config: CONFIG, questions: QUESTIONS }; st = state; cfg = CONFIG; }
+  else { r = readJSON(RPFX + key); st = validState(readJSON(APFX + key)); cfg = normConfig(r && r.config); }
+  if(!r || !Array.isArray(r.questions) || !r.questions.length) return null;
+  var exp = exportFor(r.questions, st.answers, cfg);
+  exp.round = { config: cfg, questions: r.questions };
+  return { exp: exp, sig: sigOf(JSON.stringify([exp.answers, exp.round])), input: hasInput(st.answers) };
+}
+/* A write is due when the answers differ from what the file was last given. */
+function writeDue(e, rt){ return !!rt && rt.sig !== e.fsig && (!!e.fsig || rt.input); }
+function queueFileSave(key, now){
+  var e = libEntry(key);
+  if(!e || e.update || !linkedRec(e)) return;
+  if(saveTimers[key]){ clearTimeout(saveTimers[key]); delete saveTimers[key]; }
+  if(!writeDue(e, roundText(key))) return;
+  saveTimers[key] = setTimeout(function(){ delete saveTimers[key]; writeLinked(key).then(projectUI); }, now ? 0 : TIMING.fileSave);
+}
+function flushSaves(){
+  for(var k in saveTimers){ if(own(saveTimers, k)){ clearTimeout(saveTimers[k]); delete saveTimers[k]; writeLinked(k); } }
+}
+/* A round with no file of its own yet gets one named after it. A name something else already uses is passed by. */
+function ownName(rec, e, rt){
+  var base = saveFileName(e.title).replace(/\.json$/, ""), i = 1;
+  var next = function(){
+    var name = base + (i > 1 ? "-" + i : "") + ".json";
+    return Promise.resolve().then(function(){ return rec.handle.getFileHandle(name); }).then(function(h){
+      return h.getFile().then(function(f){
+        if(!f.size) return name;
+        return readRound(h).then(function(r){
+          if(r && r.saved && fileIsRound(e, r, rt.exp.round.questions)) return name;
+          if(i >= 40) throw new Error("No free file name for this round.");
+          i++;
+          return next();
+        });
+      });
+    }, function(err){ if(err && err.name === "NotFoundError") return name; throw err; });
+  };
+  return next();
+}
+/* Before a write, the file is read once more, and the write only goes ahead over what is this round's own: its
+   saved file, or the round exactly as the wizard has it. A changed round Claude has put there is dealt with first;
+   a file that has become another round's, or something else, is left alone and this round finds its own file; a
+   file caught half written gets a moment; one that stays unreadable is not written over. */
+function wizHold(why){ var x = new Error(why); x.name = "WizHold"; return x; }
+function fileFirst(fh, e, rec, name, rt, sv){
+  var hold = wizHold;
+  var letGo = function(){ if(e.file === name) patchEntry(e, { file: undefined, fsig: undefined }); };
+  return fh.getFile().then(function(f){
+    sv.read = stampOf(f);
+    if(!f.size) return fh;
+    if(f.size > 8000000){ letGo(); throw hold("taken"); }
+    return readFileText(f).then(function(text){
+      var p;
+      try{ p = JSON.parse(text); }
+      catch(x){
+        /* Caught half written, most likely: it gets a second, then counts as a file that can't be read. */
+        var stamp = stampOf(f), at = Date.now();
+        if(!sv.half || sv.half.stamp !== stamp){ sv.half = { stamp: stamp, at: at }; throw hold("half"); }
+        if(at - sv.half.at < 1000) throw hold("half");
+        throw new Error("The round's file can't be read.");
+      }
+      var r = fileRound(p);
+      if(!r){ letGo(); throw hold("taken"); }
+      var inc = fromFolder(rec, r), okRound = !(validateQuestions(r.questions) || versionProblem(r.config));
+      /* For a round with no title, a changed version in its own file is still its file: only a file that has
+         been given a title of its own, or (once saved) other questions, is another round's. */
+      var other = e.titled ? !fileIsRound(e, r) : (ownTitle(r.config) || (r.saved && !fileIsRound(e, r, rt.exp.round.questions)));
+      if(other){
+        letGo();
+        if(r.saved){
+          var se = ownTitle(r.config) ? findRound(inc.cfg.title, rec.key) : null;
+          if(se && se.fkey && canonKey(se.fkey) === rec.key && !se.file) patchEntry(se, { file: name });
+        } else if(okRound){ arriveRound(rec, name, inc); }
+        throw hold("taken");
+      }
+      if(r.saved) return fh;
+      if(!okRound) throw new Error("The round's file can't be loaded.");
+      if(JSON.stringify(inc.incoming) === JSON.stringify(fromFolder(rec, rt.exp.round).incoming)) return fh;
+      if(e.declined && e.declined === sigOf(JSON.stringify(inc.incoming))) return fh;
+      arriveRound(rec, name, inc);
+      var now = libEntry(e.key), kept = readJSON(RPFX + e.key);
+      /* Waiting for a look, or taken in (the next try writes it with the answers), or gone to another round. */
+      if(!now || now.update) throw hold("changed");
+      if(kept && Array.isArray(kept.questions) && JSON.stringify(fromFolder(rec, kept).incoming) === JSON.stringify(inc.incoming)) throw hold("changed");
+      if(now.file !== name) throw hold("taken");
+      throw new Error("The changed round in the file could not be taken in.");
+    });
+  });
+}
+function writeLinked(key, force){
+  var e = libEntry(key), rec = e ? linkedRec(e) : null;
+  if(!e || !rec || e.update) return Promise.resolve(false);
+  var rt = roundText(key);
+  if(!rt) return Promise.resolve(false);
+  var sv = SAVE[key] || (SAVE[key] = {});
+  if(!force && !writeDue(e, rt)){ sv.holds = 0; return Promise.resolve(true); }
+  if(sv.busy){ sv.again = true; return sv.busy; }
+  if(force) sv.holds = 0;
+  var name, held = false, wrote = -1;
+  /* A file being opened by hand is linked first, so the save goes into that file and not one found by name. */
+  var work = Promise.resolve(sv.linking).then(function(){ return ensureLinked(e, rec); }).then(function(n){
+    return n || ownName(rec, e, rt);
+  }).then(function(n){
+    name = n;
+    return rec.handle.getFileHandle(name, { create: true });
+  }).then(function(fh){
+    return fileFirst(fh, e, rec, name, rt, sv);
+  }).then(function(fh){
+    var text = JSON.stringify(rt.exp, null, 2);
+    wrote = new Blob([text]).size;
+    return fh.createWritable().then(function(w){
+      return Promise.resolve(w.write(text)).then(function(){ return fh.getFile(); }).then(function(f2){
+        /* One last look before the new text takes the file's place: if the file changed since it was read, the
+           write is dropped and the changed file is dealt with first. */
+        if(stampOf(f2) === sv.read) return w.close();
+        return Promise.resolve(w.abort()).then(null, function(){}).then(function(){ throw wizHold("changed"); });
+      });
+    }).then(function(){ return fh.getFile(); });
+  }).then(function(f){
+    sv.err = null; sv.half = null; sv.holds = 0; sv.held = false;
+    var now = libEntry(key);
+    if(!now) return true;
+    /* Something else was written over it in the same moment: the file is not counted as seen, so it gets a look. */
+    if(f.size !== wrote){ patchEntry(now, { fsig: undefined }); return true; }
+    rec.seen[name] = stampOf(f);
+    if(now.file && now.file !== name){
+      /* The round was given another file while this save was on its way: that file gets the answers next. */
+      queueFileSave(key, true);
+      return true;
+    }
+    patchEntry(now, { file: name, fsig: rt.sig, fsaved: Date.now(), declined: undefined });
+    if(key === CURKEY) markSent();
+    return true;
+  }, function(err){
+    if(err && err.name === "WizHold"){
+      /* Standing back is tried a few times, never without end. */
+      sv.holds = (sv.holds || 0) + 1;
+      if(sv.holds <= 6){ held = true; sv.held = true; sv.err = null; return false; }
+      err = new Error("The round's file keeps changing.");
+    }
+    sv.held = false;
+    sv.err = err || new Error("The file could not be written.");
+    if(err && (err.name === "NotAllowedError" || err.name === "SecurityError")){ sv.err = null; folderTrouble(rec, err); }
+    return false;
+  });
+  var after = function(ok){
+    sv.busy = null;
+    projectUI();
+    if(held){
+      /* Held back: look again shortly, when the changed round has been taken in or the file is whole. A save
+         asked for in the meantime waits for that look too. */
+      var le = libEntry(key);
+      sv.again = false;
+      if(le && !le.update && !saveTimers[key]) saveTimers[key] = setTimeout(function(){ delete saveTimers[key]; writeLinked(key).then(projectUI); }, 1200);
+      return false;
+    }
+    if(sv.again){ sv.again = false; return writeLinked(key); }
+    return ok === true;
+  };
+  sv.busy = work.then(after, after);
+  projectUI();
+  return sv.busy;
+}
+function saveIntoFolder(e, rec){
+  var name = recName(rec), text = saveText(), dl = saveFileName();
+  if(e.update){ toast(false, "A changed version of this round is waiting in " + name + "'s folder. Review it first, and Save will write there again."); updNotice(e); return Promise.resolve(false); }
+  var go = function(){
+    return writeLinked(e.key, true).then(function(ok){
+      var now = libEntry(e.key), sv = SAVE[e.key] || {};
+      if(ok){ markSent(); toast(true, "Saved into " + e.file + ", in " + name + "'s folder."); }
+      else if(now && now.update){ toast(false, "A changed version of this round just arrived in " + name + "'s folder. Review it first, and Save will write there again."); }
+      else if(sv.held){ toast(true, "The round's file in " + name + "'s folder is changing right now. The wizard saves into it in a moment."); }
+      else downloadText(text, dl, "Could not write into " + name + "'s folder, so it downloaded instead as ");
+    });
+  };
+  if(rec.perm === "granted") return go();
+  return dirAsk(rec).then(function(p){
+    foldersChanged();
+    if(p === "granted"){ grantDone(rec); return go(); }
+    downloadText(text, dl, "The browser has not allowed writing into " + name + "'s folder, so it downloaded instead as ");
+  });
+}
+
+/* Connecting. A page can't open a folder from a written path, so the first round from a project asks you to pick
+   its folder once. The wizard checks that the folder holds the round, then remembers it for the project. */
+function pickFolder(start){
+  var open = function(o){ return Promise.resolve().then(function(){ return window.showDirectoryPicker(o); }); };
+  var quiet = function(err){ if(err && err.name === "AbortError") return null; throw err; };
+  var opts = { id: "wizard-rounds", mode: "readwrite" };
+  if(start) opts.startIn = start;
+  return open(opts).then(null, function(err){
+    if(err && err.name === "AbortError") return null;
+    if(!start) throw err;
+    return open({ id: "wizard-rounds", mode: "readwrite" }).then(null, quiet);
+  }).then(null, function(){ toast(false, "The folder picker could not open here."); return null; });
+}
+function sameKnown(dir){
+  var list = folderList(), i = 0;
+  var next = function(){
+    if(i >= list.length) return null;
+    var rec = list[i++];
+    if(!rec.handle || typeof rec.handle.isSameEntry !== "function") return next();
+    return Promise.resolve().then(function(){ return rec.handle.isSameEntry(dir); }).then(function(same){ return same ? rec : next(); }, function(){ return next(); });
+  };
+  return Promise.resolve(next());
+}
+function markAllSeen(rec){
+  return listJson(rec.handle).then(function(files){
+    return Promise.all(files.map(function(h){ return h.getFile().then(function(f){ rec.seen[h.name] = stampOf(f); }, function(){}); }));
+  });
+}
+/* Every round that already has a file in the folder is checked against it, so answers that never reached the file
+   (the folder was out of reach, or the page closed first) get written. The open round is checked even before it
+   has a file. Nothing is written when the file already holds what the wizard has. */
+function syncFolder(rec){
+  LIB.rounds.forEach(function(e){
+    if(!(e.file || e.key === CURKEY) || recOfEntry(e) !== rec) return;
+    queueFileSave(e.key, true);
+  });
+}
+function grantDone(rec){
+  dropNotice("ok:" + rec.key);
+  tellPages("folders");
+  if(IS_WATCHER){ startWatch(rec); scanFolder(rec); }
+  LIB.rounds.forEach(function(x){ if(x.update && holdRec(x) === rec) updNotice(x); });
+  syncFolder(rec);
+  foldersChanged();
+}
+function adoptFolder(key, dir, src){
+  var e = libEntry(key);
+  if(!e || !e.fkey) return Promise.resolve(false);
+  var raw = folderKey(e.folder);
+  return findRoundFile(dir, e, src).then(function(name){
+    if(!name) return deeperIn(dir, src).then(function(sub){ return askProject(key, src, "wrong", dir.name, sub); });
+    return sameKnown(dir).then(function(known){
+      var rec = known;
+      if(rec){
+        if(rec.keys.indexOf(raw) === -1) rec.keys.push(raw);
+        rec.handle = dir;
+      } else {
+        rec = { key: raw, keys: [raw], path: e.folder, project: e.project || "", handle: dir, seen: {}, addedAt: Date.now(), perm: "prompt" };
+      }
+      /* A new folder joins the list only once every file already in it is noted, so a look at the folder in
+         the meantime can't take those files for new rounds. */
+      return (known ? Promise.resolve() : markAllSeen(rec)).then(function(){ return dirPut(rec); }).then(function(){ return dirPerm(rec); }).then(function(p){
+        if(!known){ stopWatch(raw); FOLDERS[rec.key] = rec; }
+        ALIAS[raw] = rec.key;
+        e.fkey = rec.key; e.file = name; delete e.fsig;
+        saveLib();
+        releaseFile(rec, name, key);
+        if(p !== "granted"){
+          /* The folder is known, but the browser gave no write access with the pick: the chip offers Allow saving. */
+          tellPages("folders");
+          foldersChanged();
+          toast(true, recName(rec) + "'s folder is remembered. Press Allow saving on the round to let the wizard write into it.");
+          return true;
+        }
+        grantDone(rec);
+        toast(true, "Connected to " + recName(rec) + ". Your answers save into " + name + ", and its new rounds open here by themselves.");
+        return true;
+      });
+    });
+  }).then(null, function(){ toast(false, "That folder could not be read."); return false; });
+}
+/* When the picked folder is a parent of the right one (the project's root, say), name the folder inside it. */
+function deeperIn(dir, src){
+  if(!src || !src.handle || typeof dir.resolve !== "function") return Promise.resolve("");
+  return Promise.resolve().then(function(){ return dir.resolve(src.handle); }).then(function(parts){ return (parts && parts.length > 1) ? parts[parts.length - 2] : ""; }, function(){ return ""; });
+}
+function askProject(key, src, kind, wrong, sub){
+  var e = libEntry(key);
+  if(!e || !e.fkey) return Promise.resolve(false);
+  var name = e.project || "this project", rec = recOfEntry(e), o;
+  if(rec && rec.perm === "gone") rec = null;
+  if(kind === "wrong" && sub) o = { title: "One folder deeper", message: 'The round is inside "' + sub + '", in the folder you picked' + (wrong ? ', "' + wrong + '"' : "") + '. Pick "' + sub + '" itself:', ok: "Pick again" };
+  else if(kind === "wrong") o = { title: "That folder doesn't hold this round", message: '"' + e.title + '" isn\'t in the folder you picked' + (wrong ? ', "' + wrong + '"' : "") + ". The round names this folder:", ok: "Pick again" };
+  else if(rec) o = { title: "Keep saving into " + name + "?", message: "The wizard knows this project's folder. The browser wants your OK again before the wizard saves your answers there and opens the project's new rounds.", ok: "Allow" };
+  else o = { title: "Save your answers into " + name + "?", message: "This round is from " + name + ". Pick its folder once: the wizard then saves your answers into the round's file as you go, and opens new rounds from " + name + " by itself.", ok: "Pick the folder" };
+  o.cancel = "Not now"; o.calm = true; o.path = e.folder; o.key = key;
+  return confirmBox(o).then(function(yes){
+    if(!yes){ LATER[e.fkey] = true; projectUI(); return false; }
+    if(rec && kind !== "wrong"){
+      return dirAsk(rec).then(function(p){
+        if(p !== "granted"){ notAllowed(rec, p); return false; }
+        grantDone(rec);
+        return linkOpened(e, rec, src).then(function(){ toast(true, "Saving into " + name + "'s folder again."); queueFileSave(key, true); return true; });
+      });
+    }
+    return pickFolder(src && src.handle).then(function(dir){
+      if(dir) return adoptFolder(key, dir, src);
+      LATER[e.fkey] = true;
+      projectUI();
+      return false;
+    });
+  });
+}
+/* A file opened by hand may sit in a folder the wizard already has. The file itself settles it: when a known folder
+   holds it, that folder is the round's, whatever path the round names, just as when the wizard finds it there. */
+function placeFile(p, src){
+  if(!src || !src.handle || !foldersReady || !p || typeof p !== "object") return null;
+  var saved = !Array.isArray(p) && p.meta && p.meta.tool === "decision-wizard";
+  if(saved && (p.meta.kind === "backup" || !p.round || typeof p.round !== "object" || !Array.isArray(p.round.questions))) return null;
+  if(!saved && !Array.isArray(p) && !Array.isArray(p.questions)) return null;
+  var list = folderList().filter(function(rec){ return rec.handle && typeof rec.handle.resolve === "function"; });
+  if(!list.length) return null;
+  var i = 0;
+  var next = function(){
+    if(i >= list.length) return p;
+    var rec = list[i++];
+    return Promise.resolve().then(function(){ return rec.handle.resolve(src.handle); }).then(function(parts){
+      if(!parts || parts.length !== 1) return next();
+      src.rec = rec; src.fname = parts[0];
+      var holder = saved ? p.round : (Array.isArray(p) ? (p = { questions: p }) : p);
+      var c = (holder.config && typeof holder.config === "object") ? holder.config : null;
+      if(canonKey(folderKey(c ? c.folder : "")) === rec.key) return p;
+      var nc = {};
+      if(c){ for(var k in c){ if(own(c, k)) nc[k] = c[k]; } }
+      nc.folder = rec.path;
+      holder.config = nc;
+      return p;
+    }, function(){ return next(); });
+  };
+  return Promise.resolve(next());
+}
+/* After a round loads by hand: say where its answers go, and ask up front when the browser needs it. Not now holds
+   for the project until the page is closed; the chip keeps the offer. */
+var LATER = {};
+function projectLoaded(key, src, msg){
+  var e = libEntry(key);
+  if(!e || !e.fkey) return;
+  var rec = recOfEntry(e);
+  if(src && src.dirFile){ patchEntry(e, { file: src.dirFile, fsig: undefined }); }
+  if(e.update && src && (src.review === key || src.dirFile === e.update || (src.handle && src.handle.name === e.update))){
+    patchEntry(e, { update: undefined, ufolder: undefined, usig: undefined, declined: undefined });
+    dropNotice("upd:" + key);
+  }
+  if(rec && rec.perm === "granted"){
+    var sv = SAVE[key] || (SAVE[key] = {});
+    var done = function(){
+      sv.linking = null;
+      projectUI();
+      toast(true, msg + (e.file ? " Answers save into " + e.file + "." : " Answers save into " + recName(rec) + "'s folder."));
+      queueFileSave(key, true);
+    };
+    sv.linking = linkOpened(e, rec, src).then(done, done);
+    return;
+  }
+  if(fsSupported() && !LATER[e.fkey]) askProject(key, src);
+}
+function forgetFolder(k){
+  var rec = folderRec(k);
+  if(!rec) return;
+  confirmBox({ title: "Forget this folder?", message: "The wizard stops saving into " + recName(rec) + "'s folder and stops opening its new rounds. The rounds in this browser stay, and so do the folder's files.", ok: "Forget", answers: 0 }).then(function(yes){
+    if(!yes) return;
+    stopWatch(rec.key);
+    delete FOLDERS[rec.key];
+    for(var a in ALIAS){ if(own(ALIAS, a) && ALIAS[a] === rec.key) delete ALIAS[a]; }
+    dropNotice("ok:" + rec.key);
+    handleDel("dir:" + rec.key).then(function(){ tellPages("folders"); });
+    foldersChanged();
+  });
+}
+/* The browser can ask in two steps, and answer the first with "not yet": then the offer stays up for a second press. */
+function okNotice(rec, again){
+  addNotice({ id: "ok:" + rec.key, label: "Allow", fn: function(){ allowFolder(rec.key); },
+              text: again ? "The browser hasn't given the wizard " + recName(rec) + "'s folder yet. Press Allow again if it asked for something else first."
+                          : "The browser wants your OK again before the wizard saves into " + recName(rec) + "'s folder and opens its new rounds." });
+}
+function notAllowed(rec, p){
+  foldersChanged();
+  if(p === "denied") toast(false, "The browser is blocking this folder. Allow it from the icon in the address bar, or forget the folder in Load and pick it again.");
+  else okNotice(rec, true);
+}
+function allowFolder(k){
+  var rec = folderRec(k);
+  if(!rec) return;
+  dirAsk(rec).then(function(p){
+    if(p === "granted"){ grantDone(rec); toast(true, "Saving into " + recName(rec) + "'s folder, and opening its new rounds."); }
+    else notAllowed(rec, p);
+  });
+}
+
+/* What the page shows about a round's project: a chip beside the section, a line on the summary, the folders in Load. */
+function fmtSaved(ms){
+  var d = new Date(ms);
+  if(sameDay(d, new Date())) return pad2(d.getHours()) + ":" + pad2(d.getMinutes());
+  var w = fmtWhen(ms);
+  return w.charAt(0).toLowerCase() + w.slice(1);
+}
+function projState(e){
+  if(!e) return null;
+  if(!e.fkey){
+    /* A round kept from before it had a project, with a changed version waiting in a project's folder. */
+    var hr = e.update ? holdRec(e) : null;
+    return hr ? { name: recName(hr), text: "Changed version waiting", wait: true, act: "review", label: "Review", path: hr.path } : null;
+  }
+  var name = e.project || "Project", rec = recOfEntry(e), sv = SAVE[e.key] || {};
+  if(rec && rec.perm === "granted"){
+    if(e.update) return { name: name, text: "Changed version waiting", wait: true, act: "review", label: "Review" };
+    if(sv.err) return { name: name, text: "Not saved", bad: true, act: "save", label: "Try again" };
+    if(sv.busy || saveTimers[e.key]) return { name: name, text: "Saving" };
+    if(e.fsaved && e.fsig) return { name: name, text: "Saved " + fmtSaved(e.fsaved), ok: true, saved: true };
+    return { name: name, text: "Saves as you answer", ok: true };
+  }
+  if(rec && rec.perm !== "gone") return { name: name, act: "allow", label: "Allow saving" };
+  if(fsSupported()) return { name: name, act: "pick", label: "Pick its folder" };
+  return { name: name, plain: true };
+}
+function projectChipHTML(){
+  var e = CURKEY ? libEntry(CURKEY) : null, ps = projState(e);
+  if(!ps) return "";
+  var sep = (e.folder || "").indexOf("\\") !== -1 ? "\\" : "/";
+  var where = e.folder ? e.folder + (e.file ? sep + e.file : "") : (ps.path || "");
+  var h = '<span class="pchip' + (ps.ok ? " ok" : "") + (ps.bad ? " bad" : "") + (ps.wait ? " wait" : "") + '" id="pchip" title="' + esc(where) + '">' + ICO.folder + '<b ' + dirA(ps.name) + '>' + esc(ps.name) + '</b>';
+  if(ps.text) h += '<span class="pst">' + esc(ps.text) + '</span>';
+  if(ps.act) h += '<button type="button" class="pact" data-action="project-act" data-v="' + ps.act + '">' + esc(ps.label) + '</button>';
+  return h + '</span>';
+}
+function sumProjHTML(){
+  var e = CURKEY ? libEntry(CURKEY) : null, ps = projState(e);
+  if(!ps) return "";
+  var nm = '<b ' + dirA(ps.name) + '>' + esc(ps.name) + '</b>', t;
+  if(ps.saved) t = 'Your answers are saved in <b dir="ltr">' + esc(e.file) + '</b>, in ' + nm + "'s folder. Tell Claude they're ready.";
+  else if(ps.ok) t = "Your answers save into " + nm + "'s folder as you answer.";
+  else if(ps.wait) t = "A changed version of this round is waiting in " + nm + "'s folder. Your answers stay in this browser until you review it.";
+  else if(ps.bad) t = "The last save into " + nm + "'s folder didn't go through.";
+  else if(ps.text) t = "Saving your answers into " + nm + "'s folder.";
+  else if(ps.act === "allow") t = "This round is from " + nm + ". The browser wants your OK again before the wizard saves your answers into its folder.";
+  else if(ps.act === "pick") t = "This round is from " + nm + ". Pick its folder to save your answers into it, or copy them below.";
+  else t = "This round is from " + nm + ". Saving into its folder needs Chrome or Edge on a computer. Here, copy the answers below, or save the file.";
+  var h = '<div class="sumproj' + (ps.ok ? " ok" : "") + (ps.bad ? " bad" : "") + (ps.wait ? " wait" : "") + '" id="sumproj">' + ICO.folder + '<span>' + t + '</span>';
+  if(ps.act) h += '<button type="button" class="btn sec" data-action="project-act" data-v="' + ps.act + '">' + esc(ps.label) + '</button>';
+  return h + '</div>';
+}
+function projectAct(v){
+  var key = CURKEY, e = key ? libEntry(key) : null;
+  if(!e) return;
+  if(v === "review"){ reviewUpdate(key); return; }
+  if(!e.fkey) return;
+  if(v === "save"){ writeLinked(key, true); return; }
+  if(v === "allow"){ allowFolder(e.fkey); return; }
+  getHandle(key).then(function(h){ if(CURKEY === key) askProject(key, { handle: h }); });
+}
+function renderFolders(){
+  var el = document.getElementById("folderlist");
+  if(!el) return;
+  var list = folderList();
+  if(!list.length){
+    el.innerHTML = '<div class="lempty">' + (fsSupported()
+      ? "None yet. A round from Claude Code names its project's folder. Load one and pick that folder once: the wizard then saves your answers into it, and opens that project's new rounds by itself."
+      : "Saving into a project's folder, and opening its new rounds by themselves, need Chrome or Edge on a computer.") + '</div>';
+    return;
+  }
+  var h = "";
+  list.forEach(function(rec){
+    var ok = rec.perm === "granted", gone = rec.perm === "gone", name = recName(rec);
+    h += '<div class="frow' + (ok ? " ok" : "") + '"><div class="fmain"><span class="fname" ' + dirA(name) + '>' + esc(name) + '</span>';
+    h += '<span class="fpath" dir="ltr" title="' + esc(rec.path) + '">' + esc(rec.path) + '</span>';
+    h += '<span class="fstate">' + (ok ? "Saving your answers, and opening new rounds" : gone ? "This folder can't be found right now. If it moved, load a round from it and pick it again" : rec.perm === "denied" ? "Blocked in the browser" : "Waiting for your OK") + '</span></div>';
+    if(!ok && !gone) h += '<button type="button" class="fbtn" data-action="folder-allow" data-key="' + esc(rec.key) + '">Allow</button>';
+    h += '<button type="button" class="ldel" data-action="folder-forget" data-key="' + esc(rec.key) + '" aria-label="Forget ' + esc(name) + '">Forget</button></div>';
+  });
+  h += '<div class="onote">The wizard watches these folders while it is open. In a browser tab, the browser asks for your OK again on a later visit: choose Allow on every visit there, and it stops asking. The installed app keeps access by itself.</div>';
+  el.innerHTML = h;
+}
+function renderBadge(){
+  var n = 0;
+  for(var i=0;i<LIB.rounds.length;i++){ if(LIB.rounds[i].unseen) n++; }
+  var b = document.getElementById("loadbadge"), btn = document.getElementById("openbtn");
+  if(b){ b.textContent = n ? String(n) : ""; b.hidden = !n; }
+  if(btn) btn.setAttribute("aria-label", n ? "Load a round. " + plural(n, "new round is", "new rounds are") + " waiting" : "Load a round");
+}
+function renderArrivals(){
+  renderBadge();
+  if(drawerOpen && drawerId === "drawer") renderLib();
+}
+function projectUI(){
+  var c = document.getElementById("pchip"), s = document.getElementById("sumproj");
+  var ch = projectChipHTML(), sh = sumProjHTML();
+  if(c) c.outerHTML = ch;
+  else if(ch){
+    /* The round had nothing to show about a project when it was drawn, and has now: the chip joins the section. */
+    var sc = document.querySelector("#app .section-chip");
+    if(sc && sc.parentNode){
+      if(sc.parentNode.className !== "chiprow"){
+        var row = document.createElement("div");
+        row.className = "chiprow";
+        sc.parentNode.insertBefore(row, sc);
+        row.appendChild(sc);
+      }
+      sc.insertAdjacentHTML("afterend", ch);
+    }
+  }
+  if(s) s.outerHTML = sh;
+  else if(sh){
+    var st = document.querySelector("#app .sumcard .sumstats");
+    if(st) st.insertAdjacentHTML("afterend", sh);
+  }
+  renderFolders();
+  renderBadge();
+}
+function foldersChanged(){ projectUI(); }
+
+/* Other open wizard pages. Each page keeps its own copy of the list, so a page follows what another one stores:
+   rounds that arrived, and changes to the round it has open. Of the open round it takes everything but the clock,
+   which each page runs for itself.
+   What settles whether a round exists is its own stored data, which every page sees the same way: a round whose
+   data is gone was deleted somewhere and leaves the list; a round with data that the stored list lacks goes back
+   into it (a page stored the list before it had heard of the round). */
+var followTimer = null;
+var FOLLOWED = ["unseen", "file", "fsig", "fsaved", "update", "ufolder", "usig", "declined", "title", "titled", "tagline", "fkey", "folder", "project", "total", "answered", "changed"];
+function followLib(){
+  var stored = readJSON(LKEY);
+  if(!stored || !Array.isArray(stored.rounds)) return;
+  var fresh = [], there = {}, again = false, held = [], freed = [];
+  stored.rounds.forEach(function(se){
+    if(!se || typeof se.key !== "string") return;
+    there[se.key] = true;
+    var has = lsGet(RPFX + se.key) !== null;
+    for(var i=0;i<LIB.rounds.length;i++){
+      var me = LIB.rounds[i];
+      if(me.key !== se.key) continue;
+      if(!has) return;
+      if(!me.update && se.update) held.push(se.key);
+      if(me.update && !se.update) freed.push(se.key);
+      if(se.key !== CURKEY){ LIB.rounds[i] = se; }
+      else { FOLLOWED.forEach(function(f){ if(se[f] === undefined) delete me[f]; else me[f] = se[f]; }); }
+      return;
+    }
+    if(!has){ again = true; return; }
+    LIB.rounds.push(se);
+    if(se.arrived && se.arrived >= PAGE_START) fresh.push(se);
+  });
+  LIB.rounds.slice().forEach(function(e){
+    if(lsGet(RPFX + e.key) === null){ dropRound(e.key); return; }
+    if(!own(there, e.key)) again = true;
+  });
+  if(again) saveLib();
+  /* A changed version that started or stopped waiting in another page does so here too. */
+  held.forEach(function(k){ var e = libEntry(k); if(e && e.update && holdRec(e)) updNotice(e); });
+  freed.forEach(function(k){ dropNotice("upd:" + k); });
+  renderArrivals();
+  projectUI();
+  fresh.forEach(announce);
+}
+/* A new version of the open round, or answers given to it in another page, are taken into this page's memory the
+   moment they are stored, so nothing old is ever saved from here. Drawing them is a separate step:
+   - a window being typed in keeps its screen until the typing is done, as long as the question under the cursor
+     is the same in the new version; the field's text goes back on top of what was stored;
+   - otherwise the page is drawn at once, and the cursor is put back into the field it was in when that field is
+     still there on an unchanged question;
+   - when the cursor can't be put back, keys meant for the field must not land on the page as shortcuts: they
+     are passed over until a press of the pointer or a key that moves around.
+   While the screen is a version behind, a press on it draws the new version instead of counting. */
+var followWait = false, followNew = false, followShown = null, followKey = null, blindKeys = false;
+function shownNow(){
+  var q = cur();
+  return q ? { qid: q.id, q: q, fids: fups(q).map(function(f){ return f.id; }) } : null;
+}
+/* Whether an answer or a note given to the old question still belongs to the new one. This is what carrying
+   answers into a new version looks at: a changed context line or recommendation is still the same question. */
+function sameAsk(oq, nq){
+  if(!oq || !nq || oq.id !== nq.id) return false;
+  if(nq.title !== oq.title || JSON.stringify(nq.options) !== JSON.stringify(oq.options) || isBatch(nq) !== isBatch(oq)) return false;
+  if(qType(nq) !== qType(oq)) return false;
+  if(qType(nq) === "number" && JSON.stringify([nq.min, nq.max, nq.step, nq.unit]) !== JSON.stringify([oq.min, oq.max, oq.step, oq.unit])) return false;
+  return !(hasQuestion(oq) && nq.question !== oq.question);
+}
+function sameFup(of, nf){
+  return !!(of && nf && of.title === nf.title && (!hasQuestion(of) || of.question === nf.question)
+    && JSON.stringify(of.options) === JSON.stringify(nf.options) && JSON.stringify(of.when || null) === JSON.stringify(nf.when || null));
+}
+function byId(list, id){ for(var i=0;i<list.length;i++){ if(list[i].id === id) return list[i]; } return null; }
+/* Whether the field the cursor is in still stands in the new version of its question. */
+function fieldStands(cf, shown, q){
+  if(!cf || !shown || !q || !sameAsk(shown.q, q)) return false;
+  if(cf.kind === "num" || cf.kind === "custom") return true;
+  if(cf.kind === "row"){
+    var orow = byId(shown.q.items || [], cf.id), nrow = byId(q.items || [], cf.id);
+    return !!(orow && nrow && orow.label === nrow.label);
+  }
+  var fid = cf.kind === "note" ? cf.id : (cf.kind === "fcustom" ? cf.fid : undefined);
+  if(fid === undefined) return false;
+  if(fid === q.id) return true;
+  return sameFup(byId(fups(shown.q), fid), byId(fups(q), fid));
+}
+function fieldBack(t){
+  if(!t || !t.getAttribute) return;
+  var role = t.getAttribute("data-role"), q = cur(), v = t.value || "";
+  if(role === "note"){
+    var id = t.getAttribute("data-note");
+    if(q && noteIds(q).indexOf(id) !== -1 && noteOf(state.answers[id]) !== v) setNote(id, v);
+  } else if(role === "bcomment" && q && isBatch(q)){
+    var it = t.getAttribute("data-item"), row = batchState(q).items[it] || {};
+    if(q.items.some(function(x){ return x.id === it; }) && String(row.comment || "") !== v) bcomment(it, v);
+  }
+}
+function followRound(){
+  if(!CURKEY) return;
+  var r = readJSON(RPFX + CURKEY), st = validState(readJSON(APFX + CURKEY));
+  if(!r || !Array.isArray(r.questions)) return;
+  var nc = normConfig(r.config);
+  var sameQs = JSON.stringify(r.questions) === JSON.stringify(QUESTIONS), sameCfg = JSON.stringify(nc) === JSON.stringify(CONFIG);
+  if(sameQs && sameCfg){
+    if(JSON.stringify(st.answers) === JSON.stringify(state.answers)) return;
+    state.answers = st.answers;
+    followWait = true;
+    if(followTimer) clearTimeout(followTimer);
+    followTimer = setTimeout(function(){ followTimer = null; followCatchUp(); }, 120);
+    return;
+  }
+  /* The round itself changed. When only where it lives changed, the questions on screen are still right. */
+  var real = !(sameQs && JSON.stringify([nc.title, nc.tagline, nc.product, nc.needs_wizard]) === JSON.stringify([CONFIG.title, CONFIG.tagline, CONFIG.product, CONFIG.needs_wizard]));
+  takeVersion(real, real);
+}
+/* Storage holds a new version of the open round. real: its questions changed, so the screen is a version behind
+   until it is drawn. say: tell about it when it is drawn. */
+function takeVersion(real, say){
+  var fld = typingHere() ? document.activeElement : null;
+  var shown = followShown || shownNow(), oldQs = QUESTIONS.slice(), idx = state.idx;
+  var notes = openNotes, comments = openComments, custom = customOpen;
+  if(!loadRoundIntoView(CURKEY)) return;
+  state.idx = keepPlace(oldQs, idx, QUESTIONS);
+  applyConfig();
+  if(fld && fieldStands(cursorField(shown), shown, cur())){
+    openNotes = notes; openComments = comments; customOpen = custom;
+    followShown = shown; followWait = true; followNew = followNew || real; followKey = CURKEY;
+    fieldBack(fld);
+    updateExportNode();
+    return;
+  }
+  var now = followNew || say;
+  followWait = false; followNew = false; followShown = null;
+  followDraw(shown, now, false);
+}
+/* The page is not drawn again between a press and its release: the press would land on nothing. */
+var pressAt = 0, pressTimer = null;
+function followCatchUp(force){
+  if(!followWait || confirmOpen || (typingHere() && force !== true)) return;
+  if(force !== true && pressAt && Date.now() - pressAt < 1500){
+    if(!pressTimer) pressTimer = setTimeout(function(){ pressTimer = null; followCatchUp(); }, 150);
+    return;
+  }
+  var say = followNew, shown = followShown || shownNow();
+  followWait = false; followNew = false; followShown = null;
+  if(CURKEY) followDraw(shown, say, force === true);
+}
+/* The text field the cursor is in, on the part of the page that gets drawn again. */
+function cursorField(shown){
+  var a = document.activeElement, w = document.querySelector(".wrap");
+  if(!a || !w || !w.contains(a) || !typingNow()) return null;
+  var k = { kind: "other", text: String(a.value || ""), typed: !!a.getAttribute("data-typed") }, role = a.getAttribute("data-role");
+  try{ k.from = a.selectionStart; k.to = a.selectionEnd; }catch(e){}
+  if(role === "note"){ k.kind = "note"; k.id = a.getAttribute("data-note"); }
+  else if(role === "bcomment"){ k.kind = "row"; k.id = a.getAttribute("data-item"); }
+  else if(a.id === "ctext"){ k.kind = "custom"; }
+  else if(a.classList.contains("fctext")){ k.kind = "fcustom"; k.fid = shown ? shown.fids[parseInt(a.getAttribute("data-f"), 10)] : undefined; }
+  else if(a.id === "numin"){ k.kind = "num"; }
+  return k;
+}
+/* Drawing again after something outside changed the round. A custom answer typed but not recorded yet lives only
+   on the page, so it is carried across; a number or an order being set stays only if its question still stands. */
+function followDraw(shown, say, asked){
+  var keep = [], q = cur(), i, el;
+  var sameId = !!(shown && q && q.id === shown.qid), same = sameId && sameAsk(shown.q, q);
+  var cf = cursorField(shown), stands = fieldStands(cf, shown, q);
+  var all = q ? fups(q) : [], idxOf = function(fid){ for(var j=0;j<all.length;j++){ if(all[j].id === fid) return j; } return -1; };
+  var boxOf = function(fid){ return fid === null ? document.getElementById("ctext") : (idxOf(fid) === -1 ? null : document.getElementById("fct-" + idxOf(fid))); };
+  var openBox = function(fid, text){ if(fid === null) openCustom(text); else openFupCustom(idxOf(fid), text); };
+  if(sameId){
+    var t = document.getElementById("ctext"), p = document.getElementById("cpanel");
+    if(t && p && p.style.display !== "none" && t.value && t.getAttribute("data-typed")) keep.push({ fid: null, text: t.value });
+    var fs = document.querySelectorAll("textarea.fctext[data-typed]");
+    for(i=0;i<fs.length;i++){
+      var fi = parseInt(fs[i].getAttribute("data-f"), 10), fp = document.getElementById("fcp-" + fi);
+      if(fp && fp.style.display !== "none" && fs[i].value && shown.fids[fi] !== undefined) keep.push({ fid: shown.fids[fi], text: fs[i].value });
+    }
+  }
+  if(same && draftKey === CURKEY) draftIdx = state.idx;
+  else if(q){ delete numDrafts[q.id]; delete rankDrafts[q.id]; }
+  if(stands && cf.kind === "note") openNotes[cf.id] = true;
+  if(stands && cf.kind === "row") openComments[q.id + ":" + cf.id] = true;
+  scrollKeep(render);
+  updateExportNode();
+  /* Typed custom text goes back into its box, open, without the cursor. */
+  keep.forEach(function(k){
+    el = boxOf(k.fid);
+    if(!el) return;
+    openBox(k.fid, k.text);
+    el.setAttribute("data-typed", "1");
+    try{ el.blur(); }catch(e){}
+  });
+  /* The cursor goes back where it was, with the text that was in the box, if that place still stands. */
+  var back = null;
+  if(stands){
+    if(cf.kind === "note"){ var np = document.getElementById("np-" + cf.id); back = np ? np.querySelector("textarea") : null; }
+    else if(cf.kind === "row"){
+      var rows = document.querySelectorAll('#app textarea[data-role="bcomment"]');
+      for(i=0;i<rows.length;i++){ if(rows[i].getAttribute("data-item") === cf.id) back = rows[i]; }
+    }
+    else if(cf.kind === "custom" || cf.kind === "fcustom"){
+      var fid = cf.kind === "custom" ? null : cf.fid;
+      back = boxOf(fid);
+      if(back){ openBox(fid, cf.text); if(cf.typed) back.setAttribute("data-typed", "1"); }
+    }
+    else if(cf.kind === "num"){ back = document.getElementById("numin"); }
+    if(back){
+      try{ back.focus(); if(typeof cf.from === "number") back.setSelectionRange(cf.from, cf.to); }catch(e){}
+      /* A number box has no place for the cursor to be set to: giving it its text afresh leaves the cursor at the end. */
+      if(cf.kind === "num"){ back.value = ""; back.value = cf.text; }
+      if(document.activeElement !== back) back = null;
+    }
+  }
+  /* A cursor that could not be put back, in a redraw nobody asked for: what is typed next was meant for the field. */
+  if(cf && !back && !asked) blindKeys = true;
+  if(say) tell("ver:" + CURKEY, 'A new version of "' + CONFIG.title + '" arrived.');
+}
+/* A round deleted in another page leaves this page's list too. */
+function dropRound(key){
+  var e = libEntry(key);
+  if(e){
+    var here = CURKEY === key, title = e.title || "This round";
+    /* A question the wizard is asking about that round is withdrawn, as if closed without choosing. */
+    if(confirmDone && confirmKey === key) confirmDone(null);
+    if(saveTimers[key]){ clearTimeout(saveTimers[key]); delete saveTimers[key]; }
+    delete SAVE[key];
+    delete HANDLES[key];
+    dropNotice("new:" + key);
+    dropNotice("upd:" + key);
+    dropNotice("ver:" + key);
+    LIB.rounds = LIB.rounds.filter(function(x){ return x.key !== key; });
+    if(here){
+      followWait = false; followNew = false; followShown = null;
+      if(cursorField(null)) blindKeys = true;
+      var m = mostRecent();
+      if(m && loadRoundIntoView(m.key)){ LIB.current = m.key; } else { clearView(); LIB.current = null; }
+      applyConfig();
+      render();
+      updateExportNode();
+      tell("gone:" + key, '"' + title + '" was deleted in another wizard window.');
+    }
+  }
+  /* A copy of the list stored by a page that hadn't heard yet may still name the round: it is put right. */
+  var st = readJSON(LKEY);
+  if(st && Array.isArray(st.rounds) && st.rounds.some(function(x){ return x && x.key === key; })) saveLib();
+  renderArrivals();
+}
+function tellPages(t, key){ try{ if(BC) BC.postMessage({ t: t, key: key }); }catch(e){} }
+function reloadFolders(){ return loadFolders().then(function(){ if(IS_WATCHER) scanAll(); projectUI(); }); }
+function wakeFolders(){
+  if(!foldersReady) return;
+  if(IS_WATCHER){ scanAll(); return; }
+  tellPages("scan");
+  Promise.all(folderList().map(dirPerm)).then(projectUI);
+}
+/* The page that watches reads the folders' records afresh first: another page may have watched until now, and
+   knows files this one hasn't seen. Then it looks, and writes any answers that are waiting. */
+var watchReady = false;
+function becomeWatcher(){
+  IS_WATCHER = true;
+  watchReady = false;
+  loadFolders().then(function(){
+    watchReady = true;
+    projectUI();
+    return scanAll();
+  }).then(function(){ folderList().forEach(function(rec){ if(rec.perm === "granted") syncFolder(rec); }); }, function(){});
+  if(!pollTimer) pollTimer = setInterval(pollScan, TIMING.poll);
+}
+function setupFolders(){
+  try{
+    if(typeof BroadcastChannel === "function"){
+      BC = new BroadcastChannel("decision-wizard");
+      BC.onmessage = function(ev){
+        var d = ev.data || {};
+        if(d.t === "scan"){ if(IS_WATCHER) scanAll(); }
+        else if(d.t === "folders"){ reloadFolders(); }
+        else if(d.t === "deleted" && typeof d.key === "string"){ if(lsGet(RPFX + d.key) === null) dropRound(d.key); }
+        else if(d.t === "wiped"){ try{ location.reload(); }catch(e){} }
+      };
+    }
+  }catch(e){ BC = null; }
+  window.addEventListener("storage", function(ev){
+    if(ev.key === LKEY){ followLib(); }
+    else if(CURKEY && (ev.key === RPFX + CURKEY || ev.key === APFX + CURKEY)){ followRound(); }
+  });
+  document.addEventListener("visibilitychange", function(){ if(document.hidden) flushSaves(); else { wakeFolders(); followCatchUp(); } });
+  window.addEventListener("focus", function(){ wakeFolders(); followCatchUp(); backNotices(); });
+  document.addEventListener("focusout", function(){ setTimeout(followCatchUp, 0); });
+  document.addEventListener("pointerup", function(){ pressAt = 0; }, true);
+  document.addEventListener("pointercancel", function(){ pressAt = 0; }, true);
+  window.addEventListener("pagehide", flushSaves);
+  return loadFolders().then(function(){
+    projectUI();
+    folderList().forEach(function(rec){ if(rec.perm !== "granted") okNotice(rec); });
+    /* A changed version that was waiting for a look still is. */
+    LIB.rounds.forEach(function(x){ if(x.update && holdRec(x)) updNotice(x); });
+    /* Rounds that arrived in another wizard page, or before this one closed, and were never opened. */
+    LIB.rounds.filter(function(x){ return x.unseen; }).sort(function(a, b){ return (b.arrived || 0) - (a.arrived || 0); }).slice(0, 3).reverse().forEach(announce);
+    /* Answers that never reached their file, in whichever page opens first. */
+    folderList().forEach(function(rec){ if(rec.perm === "granted") syncFolder(rec); });
+    var solo = function(){ if(!IS_WATCHER) becomeWatcher(); };
+    try{
+      if(navigator.locks && typeof navigator.locks.request === "function"){
+        Promise.resolve(navigator.locks.request("decision-wizard-watch", function(){ becomeWatcher(); return new Promise(function(){}); })).then(null, solo);
+      } else { solo(); }
+    }catch(e){ solo(); }
   });
 }
 
@@ -2805,7 +4310,7 @@ function renderLib(){
     h += '<button type="button" class="lopen" data-action="lib-open" data-key="' + esc(e.key) + '"' + (isCur ? ' aria-current="true"' : "") + '>';
     h += '<span class="ltitle" ' + dirA(title) + '>' + esc(title) + '</span>';
     if(e.tagline){ h += '<span class="ltag" ' + dirA(e.tagline) + '>' + esc(e.tagline) + '</span>'; }
-    h += '<span class="lmeta"><span>' + (e.answered || 0) + ' of ' + (e.total || 0) + ' answered</span><span>' + esc(fmtWhen(e.changed)) + '</span>' + (isCur ? '<span class="lnow">Open now</span>' : "") + '</span>';
+    h += '<span class="lmeta">' + (e.unseen ? '<span class="lnew">New</span>' : "") + (e.project ? '<span class="lproj" ' + dirA(e.project) + '>' + esc(e.project) + '</span>' : "") + '<span>' + (e.answered || 0) + ' of ' + (e.total || 0) + ' answered</span><span>' + esc(fmtWhen(e.changed)) + '</span>' + (isCur ? '<span class="lnow">Open now</span>' : "") + '</span>';
     h += '</button>';
     h += '<button type="button" class="ldel" data-action="lib-delete" data-key="' + esc(e.key) + '" aria-label="Delete ' + esc(title) + '">Delete</button>';
     h += '</div>';
@@ -2822,12 +4327,18 @@ function deleteRound(key){
   var e = libEntry(key);
   if(!e) return;
   var title = e.title || "this round";
-  confirmBox({ title: "Delete this round?", message: '"' + title + '" and its answers leave this browser. Files you saved stay where they are.', ok: "Delete", answers: e.answered || 0 }).then(function(yes){
-  if(!yes) return;
+  confirmBox({ title: "Delete this round?", message: '"' + title + '" and its answers leave this browser. Files you saved stay where they are.', ok: "Delete", answers: e.answered || 0, key: key }).then(function(yes){
+  if(!yes || !libEntry(key)) return;
   lsDel(RPFX + key);
   lsDel(APFX + key);
   delete HANDLES[key];
   handleDel(key);
+  if(saveTimers[key]){ clearTimeout(saveTimers[key]); delete saveTimers[key]; }
+  delete SAVE[key];
+  dropNotice("new:" + key);
+  dropNotice("upd:" + key);
+  dropNotice("ver:" + key);
+  tellPages("deleted", key);
   LIB.rounds = LIB.rounds.filter(function(x){ return x.key !== key; });
   if(CURKEY === key || LIB.current === key){
     LIB.current = null;
@@ -2837,6 +4348,7 @@ function deleteRound(key){
     saveLib();
   }
   renderLib();
+  renderBadge();
   setStatus("loader-status", true, 'Deleted "' + title + '".');
   });
 }
@@ -2870,6 +4382,7 @@ function hideDrawerOnly(){
 }
 function openDrawer(){
   renderLib();
+  renderFolders();
   showDrawer("drawer", document.getElementById("pickbtn"));
 }
 function openOptions(){
@@ -2897,10 +4410,19 @@ function wipeAll(){
     for(var i=0;i<localStorage.length;i++){ var k = localStorage.key(i); if(k && k.indexOf("decision-wizard-") === 0) keys.push(k); }
     for(var j=0;j<keys.length;j++){ lsDel(keys[j]); }
   }catch(e){}
+  for(var wk in WATCH){ if(own(WATCH, wk)) stopWatch(wk); }
+  for(var tk in saveTimers){ if(own(saveTimers, tk)) clearTimeout(saveTimers[tk]); }
+  FOLDERS = {}; ALIAS = {}; SAVE = {}; saveTimers = {}; NOTICES = [];
+  renderNotices();
   var p = IDBP;
   IDBP = null;
   Promise.resolve(p).then(function(db){ try{ if(db) db.close(); }catch(e){} }, function(){}).then(function(){
-    try{ if(typeof indexedDB !== "undefined") indexedDB.deleteDatabase("decision-wizard"); }catch(e){}
+    /* Other open wizard pages start over once the store is really gone. */
+    try{
+      if(typeof indexedDB === "undefined"){ tellPages("wiped"); return; }
+      var del = indexedDB.deleteDatabase("decision-wizard");
+      del.onsuccess = del.onerror = function(){ tellPages("wiped"); };
+    }catch(e){ tellPages("wiped"); }
   });
   for(var hk in HANDLES){ if(own(HANDLES, hk)) delete HANDLES[hk]; }
   LIB = { current: null, rounds: [] };
@@ -2920,6 +4442,7 @@ function wipeAll(){
   applyConfig();
   render();
   updateExportNode();
+  renderBadge();
   closeDrawer();
   toast(true, "Cleared. The wizard is empty again.");
   });
@@ -3034,7 +4557,7 @@ var LINES = {
   }
 };
 /* Timings, in milliseconds. Kept in one place so they are easy to tune. */
-var TIMING = { statMin: 35000, statMax: 75000, statChance: 0.6, nudge: 120000, yawn: 180000, sleep: 240000, remind: 60000, fast: 2000, speedGap: 300000, longThink: 60000, minLine: 4000, lineBase: 1200, linePerChar: 55, lineMax: 9000, actionLine: 11000, faceHold: 1500, staleLine: 20000, hour: null };
+var TIMING = { statMin: 35000, statMax: 75000, statChance: 0.6, nudge: 120000, yawn: 180000, sleep: 240000, remind: 60000, fast: 2000, speedGap: 300000, longThink: 60000, minLine: 4000, lineBase: 1200, linePerChar: 55, lineMax: 9000, actionLine: 11000, faceHold: 1500, staleLine: 20000, poll: 4000, fileSave: 500, scanDelay: 150, back: 8000, hour: null };
 try{ if(window.__WIZ_TIMING){ for(var tk in window.__WIZ_TIMING){ if(Object.prototype.hasOwnProperty.call(window.__WIZ_TIMING, tk)) TIMING[tk] = window.__WIZ_TIMING[tk]; } } }catch(e){}
 function nowHour(){ return typeof TIMING.hour === "number" ? TIMING.hour : new Date().getHours(); }
 var HOLD = { pick: 1300, skip: 1600, greet: 5600, milestone: 4200, error: 5200, finish: 6500, quip: 5200, batch: 4600,
@@ -3845,7 +5368,21 @@ function playSound(kind){
 }
 
 /* The confirm step, with the mascot as its face. */
+var confirmWait = [], confirmKey = null, confirmTurn = 0;
+function confirmNext(){
+  var nx = confirmWait.shift();
+  if(nx) setTimeout(nx, 0); else setTimeout(followCatchUp, 0);
+}
 function confirmBox(o){
+  if(confirmOpen){
+    /* A second question waits its turn. One about a round that has gone by then is not asked. */
+    return new Promise(function(res){
+      confirmWait.push(function(){
+        if(o.key && !libEntry(o.key)){ res(null); confirmNext(); return; }
+        confirmBox(o).then(res);
+      });
+    });
+  }
   return new Promise(function(resolve){
     var back = document.getElementById("cback");
     if(!back){ resolve(true); return; }
@@ -3855,17 +5392,29 @@ function confirmBox(o){
     document.getElementById("cmsg").textContent = o.message;
     yes.textContent = o.ok || "Go ahead";
     no.textContent = o.cancel || "Cancel";
-    fig.innerHTML = mascotOn() ? ART[SETTINGS.mascot].warn : "";
-    line.textContent = (mascotOn() && SETTINGS.talk && o.answers > 0) ? lineFor("warn", { answers: o.answers }) : "";
-    playSound("warn");
-    if(mascotOn()){ if(mTimer){ clearTimeout(mTimer); mTimer = null; } setFrame("warn"); }
-    var els = [document.querySelector("header"), document.querySelector(".wrap"), document.getElementById("drawer"), document.getElementById("optdrawer"), document.getElementById("drawerback")];
+    var face = o.calm ? "greet" : "warn", pathEl = document.getElementById("cpath");
+    if(pathEl){ pathEl.textContent = o.path || ""; pathEl.hidden = !o.path; }
+    yes.className = o.calm ? "btn" : "btn danger";
+    fig.innerHTML = mascotOn() ? ART[SETTINGS.mascot][face] : "";
+    line.textContent = (!o.calm && mascotOn() && SETTINGS.talk && o.answers > 0) ? lineFor("warn", { answers: o.answers }) : "";
+    if(!o.calm) playSound("warn");
+    if(mascotOn()){ if(mTimer){ clearTimeout(mTimer); mTimer = null; } setFrame(face); }
+    var els = [document.querySelector("header"), document.querySelector(".wrap"), document.getElementById("drawer"), document.getElementById("optdrawer"), document.getElementById("drawerback"), document.getElementById("notices")];
     var had = [];
     for(var i=0;i<els.length;i++){ had.push(!!(els[i] && els[i].hasAttribute("inert"))); if(els[i]) els[i].setAttribute("inert", ""); }
     var prev = document.activeElement;
     back.className = "cback on";
     confirmOpen = true;
-    setTimeout(function(){ try{ no.focus(); }catch(e){} }, 30);
+    confirmKey = o.key || null;
+    var turn = ++confirmTurn;
+    /* Where both buttons change something for good, neither is one Enter away. */
+    setTimeout(function(){
+      if(!confirmOpen || confirmTurn !== turn) return;
+      try{
+        if(o.nodefault){ var bx = back.querySelector(".cbox"); bx.setAttribute("tabindex", "-1"); bx.focus(); }
+        else (o.calm ? yes : no).focus();
+      }catch(e){}
+    }, 30);
     confirmDone = function(v){
       if(!confirmOpen) return;
       confirmOpen = false;
@@ -3876,7 +5425,9 @@ function confirmBox(o){
       no.onclick = null;
       if(mascotOn()) setFrame("idle");
       try{ if(prev && prev.focus && document.body.contains(prev)) prev.focus(); }catch(e){}
+      confirmKey = null;
       resolve(v);
+      confirmNext();
     };
     yes.onclick = function(){ confirmDone(true); };
     no.onclick = function(){ confirmDone(false); };
@@ -3884,6 +5435,10 @@ function confirmBox(o){
 }
 
 document.addEventListener("click", function(ev){
+  if(followNew && !confirmOpen){
+    var fw = document.querySelector(".wrap"), ft = ev.target;
+    if(fw && ft && fw.contains(ft) && ft.tagName !== "TEXTAREA" && ft.tagName !== "INPUT"){ followCatchUp(true); return; }
+  }
   var el = ev.target;
   while(el && el !== document && !(el.getAttribute && el.getAttribute("data-action"))){ el = el.parentNode; }
   if(!el || el === document) return;
@@ -3932,6 +5487,11 @@ document.addEventListener("click", function(ev){
   else if(act === "wipe-all"){ wipeAll(); }
   else if(act === "backup-all"){ saveBackup(); }
   else if(act === "install-app"){ installApp(); }
+  else if(act === "project-act"){ projectAct(el.getAttribute("data-v")); }
+  else if(act === "folder-allow"){ allowFolder(el.getAttribute("data-key")); }
+  else if(act === "folder-forget"){ forgetFolder(el.getAttribute("data-key")); }
+  else if(act === "notice-act"){ noticeAct(el.getAttribute("data-id")); }
+  else if(act === "notice-close"){ dropNotice(el.getAttribute("data-id")); }
   else if(act === "stats-toggle"){ toggleStats(); }
   else if(act === "extra-open"){ extraOpen(parseInt(el.getAttribute("data-x"), 10) || 0); }
   else if(act === "modal-close"){ extraClose(); }
@@ -3939,15 +5499,17 @@ document.addEventListener("click", function(ev){
 });
 document.addEventListener("mousedown", function(ev){
   if(ev.target && ev.target.id === "modal"){ extraClose(); }
-  if(ev.target && ev.target.id === "cback" && confirmDone){ confirmDone(false); }
+  if(ev.target && ev.target.id === "cback" && confirmDone){ confirmDone(null); }
 });
 document.addEventListener("input", function(ev){
   var t = ev.target;
   if(!t) return;
   if(t.id === "ctext"){
+    t.setAttribute("data-typed", "1");
     var ok = document.getElementById("cok");
     if(ok){ ok.disabled = !(t.value && t.value.trim().length > 0); }
   } else if(t.classList && t.classList.contains("fctext")){
+    t.setAttribute("data-typed", "1");
     var fok = document.getElementById("fcok-" + t.getAttribute("data-f"));
     if(fok){ fok.disabled = !(t.value && t.value.trim().length > 0); }
   } else if(t.id === "numrange" || t.id === "numin"){
@@ -3965,13 +5527,14 @@ document.addEventListener("input", function(ev){
   }
 });
 window.addEventListener("resize", function(){ try{ fitBatch(); }catch(e){} });
+document.addEventListener("pointerdown", function(){ blindKeys = false; pressAt = Date.now(); }, true);
 document.addEventListener("pointerdown", rankDragStart);
 document.addEventListener("pointermove", rankDragMove);
 document.addEventListener("pointerup", rankDragEnd);
 document.addEventListener("pointercancel", rankDragEnd);
 (function(){ var mo = document.getElementById("modal"); if(mo) mo.addEventListener("click", function(e){ if(e.target === mo) extraClose(); }); })();
 document.addEventListener("keydown", function(ev){
-  if(confirmOpen){ if(ev.key === "Escape" && confirmDone){ confirmDone(false); } return; }
+  if(confirmOpen){ if(ev.key === "Escape" && confirmDone){ confirmDone(null); } return; }
   var mo = document.getElementById("modal");
   if(mo && mo.className.indexOf("on") !== -1){ if(ev.key === "Escape") extraClose(); return; }
   if(menuOpen && menuKeys(ev)) return;
@@ -3982,6 +5545,11 @@ document.addEventListener("keydown", function(ev){
     if(drawerOpen){ closeDrawer(); return; }
   }
   if(drawerOpen) return;
+  if(blindKeys){
+    /* Arrows, Home and End are keys for text too, so they don't end it. */
+    if(ev.key === "Tab" || ev.key === "Escape" || typingNow()) blindKeys = false;
+    else return;
+  }
   noteKey(ev);
   if(state.idx >= QUESTIONS.length) return;
   if(ev.target && ev.target.id === "numin" && ev.key === "Enter"){ ev.preventDefault(); numRecord(); return; }
@@ -4043,6 +5611,8 @@ updateExportNode();
 if(!CURKEY){ openDrawer(); }
 scheduleBlink();
 setupApp();
+renderBadge();
+setupFolders();
 (function(){ var v = document.getElementById("oversion"); if(v) v.textContent = "Decision Wizard " + WIZARD_VERSION; })();
 scheduleTimerTick();
 (function(){
@@ -4176,7 +5746,23 @@ if(typeof window !== "undefined"){
     copyAnswers: copyAnswers,
     lines: LINES,
     wipeAll: wipeAll,
-    closeDrawer: closeDrawer
+    closeDrawer: closeDrawer,
+    get folders(){ return FOLDERS; },
+    get notices(){ return NOTICES; },
+    get isWatcher(){ return IS_WATCHER; },
+    get foldersReady(){ return foldersReady; },
+    get saves(){ return SAVE; },
+    savesPending: function(){ for(var k in saveTimers){ if(own(saveTimers, k)) return true; } for(var b in SAVE){ if(own(SAVE, b) && SAVE[b].busy) return true; } return false; },
+    scanAll: scanAll,
+    writeLinked: writeLinked,
+    flushSaves: flushSaves,
+    askProject: askProject,
+    findRound: findRound,
+    folderKey: folderKey,
+    projectName: projectName,
+    partway: partway,
+    typingNow: typingNow,
+    get following(){ return { wait: followWait, behind: followNew, blind: blindKeys }; }
   };
 }
 </script>
