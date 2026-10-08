@@ -246,6 +246,17 @@ table.xt td:first-child{font-weight:700}
 .drawer.on{transform:none;visibility:visible}
 .dhead{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 18px 12px;border-bottom:1px solid var(--line2)}
 .dhead h2{font-family:'Bricolage Grotesque',sans-serif;font-size:calc(20px*var(--fs));font-weight:800}
+.dhead.fam{gap:10px;padding:14px 18px;border-bottom:1px solid var(--line);background:var(--green-soft)}
+.dhead.fam h2{flex:1;min-width:0;font-size:calc(19px*var(--fs))}
+.ogroup{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:12px 14px 14px;margin-bottom:12px}
+.ogroup > .dsec{display:flex;align-items:center;gap:8px;margin:0 0 10px;color:var(--ink);font-size:calc(11.5px*var(--fs))}
+.ogroup > .dsec::before{content:"";width:14px;height:3px;border-radius:2px;background:var(--gold)}
+.ogroup .seg button{background:var(--card)}
+.ogroup .odanger{border:0;padding:0;background:transparent}
+.osub{font-size:calc(14px*var(--fs));font-weight:600;margin:12px 0 7px}
+.ogroup > .dsec + .osub{margin-top:0}
+.ofoot{font-size:calc(12.5px*var(--fs));color:var(--muted);text-align:center;margin-top:14px;line-height:1.5}
+.ofoot .oversion{margin-top:2px}
 .dbody{flex:1;overflow:auto;padding:16px 18px 26px}
 .dsec{font-size:calc(11px*var(--fs));font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:22px 0 8px}
 .dsec:first-child{margin-top:0}
@@ -282,9 +293,14 @@ details.fmt summary{cursor:pointer;font-size:calc(13px*var(--fs));font-weight:70
 .dropveil.on{display:flex}
 .dropveil div{border:3px dashed #D2A62F;border-radius:20px;background:var(--card);color:var(--ink);padding:28px 36px;text-align:center;font-family:'Bricolage Grotesque',sans-serif;font-size:calc(24px*var(--fs));font-weight:800;pointer-events:none}
 .dropveil small{display:block;font-family:'IBM Plex Sans',sans-serif;font-size:calc(14px*var(--fs));font-weight:500;color:var(--muted);margin-top:6px}
-.toast{position:fixed;left:50%;bottom:calc(20px + var(--lift,0px));transform:translate(-50%,20px);width:max-content;max-width:min(560px,calc(100% - 32px));background:var(--btn-bg);color:var(--btn-fg);border-radius:12px;padding:11px 16px;font-size:calc(14px*var(--fs));font-weight:600;line-height:1.45;box-shadow:0 10px 30px rgba(0,0,0,.25);z-index:80;opacity:0;pointer-events:none;transition:opacity .18s,transform .18s}
+.toast{position:fixed;left:50%;bottom:calc(20px + var(--lift,0px));transform:translate(-50%,20px);width:max-content;max-width:min(560px,calc(100% - 32px));display:flex;align-items:center;gap:11px;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:14px;padding:9px 16px 9px 10px;font-size:calc(14px*var(--fs));font-weight:500;line-height:1.45;box-shadow:0 12px 30px rgba(0,0,0,.28);z-index:80;opacity:0;pointer-events:none;transition:opacity .18s,transform .18s}
 .toast.on{opacity:1;transform:translate(-50%,0)}
-.toast.bad{background:var(--red);color:#fff}
+.toast.bad{background:var(--card);color:var(--ink)}
+.toast:empty{display:none}
+.nico{display:inline-flex;flex:none;width:30px;height:30px;border-radius:9px;align-items:center;justify-content:center;background:var(--gold);color:var(--card)}
+.nico.ok{background:var(--green)}
+.nico.bad{background:var(--red)}
+.toast .nmsg{min-width:0}
 
 footer{margin-top:34px;padding-top:14px;border-top:3px solid var(--ink);font-size:calc(13px*var(--fs));color:var(--muted);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
@@ -343,19 +359,27 @@ footer{margin-top:34px;padding-top:14px;border-top:3px solid var(--ink);font-siz
 .status .sline{font-weight:700}
 .cback{position:fixed;inset:0;z-index:75;background:rgba(10,12,8,.55);display:none;align-items:center;justify-content:center;padding:18px}
 .cback.on{display:flex}
-.cbox{width:min(520px,100%);background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:18px;padding:20px;display:flex;gap:16px;align-items:flex-start;box-shadow:0 20px 50px rgba(0,0,0,.35)}
-.cfig{flex:none;width:92px;height:120px}
+.cbox{width:min(540px,100%);background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:18px;padding:0;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.35)}
+.chead{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--line);background:var(--green-soft)}
+.chead.danger{background:var(--red-soft)}
+.chead.danger .mico{background:var(--red)}
+.chead .mclose{flex:none}
+.cbody{display:flex;gap:16px;align-items:flex-start;padding:18px 20px 20px}
+.cfig{flex:none;width:78px;height:102px}
 .cfig:empty{display:none}
 .cfig svg{display:block;width:100%;height:100%}
 .cmain{flex:1;min-width:0;display:flex;flex-direction:column;gap:10px}
-.cline{background:var(--bub-bg);color:var(--bub-ink);border:1px solid var(--bub-line);border-radius:12px;padding:9px 12px;font-size:calc(14px*var(--fs));line-height:1.45}
+.cline{position:relative;background:var(--bub-bg);color:var(--bub-ink);border:1px solid var(--bub-line);border-radius:12px;padding:9px 12px;font-size:calc(14px*var(--fs));line-height:1.45}
+.cline::before{content:"";position:absolute;left:-7px;top:13px;width:12px;height:12px;background:var(--bub-bg);border-left:1px solid var(--bub-line);border-bottom:1px solid var(--bub-line);transform:rotate(45deg)}
+[data-theme="light"] .cline{--bub-bg:#FBF6E6;--bub-line:#E3DAC4}
 .cline:empty{display:none}
-.cbox h3{font-family:'Bricolage Grotesque',sans-serif;font-size:calc(20px*var(--fs));font-weight:800;line-height:1.2}
-.cbox p{font-size:calc(14.5px*var(--fs));color:var(--muted);line-height:1.55}
+.cbox h3{flex:1;min-width:0;font-family:'Bricolage Grotesque',sans-serif;font-size:calc(19px*var(--fs));font-weight:800;line-height:1.2}
+.cbox p{font-size:calc(15px*var(--fs));color:var(--ink);line-height:1.55}
 .cbox .crow{margin-top:4px}
 @media(max-width:480px){
-  .cbox{flex-direction:column}
+  .cbody{flex-direction:column;gap:10px}
   .cfig{width:70px;height:92px}
+  .cline::before{left:22px;top:-7px;border-bottom:0;border-top:1px solid var(--bub-line)}
 }
 .mfig{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px}
 .mbubble.act{pointer-events:auto}
@@ -510,8 +534,18 @@ footer{margin-top:34px;padding-top:14px;border-top:3px solid var(--ink);font-siz
 .notices{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:44;display:flex;flex-direction:column-reverse;gap:8px;width:min(620px,calc(100% - 24px));pointer-events:none}
 .notices:empty{display:none}
 .wrap::after{content:"";display:block;height:var(--lift,0px)}
-.notice{pointer-events:auto;display:flex;align-items:center;gap:10px;background:var(--card);color:var(--ink);border:1.5px solid var(--gold);border-radius:14px;padding:9px 10px 9px 14px;box-shadow:0 12px 30px rgba(0,0,0,.28);font-size:calc(14px*var(--fs));line-height:1.45}
-.notice.bad{border-color:var(--red)}
+.notice{pointer-events:auto;display:flex;align-items:center;gap:11px;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:14px;padding:9px 10px;box-shadow:0 12px 30px rgba(0,0,0,.28);font-size:calc(14px*var(--fs));line-height:1.45}
+.sidecol{min-width:0}
+@media(min-width:881px){
+  .sidecol{position:sticky;top:14px;align-self:start;display:flex;flex-direction:column;gap:10px;max-height:calc(100vh - 28px)}
+  .sidecol #side{position:static;align-self:stretch;max-height:none;min-height:0;flex:0 1 auto}
+  .sidecol .notices{position:static;transform:none;width:auto;z-index:auto;flex:0 0 auto;flex-direction:column;max-height:calc(100vh - 160px);overflow-y:auto}
+  .sidecol .notice{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px 10px;align-items:start;padding:10px;box-shadow:none;font-size:calc(13.5px*var(--fs))}
+  .sidecol .notice .nico{width:26px;height:26px;border-radius:8px}
+  .sidecol .notice .ntext{padding-top:2px}
+  .sidecol .notice .btn{grid-column:2 / 4;justify-self:start;padding:6px 14px}
+  .sidecol .notice .nclose{grid-column:3;grid-row:1;margin:-3px -4px 0 0}
+}
 .notice .ntext{flex:1;min-width:0;overflow-wrap:anywhere}
 .notice .btn{flex:none;padding:7px 14px}
 .nclose{flex:none;border:0;background:transparent;color:var(--muted);width:28px;height:28px;border-radius:999px;font-size:calc(13px*var(--fs));cursor:pointer}
@@ -536,7 +570,10 @@ footer{margin-top:34px;padding-top:14px;border-top:3px solid var(--ink);font-siz
 
 <div class="wrap">
   <div class="layout">
-    <nav id="side" aria-label="Questions"></nav>
+    <div class="sidecol">
+      <div class="notices" id="notices" role="status" aria-live="polite"></div>
+      <nav id="side" aria-label="Questions"></nav>
+    </div>
     <div>
       <div class="stage" id="stage">
         <div id="app"></div>
@@ -602,72 +639,87 @@ footer{margin-top:34px;padding-top:14px;border-top:3px solid var(--ink);font-siz
   </div>
 </aside>
 <aside class="drawer" id="optdrawer" role="dialog" aria-modal="true" aria-labelledby="opttitle" aria-hidden="true">
-  <div class="dhead"><h2 id="opttitle">Options</h2><button type="button" class="mclose" data-action="drawer-close" aria-label="Close">&#10005;</button></div>
+  <div class="dhead fam"><span class="mico" aria-hidden="true"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.8v2.6M12 18.6v2.6M2.8 12h2.6M18.6 12h2.6M5.5 5.5l1.8 1.8M16.7 16.7l1.8 1.8M5.5 18.5l1.8-1.8M16.7 7.3l1.8-1.8"/></svg></span><h2 id="opttitle">Options</h2><button type="button" class="mclose" data-action="drawer-close" aria-label="Close">&#10005;</button></div>
   <div class="dbody">
-    <div class="dsec">Companion</div>
-    <div class="mpick">
-      <div class="mprev" id="mprev" aria-hidden="true"></div>
-      <div class="seg" role="group" aria-label="Companion">
-        <button type="button" data-action="set-mascot" data-v="quill" aria-pressed="false">Quill</button>
-        <button type="button" data-action="set-mascot" data-v="swoop" aria-pressed="false">Swoop</button>
-        <button type="button" data-action="set-mascot" data-v="none" aria-pressed="false">None</button>
+    <section class="ogroup">
+      <div class="dsec">Companion</div>
+      <div class="mpick">
+        <div class="mprev" id="mprev" aria-hidden="true"></div>
+        <div class="seg" role="group" aria-label="Companion">
+          <button type="button" data-action="set-mascot" data-v="quill" aria-pressed="false">Quill</button>
+          <button type="button" data-action="set-mascot" data-v="swoop" aria-pressed="false">Swoop</button>
+          <button type="button" data-action="set-mascot" data-v="none" aria-pressed="false">None</button>
+        </div>
       </div>
-    </div>
-    <div class="mprevline" id="mprevline" role="status" aria-live="polite"></div>
-    <div class="onote">Quill is the pocket wizard and Swoop is the falcon. Hover over your companion, or tap it, for its menu.</div>
-    <div class="orow" id="row-talk"><span class="olab">Speech bubbles</span><div class="seg sm" role="group" aria-label="Speech bubbles"><button type="button" data-action="set-talk" data-v="on" aria-pressed="false">On</button><button type="button" data-action="set-talk" data-v="off" aria-pressed="false">Off</button></div></div>
-    <div class="orow" id="row-quips"><span class="olab">Stat remarks</span><div class="seg sm" role="group" aria-label="Stat remarks"><button type="button" data-action="set-quips" data-v="on" aria-pressed="false">On</button><button type="button" data-action="set-quips" data-v="off" aria-pressed="false">Off</button></div></div>
-    <div class="orow" id="row-sound"><span class="olab">Sound effects</span><div class="seg sm" role="group" aria-label="Sound effects"><button type="button" data-action="set-sound" data-v="on" aria-pressed="false">On</button><button type="button" data-action="set-sound" data-v="off" aria-pressed="false">Off</button></div></div>
-    <div class="orow"><label class="olab" for="optname">Your name</label><input type="text" id="optname" class="oname" maxlength="30" autocomplete="off" placeholder="Optional"></div>
-    <div class="dsec">Round timer</div>
-    <div class="orow" id="row-timerhover"><span class="olab">When you hover the companion</span><div class="seg sm" role="group" aria-label="Round timer when you hover the companion"><button type="button" data-action="set-timerhover" data-v="on" aria-pressed="false">On</button><button type="button" data-action="set-timerhover" data-v="off" aria-pressed="false">Off</button></div></div>
-    <div class="orow" id="row-timerbar"><span class="olab">Next to the progress bar</span><div class="seg sm" role="group" aria-label="Round timer next to the progress bar"><button type="button" data-action="set-timerbar" data-v="on" aria-pressed="false">On</button><button type="button" data-action="set-timerbar" data-v="off" aria-pressed="false">Off</button></div></div>
-    <div class="orow" id="row-timerreset"><span class="olab">This round's clock<span class="otime" id="otime"></span></span><button type="button" class="btn sec obtn" id="timerresetbtn" data-action="timer-reset">Reset</button></div>
-    <div class="onote">The clock starts when a round is first loaded and stops once every question has an answer. It pauses while your companion naps, and while you have another round open.</div>
-    <div class="dsec">Recommendations</div>
-    <div class="orow" id="row-recs"><span class="olab">Wizard recommendations</span><div class="seg sm" role="group" aria-label="Wizard recommendations"><button type="button" data-action="set-recs" data-v="on" aria-pressed="false">On</button><button type="button" data-action="set-recs" data-v="off" aria-pressed="false">Off</button></div></div>
-    <div class="onote">When a round recommends an answer, a small wizard hat marks it, with the reason under it when there is one.</div>
-    <div class="dsec">Theme</div>
-    <div class="seg" role="group" aria-label="Theme">
-      <button type="button" data-action="set-theme" data-v="dark" aria-pressed="false">Dark</button>
-      <button type="button" data-action="set-theme" data-v="light" aria-pressed="false">Light</button>
-      <button type="button" data-action="set-theme" data-v="system" aria-pressed="false">System</button>
-    </div>
-    <div class="dsec">Text size</div>
-    <div class="seg" role="group" aria-label="Text size">
-      <button type="button" data-action="set-size" data-v="compact" aria-pressed="false">Compact</button>
-      <button type="button" data-action="set-size" data-v="normal" aria-pressed="false">Normal</button>
-      <button type="button" data-action="set-size" data-v="large" aria-pressed="false">Large</button>
-    </div>
-    <div class="onote">Options stay in this browser. Rounds never change them.</div>
-    <div class="dsec" id="ostatshead">Stats</div>
-    <div class="crow"><button type="button" class="btn sec" id="statsbtn" data-action="stats-toggle" aria-expanded="false" aria-controls="ostats">Show stats</button></div>
-    <div class="ostats" id="ostats" hidden></div>
-    <p class="ostnote" id="ostnote" hidden>Counted in this browser.</p>
-    <div class="dsec">App</div>
-    <div class="orow" id="row-install"><span class="olab">Install the wizard as an app</span><button type="button" class="btn sec obtn" id="installbtn" data-action="install-app" hidden>Install</button></div>
-    <div class="onote" id="installnote"></div>
-    <div class="dsec">Saved data</div>
-    <div class="odanger">
-      <p>Clear everything this browser keeps for the wizard: every round, its answers, the project folders it remembers, and these options. Files you saved stay where they are.</p>
-      <div class="crow"><button type="button" class="btn sec" data-action="backup-all">Back up all rounds first</button><button type="button" class="btn danger" data-action="wipe-all">Clear everything</button></div>
-    </div>
-    <div class="oversion" id="oversion"></div>
+      <div class="mprevline" id="mprevline" role="status" aria-live="polite"></div>
+      <div class="onote">Quill is the pocket wizard and Swoop is the falcon. Hover over your companion, or tap it, for its menu.</div>
+      <div class="orow" id="row-talk"><span class="olab">Speech bubbles</span><div class="seg sm" role="group" aria-label="Speech bubbles"><button type="button" data-action="set-talk" data-v="on" aria-pressed="false">On</button><button type="button" data-action="set-talk" data-v="off" aria-pressed="false">Off</button></div></div>
+      <div class="orow" id="row-quips"><span class="olab">Stat remarks</span><div class="seg sm" role="group" aria-label="Stat remarks"><button type="button" data-action="set-quips" data-v="on" aria-pressed="false">On</button><button type="button" data-action="set-quips" data-v="off" aria-pressed="false">Off</button></div></div>
+      <div class="orow" id="row-sound"><span class="olab">Sound effects</span><div class="seg sm" role="group" aria-label="Sound effects"><button type="button" data-action="set-sound" data-v="on" aria-pressed="false">On</button><button type="button" data-action="set-sound" data-v="off" aria-pressed="false">Off</button></div></div>
+      <div class="orow"><label class="olab" for="optname">Your name</label><input type="text" id="optname" class="oname" maxlength="30" autocomplete="off" placeholder="Optional"></div>
+    </section>
+    <section class="ogroup">
+      <div class="dsec">Round timer</div>
+      <div class="orow" id="row-timerhover"><span class="olab">When you hover the companion</span><div class="seg sm" role="group" aria-label="Round timer when you hover the companion"><button type="button" data-action="set-timerhover" data-v="on" aria-pressed="false">On</button><button type="button" data-action="set-timerhover" data-v="off" aria-pressed="false">Off</button></div></div>
+      <div class="orow" id="row-timerbar"><span class="olab">Next to the progress bar</span><div class="seg sm" role="group" aria-label="Round timer next to the progress bar"><button type="button" data-action="set-timerbar" data-v="on" aria-pressed="false">On</button><button type="button" data-action="set-timerbar" data-v="off" aria-pressed="false">Off</button></div></div>
+      <div class="orow" id="row-timerreset"><span class="olab">This round's clock<span class="otime" id="otime"></span></span><button type="button" class="btn sec obtn" id="timerresetbtn" data-action="timer-reset">Reset</button></div>
+      <div class="onote">The clock starts when a round is first loaded and stops once every question has an answer. It pauses while your companion naps, and while you have another round open.</div>
+    </section>
+    <section class="ogroup">
+      <div class="dsec">Recommendations</div>
+      <div class="orow" id="row-recs"><span class="olab">Wizard recommendations</span><div class="seg sm" role="group" aria-label="Wizard recommendations"><button type="button" data-action="set-recs" data-v="on" aria-pressed="false">On</button><button type="button" data-action="set-recs" data-v="off" aria-pressed="false">Off</button></div></div>
+      <div class="onote">When a round recommends an answer, a small wizard hat marks it, with the reason under it when there is one.</div>
+    </section>
+    <section class="ogroup">
+      <div class="dsec">Look</div>
+      <div class="osub">Theme</div>
+      <div class="seg" role="group" aria-label="Theme">
+        <button type="button" data-action="set-theme" data-v="dark" aria-pressed="false">Dark</button>
+        <button type="button" data-action="set-theme" data-v="light" aria-pressed="false">Light</button>
+        <button type="button" data-action="set-theme" data-v="system" aria-pressed="false">System</button>
+      </div>
+      <div class="osub">Text size</div>
+      <div class="seg" role="group" aria-label="Text size">
+        <button type="button" data-action="set-size" data-v="compact" aria-pressed="false">Compact</button>
+        <button type="button" data-action="set-size" data-v="normal" aria-pressed="false">Normal</button>
+        <button type="button" data-action="set-size" data-v="large" aria-pressed="false">Large</button>
+      </div>
+    </section>
+    <section class="ogroup">
+      <div class="dsec" id="ostatshead">Stats</div>
+      <div class="crow"><button type="button" class="btn sec" id="statsbtn" data-action="stats-toggle" aria-expanded="false" aria-controls="ostats">Show stats</button></div>
+      <div class="ostats" id="ostats" hidden></div>
+      <p class="ostnote" id="ostnote" hidden>Counted in this browser.</p>
+    </section>
+    <section class="ogroup">
+      <div class="dsec">App</div>
+      <div class="orow" id="row-install"><span class="olab">Install the wizard as an app</span><button type="button" class="btn sec obtn" id="installbtn" data-action="install-app" hidden>Install</button></div>
+      <div class="onote" id="installnote"></div>
+    </section>
+    <section class="ogroup">
+      <div class="dsec">Saved data</div>
+      <div class="odanger">
+        <p>Clear everything this browser keeps for the wizard: every round, its answers, the project folders it remembers, and these options. Files you saved stay where they are.</p>
+        <div class="crow"><button type="button" class="btn sec" data-action="backup-all">Back up all rounds first</button><button type="button" class="btn danger" data-action="wipe-all">Clear everything</button></div>
+      </div>
+    </section>
+    <div class="ofoot"><p>Options stay in this browser. Rounds never change them.</p><div class="oversion" id="oversion"></div></div>
   </div>
 </aside>
 <input type="file" id="fileinput" accept=".json,application/json" hidden>
 <div class="dropveil" id="dropveil"><div>Drop to open<small>A round, a saved file, answers, or a backup</small></div></div>
-<div class="notices" id="notices" role="status" aria-live="polite"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div class="cback" id="cback">
   <div class="cbox" role="alertdialog" aria-modal="true" aria-labelledby="ctitle" aria-describedby="cmsg">
-    <div class="cfig" id="cfig" aria-hidden="true"></div>
-    <div class="cmain">
-      <div class="cline" id="cline"></div>
-      <h3 id="ctitle"></h3>
-      <p id="cmsg"></p>
-      <div class="cpath" id="cpath" dir="ltr" hidden></div>
-      <div class="crow"><button type="button" class="btn sec" id="cno">Cancel</button><button type="button" class="btn danger" id="cyes">Go ahead</button></div>
+    <div class="chead" id="chead"><span class="mico" id="cico" aria-hidden="true"></span><h3 id="ctitle"></h3><button type="button" class="mclose" id="cx" aria-label="Close">&#10005;</button></div>
+    <div class="cbody">
+      <div class="cfig" id="cfig" aria-hidden="true"></div>
+      <div class="cmain">
+        <div class="cline" id="cline"></div>
+        <p id="cmsg"></p>
+        <div class="cpath" id="cpath" dir="ltr" hidden></div>
+        <div class="crow"><button type="button" class="btn sec" id="cno">Cancel</button><button type="button" class="btn danger" id="cyes">Go ahead</button></div>
+      </div>
     </div>
   </div>
 </div>
@@ -675,7 +727,7 @@ footer{margin-top:34px;padding-top:14px;border-top:3px solid var(--ink);font-siz
 <script>
 "use strict";
 /* The wizard's version. Bump the last number (0.1.1) for a minor update, the middle one (0.2.0) for a major one. */
-var WIZARD_VERSION = "0.6.1";
+var WIZARD_VERSION = "0.6.2";
 
 var CONFIG = { title:"Decision Wizard", tagline:"", product:"" };
 
@@ -2259,7 +2311,7 @@ function askConfirm(msg){
 function toast(ok, msg){
   var t = document.getElementById("toast");
   if(!t) return;
-  t.textContent = msg;
+  t.innerHTML = '<span class="nico' + (ok ? " ok" : " bad") + '" aria-hidden="true">' + (ok ? NICO.ok : NICO.bad) + '</span><span class="nmsg" ' + dirA(msg) + '>' + esc(msg) + '</span>';
   t.className = "toast on" + (ok ? "" : " bad");
   if(toastTimer) clearTimeout(toastTimer);
   toastTimer = setTimeout(function(){ t.className = "toast" + (ok ? "" : " bad"); }, ok ? 3600 : 6500);
@@ -3462,16 +3514,39 @@ function dropNotice(id){
   NOTICES = NOTICES.filter(function(x){ return x.id !== id; });
   if(NOTICES.length !== n) renderNotices();
 }
+/* The tile at the left of every toast and notice: green for done or for news, gold for something that wants you, red
+   for a problem. */
+var NICO = {
+  ok: '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>',
+  info: '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 11v6"/><path d="M12 7.4v.2"/></svg>',
+  want: '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.6 2.2H4.4z"/><path d="M10 20.5a2.2 2.2 0 0 0 4 0"/></svg>',
+  bad: '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.6 21.4 19.8H2.6z"/><path d="M12 10v4.4"/><path d="M12 17.1v.3"/></svg>'
+};
+var CICO = {
+  calm: '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>',
+  danger: NICO.bad
+};
+function noticeTile(n){
+  var kind = n.bad ? "bad" : n.label ? "want" : "info";
+  return '<span class="nico' + (kind === "bad" ? " bad" : kind === "info" ? " ok" : "") + '" aria-hidden="true">' + NICO[kind] + '</span>';
+}
+/* Toasts ride above the notices while the notices sit at the bottom of the screen. Beside the list, on a wide screen,
+   they take no room there, so nothing is lifted. */
+function noticeLift(){
+  var el = document.getElementById("notices");
+  var lift = 0;
+  try{ if(el && NOTICES.length && window.getComputedStyle(el).position === "fixed") lift = el.offsetHeight + 10; }catch(e){}
+  try{ document.documentElement.style.setProperty("--lift", lift + "px"); }catch(e){}
+}
 function renderNotices(){
   var el = document.getElementById("notices");
   if(!el) return;
   el.innerHTML = NOTICES.map(function(n){
-    return '<div class="notice' + (n.bad ? " bad" : "") + '"><span class="ntext" ' + dirA(n.text) + '>' + esc(n.text) + '</span>'
+    return '<div class="notice' + (n.bad ? " bad" : "") + '">' + noticeTile(n) + '<span class="ntext" ' + dirA(n.text) + '>' + esc(n.text) + '</span>'
       + (n.label ? '<button type="button" class="btn" data-action="notice-act" data-id="' + esc(n.id) + '">' + esc(n.label) + '</button>' : '')
       + '<button type="button" class="nclose" data-action="notice-close" data-id="' + esc(n.id) + '" aria-label="Dismiss">&#10005;</button></div>';
   }).join("");
-  /* Toasts ride above the notices, so neither covers the other. */
-  try{ document.documentElement.style.setProperty("--lift", NOTICES.length ? (el.offsetHeight + 10) + "px" : "0px"); }catch(e){}
+  noticeLift();
 }
 function noticeAct(id){
   if(confirmOpen) return;
@@ -5463,6 +5538,10 @@ function confirmBox(o){
     yes.textContent = o.ok || "Go ahead";
     no.textContent = o.cancel || "Cancel";
     var face = o.calm ? "greet" : "warn", pathEl = document.getElementById("cpath");
+    /* The popup family: a green band for a calm question, a red one for a question that clears something. */
+    var head = document.getElementById("chead"), ico = document.getElementById("cico"), cx = document.getElementById("cx");
+    if(head) head.className = "chead" + (o.calm ? "" : " danger");
+    if(ico) ico.innerHTML = o.calm ? CICO.calm : CICO.danger;
     if(pathEl){ pathEl.textContent = o.path || ""; pathEl.hidden = !o.path; }
     yes.className = o.calm ? "btn" : "btn danger";
     fig.innerHTML = mascotOn() ? ART[SETTINGS.mascot][face] : "";
@@ -5493,6 +5572,7 @@ function confirmBox(o){
       for(var j=0;j<els.length;j++){ if(els[j] && !had[j]) els[j].removeAttribute("inert"); }
       yes.onclick = null;
       no.onclick = null;
+      if(cx) cx.onclick = null;
       if(mascotOn()) setFrame("idle");
       try{ if(prev && prev.focus && document.body.contains(prev)) prev.focus(); }catch(e){}
       confirmKey = null;
@@ -5501,13 +5581,15 @@ function confirmBox(o){
     };
     yes.onclick = function(){ confirmDone(true); };
     no.onclick = function(){ confirmDone(false); };
+    /* Closing answers nothing, as Escape and a click outside do: on Review, it is how to decide later. */
+    if(cx) cx.onclick = function(){ confirmDone(null); };
   });
 }
 
 document.addEventListener("click", function(ev){
   if(followNew && !confirmOpen){
     var fw = document.querySelector(".wrap"), ft = ev.target;
-    if(fw && ft && fw.contains(ft) && ft.tagName !== "TEXTAREA" && ft.tagName !== "INPUT"){ followCatchUp(true); return; }
+    if(fw && ft && fw.contains(ft) && ft.tagName !== "TEXTAREA" && ft.tagName !== "INPUT" && !(ft.closest && ft.closest("#notices"))){ followCatchUp(true); return; }
   }
   var el = ev.target;
   while(el && el !== document && !(el.getAttribute && el.getAttribute("data-action"))){ el = el.parentNode; }
@@ -5677,6 +5759,7 @@ loadLib();
   saveLib();
 })();
 window.addEventListener("pagehide", noteSeen);
+window.addEventListener("resize", noticeLift);
 document.addEventListener("visibilitychange", function(){ if(document.hidden) noteSeen(); });
 applyConfig();
 render();

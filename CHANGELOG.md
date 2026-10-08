@@ -2,6 +2,13 @@
 
 What changed in the Decision Wizard and the d-wizard skill, newest first. The wizard and the skill keep their own version numbers.
 
+## Wizard 0.6.2, 8 October 2026
+
+### Changed
+- Wizard: the questions the wizard asks you, like picking a project's folder or Clear everything, have a band across the top: green for a calm question, red for one that clears or replaces something. The band holds an icon, the title, and a Close button. Close answers nothing, as Escape does.
+- Wizard: Options is in cards: Companion, Round timer, Recommendations, Look (theme and text size), Stats, App, and Saved data. The version sits in a footer that says options stay in this browser.
+- Wizard: toasts and notices share one card look, with a tile for what each is: green for done or for news, gold for something that wants you, red for a problem. On a wide screen, notices sit above the list of questions instead of over the bottom of the page. On a narrower one they stay at the bottom, with toasts above them.
+
 ## Wizard 0.6.1 and skill 0.5.1, 7 October 2026
 
 ### Added

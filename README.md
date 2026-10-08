@@ -53,7 +53,7 @@ Each copy of the wizard keeps its own list of rounds, and clearing a browser's s
 
 ## Versions
 
-- **Wizard: 0.6.1.** It's shown at the bottom of the wizard's Options panel.
+- **Wizard: 0.6.2.** It's shown at the bottom of the wizard's Options panel.
 - **Skill: 0.5.1.** It's in the skill's `SKILL.md`. It needs wizard 0.3.0 or later, 0.4.0 for rounds with ranking, number, or bracket questions, and 0.6.0 for project folders.
 
 A minor update bumps the last number (0.2.2). A major update bumps the middle number (0.3.0). What changed in each version is in [CHANGELOG.md](CHANGELOG.md).
