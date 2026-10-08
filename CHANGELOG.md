@@ -2,6 +2,16 @@
 
 What changed in the Decision Wizard and the d-wizard skill, newest first. The wizard and the skill keep their own version numbers. 
 
+## Wizard 0.6.3, 9 October 2026
+
+### Added
+
+- Wizard: new lines for Quill and Swoop. Most moments a companion speaks in a round now have five lines, and the companion picks one at random each time, never the same one twice in a row. A few moments keep fewer lines on purpose, such as the recaps after a round.
+
+### Changed
+
+- Wizard: when every question has an answer, the companion no longer says so. Go to first open shows "Nothing open. Every issue has an answer." under the summary's buttons, as it did with no companion, and Next open question in the companion's menu is greyed out.
+
 ## Wizard 0.6.2, 8 October 2026
 
 ### Changed

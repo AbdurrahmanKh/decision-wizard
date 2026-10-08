@@ -727,7 +727,7 @@ footer{margin-top:34px;padding-top:14px;border-top:3px solid var(--ink);font-siz
 <script>
 "use strict";
 /* The wizard's version. Bump the last number (0.1.1) for a minor update, the middle one (0.2.0) for a major one. */
-var WIZARD_VERSION = "0.6.2";
+var WIZARD_VERSION = "0.6.3";
 
 var CONFIG = { title:"Decision Wizard", tagline:"", product:"" };
 
@@ -4603,41 +4603,169 @@ var MASCOTS = ["quill", "swoop"];
 var MNAME = { quill: "Quill, the pocket wizard", swoop: "Swoop, the falcon" };
 var MSHORT = { quill: "Quill", swoop: "Swoop" };
 var JOIN = { quill: " and ", swoop: ", " };
-/* Lines. The greet, milestone, warn, error, finish, pick, skip and grouped lines are approved.
-   Everything else is a draft until the lines round. Picks and skips are faces only, so their lines stay silent. */
+/* Lines. Each moment a companion speaks in a round has the lines approved for it in the companion lines rounds of
+   8 October, up to five, picked at random and never the same one twice in a row. Some moments keep one line on purpose.
+   The option reactions keep one line each. */
 var LINES = {
   quill: {
-    greet: ["{Decisions}? I have read thicker books. Let's go."],
-    half: ["Halfway there. I would polish my glasses, but they are already perfect."],
+    greet: [
+      "{Decisions}? I have read thicker books. Let's go.",
+      "{Decisions}. I have cleared my schedule, which was mostly napping.",
+      "{Decisions}? Splendid. I wore my good hat for this.",
+      "{Decisions} on the table. You decide; I shall stroke my beard wisely.",
+      "{Decisions}. A light snack for a mind like yours. And mine."
+    ],
+    half: [
+      "Halfway there. I would polish my glasses, but they are already perfect.",
+      "Halfway! I would celebrate, but wizards pace themselves.",
+      "Half done. The other half is getting jealous.",
+      "Halfway there. My hat is impressed, and it's hard to impress.",
+      "Fifty percent wise already. Keep going."
+    ],
     section: [],
-    last: ["The last question. Make it a good one."],
-    warn: ["Careful! That wipes {answers}, and I am not rewriting them."],
-    error: ["This JSON has a knot in it. Let's untangle it."],
-    finish: ["Done! Hand these to Claude before I frame them."],
+    last: [
+      "The last question. Make it a good one.",
+      "Last one! I can already smell the confetti.",
+      "The grand finale. I wore my best robe for this.",
+      "Last question. I'm already warming up my dance moves.",
+      "The last question. Then confetti. I've been saving it all round."
+    ],
+    warn: [
+      "Careful! That wipes {answers}, and I am not rewriting them.",
+      "Careful with that! {answers} at stake. I've grown fond of them."
+    ],
+    error: [
+      "This JSON has a knot in it. Let's untangle it.",
+      "That file is muttering nonsense. Even I can't read it.",
+      "Hmm. This JSON is missing a page. Or a bracket.",
+      "Curious. That's not a round, that's a riddle.",
+      "This one won't load. Somebody spilled ink on it."
+    ],
+    finish: [
+      "Done! Hand these to Claude before I frame them.",
+      "Finished! Even my hat wants to dance.",
+      "Done! Somebody fetch the confetti. Oh, it's me. I'm somebody.",
+      "All done! That's one for my book of great decisions.",
+      "Finished! I'd throw my hat in the air, but I'd never find it again."
+    ],
     opt_timereset: ["Clock reset. A fresh start."],
-    batch: ["{Decisions} in this one. I shall supervise."],
-    pick: ["Noted. A very wise choice, if I say so myself."],
-    skip: ["Dodging this one? It will wait. Questions are patient."],
-    late: ["Burning the midnight oil{cname}?"],
-    morning: ["Good morning{cname}. Coffee first? No? Straight to decisions, then."],
-    back: ["Welcome back{cname}."],
-    estimate: ["About {minutes}, by my estimate."],
-    suggest: ["Second round today? {other} would love a turn."],
-    nudge: ["Still pondering? Skip it for now; it will wait for you."],
+    batch: [
+      "{Decisions} in this one. I shall supervise.",
+      "{Decisions} in one table. A feast!",
+      "{Decisions} in this one. Take them one row at a time, like a scholar.",
+      "{Decisions} in this one. You decide; I'll hold the quill.",
+      "{Decisions} lined up in a row. How orderly."
+    ],
+    pick: [
+      "Noted. A very wise choice, if I say so myself.",
+      "Worth every second of pondering. I would have picked the same. Eventually.",
+      "A choice of great wisdom. I am writing it in my good book.",
+      "Decided! I felt the magic from here.",
+      "Slow and wise, like a good spell. Noted."
+    ],
+    skip: [
+      "Dodging this one? It will wait. Questions are patient.",
+      "Skipped. I shall pretend I didn't see that.",
+      "Saving that one for later? Like dessert.",
+      "Onward! That question will sulk quietly until you return.",
+      "A tactical retreat. Very wizardly of you."
+    ],
+    late: [
+      "Burning the midnight oil{cname}?",
+      "Up this late{cname}? I put on my nightcap for nothing.",
+      "Decisions at this hour{cname}? Bold. The owls approve.",
+      "Shh{cname}. The other wizards are asleep.",
+      "*yawn* Wait! Decisions? Now? OK then."
+    ],
+    morning: [
+      "Good morning{cname}. Coffee first? No? Straight to decisions, then.",
+      "Morning{cname}! I have been up for hours. Well, minutes.",
+      "Good morning{cname}. Fresh brain, fresh decisions.",
+      "Rise and shine{cname}. The decisions rose first.",
+      "Morning{cname}. Let me find my glasses. Ah, on my face. Let's begin."
+    ],
+    back: [
+      "Back again{cname}? I knew you couldn't stay away.",
+      "Ah, it's you{cname}. My favorite decider.",
+      "There you are{cname}. I was waiting for some wisdom.",
+      "Look who it is{cname}! I'll fetch the good questions.",
+      "You're back{cname}! I had just started talking to my hat."
+    ],
+    estimate: [
+      "About {minutes}, by my estimate.",
+      "My crystal ball says {minutes}. It is usually right.",
+      "That should take {minutes}, unless you stop for tea.",
+      "This should take {minutes}. I timed it with my hourglass.",
+      "Budget {minutes}, plus a little extra for my wise remarks."
+    ],
+    suggest: [
+      "Second round today? {other} would love a turn.",
+      "Round two? {other} keeps asking about you. It's getting awkward.",
+      "Feeling generous? {other} would love a go. I'll be fine. Probably.",
+      "Another round? {other} has been playing Minecraft all day.",
+      "Round two? {other} has been warming up all morning."
+    ],
+    nudge: [
+      "Still pondering? Skip it for now; it will wait for you.",
+      "Deep in thought? Skip it if you like; it isn't going anywhere.",
+      "This question is staring back at you. Skip it for now?",
+      "Stuck? Even wizards skip a page now and then.",
+      "Two whole minutes on this one. Skip it and let it simmer?"
+    ],
     recap_done: ["{Picked} picked{typedPart}{timePart}. Nothing left open."],
     recap_open: ["{Picked} picked{typedPart}. Still open: {ids}."],
     recap_none: ["Nothing answered yet. Still open: {ids}."],
-    open_none: ["Nothing is open. Every question has an answer; I checked twice."],
     open_go: ["{id} is still waiting for you."],
     remind: ["Are these on their way to Claude? Copy them from my menu."],
-    copied: ["Copied. Paste them to Claude."],
+    copied: [
+      "Copied. Paste them wherever they're needed.",
+      "Copied! Off they go.",
+      "In your clipboard. Paste them with a flourish.",
+      "Copied. Somebody's in for a treat."
+    ],
     speed: ["Did you even read that one?"],
-    second: ["Changed your mind again? Very scholarly."],
-    wake: ["Hm? I was just resting my eyes."],
-    stat_r: ["{r} finished so far. I keep the ledger."],
-    stat_t: ["You have written {t} yourself. A true author."],
-    stat_today: ["{td} today. Productive."],
-    poke: ["Hey! My hat!"],
+    second: [
+      "Changed your mind again? Very scholarly.",
+      "Back and forth, back and forth. I am getting dizzy.",
+      "Third time's the charm, they say. I say it's the fourth.",
+      "Changed again? I'll write this one in pencil.",
+      "Make up your mind! Or don't. I have all day."
+    ],
+    wake: [
+      "Hm? I was just resting my eyes.",
+      "Hm? I wasn't asleep. I was meditating. Loudly.",
+      "Oh! You're back. I was having the loveliest dream about footnotes.",
+      "Wha? Who? Ah, yes. Decisions. Carry on.",
+      "Zzz... I mean, welcome back. Very alert. Extremely awake."
+    ],
+    stat_r: [
+      "{r} finished so far. I keep the ledger.",
+      "{r} finished so far. I'm running out of ink.",
+      "{r} done in this browser. Quite the collection.",
+      "{r} finished. At this rate I'll need a bigger ledger.",
+      "{r} finished so far. My hat tips to you."
+    ],
+    stat_t: [
+      "You have written {t} yourself. A true author.",
+      "{t} written by hand. My quill is jealous. Well, I'm jealous.",
+      "{t} of your own. Who needs options anyway?",
+      "{t} in your own words. The options are feeling a little left out.",
+      "You wrote {t} yourself. I'll add you to my library."
+    ],
+    stat_today: [
+      "{td} today. Productive.",
+      "{td} today. Somebody's on a roll.",
+      "{td} today. Shall I fetch you a medal?",
+      "{td} today. Your future self says thank you.",
+      "{td} today. I've had to sharpen my quill twice."
+    ],
+    poke: [
+      "Hey! My hat!",
+      "Stop that, it tickles!",
+      "Careful! This hat is older than the internet.",
+      "Fine, fine, I'll dance!",
+      "All right, all right! One dance, then back to work."
+    ],
     word: ["You said the magic word."],
     opt_light: ["My eyes! Warn me next time."],
     opt_dark: ["Ah, much better."],
@@ -4654,38 +4782,172 @@ var LINES = {
     opt_name: ["Nice to meet you, {name}."]
   },
   swoop: {
-    greet: ["{Decisions}. I see every one of them."],
-    half: ["Halfway. Keep your altitude."],
+    greet: [
+      "{Decisions}. I see every one of them.",
+      "{Decisions}. Wings stretched. Let's hunt.",
+      "{Decisions} in sight. Cleared for takeoff.",
+      "{Decisions}. Easy prey.",
+      "{Decisions}. I already ate, so I'm in a great mood."
+    ],
+    half: [
+      "Halfway. Keep your altitude.",
+      "Halfway. Wind's in our favor.",
+      "Half done. Not even winded.",
+      "Midpoint. Nice cruising.",
+      "Halfway there. Snack break? No? Fine."
+    ],
     section: [],
-    last: ["Last target. Make it count."],
-    warn: ["Hold it. That drops {answers}."],
-    error: ["I spotted a broken bracket from up here."],
-    finish: ["Nailed it. These fly to Claude now."],
+    last: [
+      "Last target. Make it count.",
+      "Final approach.",
+      "Last one. Bring it home.",
+      "One left. Eyes on it.",
+      "Final target. Then we land."
+    ],
+    warn: [
+      "Hold it. That drops {answers}.",
+      "Pull up! That wipes {answers}."
+    ],
+    error: [
+      "I spotted a broken bracket from up here.",
+      "That file won't fly.",
+      "Bad data. Not edible.",
+      "Turbulence. That JSON is broken.",
+      "I can't land on that. It's broken."
+    ],
+    finish: [
+      "Nailed it. These fly to Claude now.",
+      "Clean sweep. Victory lap!",
+      "Done. Perfect landing.",
+      "Done. Not a single one got away.",
+      "Every last one, caught. I'd high-five you, but wings."
+    ],
     opt_timereset: ["Clock reset. Clean slate."],
-    batch: ["{Decisions} in this flock. One at a time."],
-    pick: ["Locked on. Next target."],
-    skip: ["Circling back later? I'll be watching."],
-    late: ["Night flight{cname}? I see fine in the dark."],
-    morning: ["Morning{cname}. Early bird gets the decisions."],
-    back: ["Welcome back{cname}."],
-    estimate: ["About {minutes} of flight time."],
+    batch: [
+      "{Decisions} in this flock. One at a time.",
+      "{Decisions} in formation. Pick them off.",
+      "{Decisions} lined up. Easy targets.",
+      "{Decisions} in one sweep. Let's go.",
+      "{Decisions} in this flock. Row by row."
+    ],
+    pick: [
+      "Locked on. Next target.",
+      "Took your time. Clean hit.",
+      "Patient hunter. Good pick.",
+      "Slow dive, perfect landing.",
+      "Worth the wait. Locked in."
+    ],
+    skip: [
+      "Circling back later? I'll be watching.",
+      "Fly past it. We'll circle back.",
+      "Marked for later. Moving on.",
+      "Evasive maneuver. Nice.",
+      "Skipped. It's not going anywhere."
+    ],
+    late: [
+      "Night flight{cname}? I see fine in the dark.",
+      "Up late{cname}? The owls are taking notes.",
+      "Night shift{cname}. My favorite.",
+      "Late one{cname}. Quiet skies, clear head.",
+      "Still awake{cname}? Even the bats clocked out."
+    ],
+    morning: [
+      "Morning{cname}. Early bird gets the decisions.",
+      "Morning{cname}. Skies are clear. Let's fly.",
+      "Up early{cname}. Respect.",
+      "Dawn patrol{cname}. Let's go.",
+      "Morning{cname}. I've been up since sunrise. Literally."
+    ],
+    back: [
+      "Back on the radar{cname}.",
+      "There you are{cname}. Spotted you a mile off.",
+      "You're back{cname}. Wings ready.",
+      "Return flight complete{cname}. Welcome back.",
+      "Look who flew in{cname}."
+    ],
+    estimate: [
+      "About {minutes} of flight time.",
+      "ETA: {minutes}.",
+      "Flight plan says {minutes}.",
+      "Give it {minutes}. I'll do a lap meanwhile.",
+      "Estimated flight: {minutes}. No layovers."
+    ],
     suggest: ["Second round today? Give {other} a go."],
-    nudge: ["Circling too long? Skip it; it'll wait."],
+    nudge: [
+      "Circling too long? Skip it; it'll wait.",
+      "Still circling? Skip it. We'll swing back.",
+      "This one's a tough catch. Skip it for now?",
+      "Long stare. Want to skip and come back?",
+      "My wings are tired from circling. Skip it?"
+    ],
     recap_done: ["{Picked} picked{typedPart}{timePart}. Nothing left on the ground."],
     recap_open: ["{Picked} picked{typedPart}. Still out there: {ids}."],
     recap_none: ["Nothing caught yet. Still out there: {ids}."],
-    open_none: ["Nothing left open. The sky is clear."],
     open_go: ["Target spotted: {id}."],
-    remind: ["Still holding these? Copy them from my menu."],
-    copied: ["Copied. Deliver them to Claude."],
+    remind: [
+      "Still holding these? Copy them from my menu.",
+      "These won't fly themselves. Copy them from my menu.",
+      "Don't leave them grounded. Copy them from my menu.",
+      "Package ready for delivery. Copy it from my menu.",
+      "These answers are getting restless. Copy them from my menu."
+    ],
+    copied: [
+      "Copied. Ready for delivery.",
+      "Copied. Special delivery.",
+      "Copied. Drop them where they're needed.",
+      "Copied. Airmail, express.",
+      "Got it. Package secured."
+    ],
     speed: ["That was fast. Did you even look?"],
-    second: ["Changed course again? I'll keep circling."],
-    wake: ["I wasn't asleep. I was watching, eyes closed."],
-    stat_r: ["{r} finished. Clean hunting."],
-    stat_t: ["{t} written by hand. Sharp."],
-    stat_today: ["{td} today. Keep your altitude."],
-    poke: ["Wheee!"],
-    word: ["Magic word? I'm a falcon, but fine."],
+    second: [
+      "Changed course again? I'll keep circling.",
+      "Zig, zag, zig. Pick a heading.",
+      "Third change. I'm getting airsick.",
+      "Changing course again? Wind must be strong today.",
+      "Still deciding? I can hover all day."
+    ],
+    wake: [
+      "I wasn't asleep. I was watching, eyes closed.",
+      "Huh? I'm up. Totally up.",
+      "Not sleeping. Scanning. With my eyes shut.",
+      "Wake-up call received. Feathers fluffed.",
+      "Whoa, dozed off mid-flight. Don't tell anyone."
+    ],
+    stat_r: [
+      "{r} finished. Clean hunting.",
+      "{r} finished. Impressive wingspan.",
+      "{r} in the bag.",
+      "{r} finished. That's a whole flock of decisions.",
+      "{r} finished. Top of the food chain."
+    ],
+    stat_t: [
+      "{t} written by hand. Sharp.",
+      "{t} off the map. Respect.",
+      "You wrote {t} yourself. No autopilot.",
+      "{t} in your own words. Flying solo.",
+      "{t} written by hand. Off-script and on target."
+    ],
+    stat_today: [
+      "{td} today. Keep your altitude.",
+      "{td} today. Busy skies.",
+      "{td} today. You're flying.",
+      "{td} today. Not bad for a human.",
+      "{td} today. Fast and sharp."
+    ],
+    poke: [
+      "Wheee!",
+      "Again! Again!",
+      "Hey! Watch the feathers!",
+      "Barrel roll!",
+      "Okay, okay, I'll dance."
+    ],
+    word: [
+      "Magic word? I'm a falcon, but fine.",
+      "Wrong bird, but I'll allow it.",
+      "Wizard? I'm a falcon. Sparkles anyway.",
+      "Quill's the wizard. I just do sparkles.",
+      "You typed wizard. I'm flattered. Confused, but flattered."
+    ],
     opt_light: ["Too bright. I'll squint."],
     opt_dark: ["Night mode. My favorite."],
     opt_system: ["The system decides. Fine by me."],
@@ -4706,14 +4968,14 @@ var TIMING = { statMin: 35000, statMax: 75000, statChance: 0.6, nudge: 120000, y
 try{ if(window.__WIZ_TIMING){ for(var tk in window.__WIZ_TIMING){ if(Object.prototype.hasOwnProperty.call(window.__WIZ_TIMING, tk)) TIMING[tk] = window.__WIZ_TIMING[tk]; } } }catch(e){}
 function nowHour(){ return typeof TIMING.hour === "number" ? TIMING.hour : new Date().getHours(); }
 var HOLD = { pick: 1300, skip: 1600, greet: 5600, milestone: 4200, error: 5200, finish: 6500, quip: 5200, batch: 4600,
-             opener: 3000, suggest: 5200, nudge: 12000, recap: 5200, open_none: 4200, open_go: 3600, remind: 7000, copied: 3000,
+             opener: 3000, suggest: 5200, nudge: 12000, recap: 5200, open_go: 3600, remind: 7000, copied: 3000,
              speed: 3200, second: 3600, wake: 3200, stat: 5000, poke: 2600, word: 3000, opt: 2800, yawn: 2800 };
 var FRAME_FOR = { batch: "milestone", opener: "greet", suggest: "greet", nudge: "skip", recap: "milestone",
-                  open_none: "pick", open_go: "greet", remind: "greet", copied: "pick", speed: "skip", second: "error",
+                  open_go: "greet", remind: "greet", copied: "pick", speed: "skip", second: "error",
                   stat: "milestone", poke: "dance1", word: "pick", opt: "pick" };
 var SOUND_FOR = { opener: "greet", suggest: "quip", nudge: "quip", remind: "quip", stat: "quip", open_go: "batch", recap: "milestone",
-                  open_none: "pick", copied: "pick", word: "milestone", opt: "pick", speed: "skip", second: "skip", wake: "greet", poke: "finish" };
-var TALKS = { greet: 1, milestone: 1, error: 1, finish: 1, pick: 1, skip: 1, batch: 1, opener: 1, suggest: 1, nudge: 1, recap: 1, open_none: 1,
+                  copied: "pick", word: "milestone", opt: "pick", speed: "skip", second: "skip", wake: "greet", poke: "finish" };
+var TALKS = { greet: 1, milestone: 1, error: 1, finish: 1, pick: 1, skip: 1, batch: 1, opener: 1, suggest: 1, nudge: 1, recap: 1,
               open_go: 1, remind: 1, copied: 1, speed: 1, second: 1, wake: 1, stat: 1, poke: 1, word: 1, opt: 1 };
 var mFrame = null, mTimer = null, bubbleTimer = null, blinkTimer = null, flashTimer = null, nudgeTimer = null;
 var SPEECH = [], BURST = [], burstTimer = null, speakTimer = null, nowItem = null, wokeAt = 0;
@@ -4815,7 +5077,7 @@ function stopDance(){
 /* The speech queue. Lines never cut each other off: lines raised by the same moment are ordered
    (replies to what you just did, then things that end, then things that start, then background remarks)
    and each waits for the one on screen. Only what you asked for directly jumps the queue. */
-var INTERRUPTS = { copied: 1, open_go: 1, open_none: 1, error: 1, poke: 1, word: 1, wake: 1, opt: 1 };
+var INTERRUPTS = { copied: 1, open_go: 1, error: 1, poke: 1, word: 1, wake: 1, opt: 1 };
 function speechClass(kind, data){
   if(kind === "milestone") return data.type === "last" ? 2 : 1;
   if(kind === "finish" || kind === "recap") return 1;
@@ -5166,8 +5428,9 @@ function gotoOpen(fromStart){
       return;
     }
   }
-  if(mascotOn() && SETTINGS.talk){ react("open_none"); }
-  else if(state.idx >= t){ setStatus("sum-status", true, "Nothing open. Every issue has an answer."); }
+  /* Nothing is open. The companion stays quiet; the summary's status line says so, and the menu's Next open question
+     is greyed out meanwhile, so the toast is only for a menu opened before the last answer went in. */
+  if(state.idx >= t){ setStatus("sum-status", true, "Nothing open. Every issue has an answer."); }
   else { toast(true, "Nothing is open. Every question has an answer."); }
 }
 
@@ -5360,6 +5623,8 @@ function arrangeMenu(up){
   for(var i=0;i<order.length;i++){ var b = m.querySelector('[data-action="' + order[i] + '"]'); if(b) m.appendChild(b); }
   var none = !CURKEY || !QUESTIONS.length;
   ["mm-save", "mm-copy", "mm-next"].forEach(function(a){ var x = m.querySelector('[data-action="' + a + '"]'); if(x) x.disabled = none; });
+  var nx = m.querySelector('[data-action="mm-next"]');
+  if(nx && !none) nx.disabled = answeredCount() >= QUESTIONS.length;
 }
 function openMenu(by){
   if(!mascotOn() || drawerOpen || confirmOpen) return;
