@@ -2,6 +2,18 @@
 
 What changed in the Decision Wizard and the d-wizard skill, newest first. The wizard and the skill keep their own version numbers. 
 
+## Wizard 0.11.7, 11 November 2026
+
+### Added
+
+- Wizard: every answer, and every answer of a follow-up, has a small pen at its edge. A click on the pen picks that answer, stays on the question, and puts you in its note box. Ctrl+Enter or Cmd+Enter in a note box records the note and moves on, the way picking does. The pen turns gold on the picked answer once it has a note.
+- Wizard: Shift with a number key does the same as the pen: Shift+2 picks the second answer and opens its note. The number keys alone still pick and move on.
+
+### Fixed
+
+- Wizard: number keys pick again after a click on an empty part of the page, such as the space beside a card. The click put the focus on the page's main area, where the keys didn't count.
+- Wizard: typing a note no longer replaces the pen on the Add a note button with the word Note.
+
 ## Wizard 0.11.6, 1 November 2026
 
 ### Added
