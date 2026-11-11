@@ -158,6 +158,16 @@ button{font-family:inherit}
 .ocard .ct{font-weight:700;font-size:calc(16.5px*var(--fs));line-height:1.35}
 .ocard .cx{color:var(--muted);font-size:calc(14.5px*var(--fs));line-height:1.5}
 .opts.ocustom{margin-top:12px}
+.owrap{position:relative;display:flex;min-width:0}
+.owrap>.opt,.owrap>.ocard{flex:1;min-width:0}
+.owrap>.opt{padding-inline-end:54px}
+.owrap>.ocard{padding-bottom:46px}
+.opnote{position:absolute;inset-inline-end:9px;top:50%;transform:translateY(-50%);display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border:1.5px dashed var(--line);border-radius:999px;background:var(--card);color:var(--muted);font-size:calc(15px*var(--fs));cursor:pointer;opacity:.75;transition:opacity .12s,border-color .12s,color .12s}
+.ocards .opnote{top:auto;bottom:9px;transform:none}
+.owrap:hover .opnote,.opnote:focus-visible{opacity:1}
+.opnote:hover{border-color:var(--green2);color:var(--ink)}
+.opnote.has{border-style:solid;border-color:var(--gold);color:var(--amber);background:var(--gold-soft);opacity:1}
+.opnote:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
 .fups{margin-top:20px;padding-top:16px;border-top:1px dashed var(--line);display:flex;flex-direction:column;gap:20px}
 .fuphead{font-size:calc(13.5px*var(--fs));color:var(--muted)}
 .fuphead b{color:var(--ink)}
@@ -1387,7 +1397,7 @@ html{scroll-padding-bottom:var(--lift,0px)}
           <button type="button" data-action="set-ctx" data-v="after" aria-pressed="false">After the answers</button>
         </div>
         <div class="orow" id="row-keys"><span class="olabw"><span class="olab">Number keys pick answers</span><button type="button" class="oinfo" data-action="opt-info" data-note="nt-keys" aria-expanded="false" aria-controls="nt-keys" aria-label="About Number keys pick answers"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M12 11v7M12 6.5v.01"/></svg></button></span><button type="button" class="oswitch" role="switch" data-action="toggle-opt" data-k="keys" aria-checked="false" aria-label="Number keys pick answers"></button></div>
-        <div class="onote" id="nt-keys" hidden>Keys 1 to 9 pick an answer while you're on the question, and 1 and 2 pick in a bracket. They never pick while you type.</div>
+        <div class="onote" id="nt-keys" hidden>Keys 1 to 9 pick an answer while you're on the question, and 1 and 2 pick in a bracket. Shift with a number picks the answer and opens its note instead of moving on. They never pick while you type.</div>
       </div>
     </section>
     <section class="ogroup" data-sec="time">
@@ -1441,7 +1451,7 @@ html{scroll-padding-bottom:var(--lift,0px)}
 <script>
 "use strict";
 /* The wizard's version. Bump the last number (0.1.1) for a minor update, the middle one (0.2.0) for a major one. */
-var WIZARD_VERSION = "0.11.6";
+var WIZARD_VERSION = "0.11.7";
 
 var CONFIG = { title:"Decision Wizard", tagline:"", product:"" };
 
@@ -2213,6 +2223,7 @@ function optionsHTML(opts, saved, act, fattr, rec, labId){
   for(var i=0;i<opts.length;i++){
     var lab = optLabel(opts[i]), sel = saved && saved.status === "picked" && saved.answer === lab;
     var isRec = !!(rec && rec.label === lab), why = (isRec && rec.because) ? whyText(rec) : "";
+    h += '<div class="owrap">';
     if(card){
       var tx = optText(opts[i]);
       h += '<button type="button" class="ocard' + (sel ? " sel" : "") + (isRec ? " rec" : "") + '" data-action="' + act + '" data-i="' + i + '"' + fattr + ' aria-pressed="' + (sel ? "true" : "false") + '">';
@@ -2224,6 +2235,9 @@ function optionsHTML(opts, saved, act, fattr, rec, labId){
       h += '<button type="button" class="opt' + (sel ? " sel" : "") + (isRec ? " rec" : "") + '" data-action="' + act + '" data-i="' + i + '"' + fattr + ' aria-pressed="' + (sel ? "true" : "false") + '">';
       h += '<span class="num">' + (i+1) + '</span><span class="lab" ' + dirA(lab) + '>' + esc(lab) + (why ? '<span class="rwhy" ' + dirA(rec.because) + '>' + esc(why) + '</span>' : '') + '</span>' + (isRec ? hatHTML() : '') + '</button>';
     }
+    var nTip = 'Pick "' + lab + '" and add a note' + (SETTINGS.keys && i < 9 ? " (Shift+" + (i+1) + ")" : "");
+    h += '<button type="button" class="opnote' + (sel && hasNote(saved) ? " has" : "") + '" data-action="' + act + '-note" data-i="' + i + '"' + fattr + ' aria-label="' + esc(nTip) + '" title="' + esc(nTip) + '"><span aria-hidden="true">&#9998;</span></button>';
+    h += '</div>';
   }
   h += '</div>';
   return h;
@@ -2245,7 +2259,7 @@ function noteHTML(id, about){
   var a = state.answers[id], has = hasNote(a), show = noteShown(id);
   var h = '<div class="nrow">';
   h += '<button type="button" class="npen' + (has ? " has" : "") + '" data-action="note-toggle" data-note="' + esc(id) + '" aria-expanded="' + (show ? "true" : "false") + '" aria-controls="np-' + esc(id) + '"><span aria-hidden="true">&#9998;</span> <span>' + (has ? "Note" : "Add a note") + '</span></button>';
-  h += '<div class="npanel" id="np-' + esc(id) + '"' + (show ? "" : " hidden") + '><textarea dir="auto" data-role="note" data-note="' + esc(id) + '" aria-label="' + esc(about ? "Note on " + about : "Note") + '" placeholder="A note that travels with your answer">' + esc(noteOf(a)) + '</textarea></div>';
+  h += '<div class="npanel" id="np-' + esc(id) + '"' + (show ? "" : " hidden") + '><textarea dir="auto" data-role="note" data-note="' + esc(id) + '" aria-label="' + esc(about ? "Note on " + about : "Note") + '" placeholder="A note that travels with your answer. Ctrl+Enter or &#8984;+Enter moves on.">' + esc(noteOf(a)) + '</textarea></div>';
   return h + '</div>';
 }
 function dirOf(t){ var m = /dir="(\w+)"/.exec(dirA(t)); return m ? m[1] : "auto"; }
@@ -2408,7 +2422,7 @@ function renderSingle(q){
   if(!pre) h += contextHTML(q);
   var hint;
   if(live.length && done1(saved)) hint = qAnsweredIn(q, state.answers) ? "All answered. Next moves on, or change any answer above." : (SETTINGS.keys ? "Number keys answer the first open follow-up. " : "") + "This issue moves on once they are answered.";
-  else hint = (SETTINGS.keys ? 'Keys 1-' + Math.min(q.options.length, 9) + ' pick an answer. ' : '') + (all.length ? "Some answers open a follow-up below." : "Recording moves to the next issue.");
+  else hint = (SETTINGS.keys ? 'Keys 1-' + Math.min(q.options.length, 9) + ' pick an answer, and with Shift they add a note too. ' : '') + (all.length ? "Some answers open a follow-up below." : "Recording moves to the next issue.");
   h += '<div class="hint">' + hint + '</div>';
   h += '</div>';
   h += chromeControls(q);
@@ -3005,6 +3019,31 @@ function fpick(fi, i){
   markChanged();
   saveState();
   afterAnswer(q, { first: !was, changed: was && prev.answer !== val, key: f.id, hat: hatMissed(f, val) });
+  settleIssue(q, wasDone);
+}
+/* The question an answer was picked on with its note box open, and whether the round was already done then. */
+var noteHold = null;
+function pickNote(fi, i){
+  var q = cur(), f = fi === null ? q : (q ? fups(q)[fi] : null);
+  if(!q || !f || (fi === null && qType(q) !== "single") || i < 0 || i >= f.options.length) return;
+  var val = optLabel(f.options[i]);
+  var prev = state.answers[f.id], was = done1(prev);
+  noteHold = { q: q.id, wasDone: answeredCount() === QUESTIONS.length };
+  state.answers[f.id] = withNote(prev, { status:"picked", answer:val });
+  if(!was) countDecision();
+  markChanged();
+  saveState();
+  afterAnswer(q, { first: !was, changed: was && prev.answer !== val, key: fi === null ? undefined : f.id, hat: hatMissed(f, val) });
+  openNotes[f.id] = true;
+  render();
+  var t = document.querySelector('#np-' + f.id + ' textarea');
+  if(t){ focusQuiet(t); try{ t.setSelectionRange(t.value.length, t.value.length); }catch(e){} }
+}
+function noteDone(){
+  var q = cur();
+  if(!q) return;
+  var wasDone = !!(noteHold && noteHold.q === q.id && noteHold.wasDone);
+  noteHold = null;
   settleIssue(q, wasDone);
 }
 function openFupCustom(fi, prefill, quiet){
@@ -11474,6 +11513,8 @@ document.addEventListener("click", function(ev){
   if(!el || el === document) return;
   var act = el.getAttribute("data-action");
   if(act === "pick"){ pick(parseInt(el.getAttribute("data-i"), 10)); }
+  else if(act === "pick-note"){ pickNote(null, parseInt(el.getAttribute("data-i"), 10)); }
+  else if(act === "fpick-note"){ pickNote(parseInt(el.getAttribute("data-f"), 10), parseInt(el.getAttribute("data-i"), 10)); }
   else if(act === "bpick"){ bpick(el.getAttribute("data-item"), parseInt(el.getAttribute("data-i"), 10)); }
   else if(act === "bpen"){ bpen(el.getAttribute("data-item")); }
   else if(act === "note-toggle"){ toggleNote(el.getAttribute("data-note")); }
@@ -11602,7 +11643,7 @@ document.addEventListener("input", function(ev){
     setNote(nid, t.value || "");
     openNotes[nid] = true;
     var nb = document.querySelector('.npen[data-note="' + nid + '"]');
-    if(nb){ var nh = !!(t.value || "").trim(); nb.classList.toggle("has", nh); var ns = nb.querySelector("span"); if(ns) ns.textContent = nh ? "Note" : "Add a note"; }
+    if(nb){ var nh = !!(t.value || "").trim(); nb.classList.toggle("has", nh); var ns = nb.querySelector("span:last-child"); if(ns) ns.textContent = nh ? "Note" : "Add a note"; }
   } else if(t.getAttribute && t.getAttribute("data-role") === "bs-field"){
     bsFieldSet(t.getAttribute("data-key") || "", t.value || "");
   } else if(t.getAttribute && t.getAttribute("data-role") === "bcomment"){
@@ -11645,6 +11686,7 @@ document.addEventListener("keydown", function(ev){
   if(state.idx >= QUESTIONS.length) return;
   if(ev.target && ev.target.id === "numin" && ev.key === "Enter"){ ev.preventDefault(); if(!numCommitBox()) numRecord(); return; }
   if(bsKey(ev)) return;
+  if(ev.key === "Enter" && (ev.ctrlKey || ev.metaKey) && ev.target && ev.target.getAttribute && ev.target.getAttribute("data-role") === "note"){ ev.preventDefault(); noteDone(); return; }
   if(ev.target && (ev.target.tagName === "TEXTAREA" || ev.target.tagName === "INPUT")){
     if(ev.key === "Escape"){ cancelCustom(); }
     return;
@@ -11658,23 +11700,26 @@ document.addEventListener("keydown", function(ev){
      the header, or the companion, and Options can turn them off. */
   if(!SETTINGS.keys) return;
   var at = ev.target;
-  if(at && at !== document.body && !(at.closest && at.closest("#app .qcard"))) return;
+  if(at && at !== document.body && at.id !== "main" && !(at.closest && at.closest("#app .qcard"))) return;
   var q = cur();
   if(q && qType(q) === "bracket"){
     var bn = parseInt(ev.key, 10);
-    if(bn === 1 || bn === 2) bkPick(bn - 1);
+    if((bn === 1 || bn === 2) && !ev.shiftKey) bkPick(bn - 1);
     return;
   }
   if(q && qType(q) === "single"){
-    var n = parseInt(ev.key, 10);
+    /* Shift with a number picks that answer and opens its note. */
+    var sd = ev.shiftKey ? /^(?:Digit|Numpad)([1-9])$/.exec(ev.code || "") : null;
+    var n = ev.shiftKey ? (sd ? parseInt(sd[1], 10) : NaN) : parseInt(ev.key, 10);
     if(!isNaN(n) && n >= 1 && n <= 9){
+      if(ev.shiftKey) ev.preventDefault();
       var target = null;
       if(done1(state.answers[q.id])){
         var lk = liveFups(q, state.answers), ak = fups(q);
         for(var x=0;x<lk.length;x++){ if(!done1(state.answers[lk[x].id])){ target = lk[x]; break; } }
-        if(target){ if(n <= target.options.length) fpick(ak.indexOf(target), n-1); return; }
+        if(target){ if(n <= target.options.length){ if(ev.shiftKey) pickNote(ak.indexOf(target), n-1); else fpick(ak.indexOf(target), n-1); } return; }
       }
-      if(n <= q.options.length) pick(n-1);
+      if(n <= q.options.length){ if(ev.shiftKey) pickNote(null, n-1); else pick(n-1); }
     }
   }
 });
