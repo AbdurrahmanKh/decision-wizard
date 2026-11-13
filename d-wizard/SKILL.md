@@ -2,7 +2,7 @@
 name: "d-wizard"
 description: Send questions, decisions, or approvals as a Decision Wizard questions JSON instead of long prose. Use it when the user says "d-wizard", "communicate through the wizard", "wizard this", "ask me through the wizard", "decision wizard", "decision round", or asks to turn open questions into a wizard; and proactively when open decisions need evidence attached (conflicting sources, tables to compare), when content items need one-by-one approval (copy lines, assets, rows), when acting on a round's answers raises new decisions, or a hard open question has no clear options (offer a brainstorm). Also use it to act on an answers JSON the user pastes, gives as a file, or says is ready in the project's wizard-rounds folder (meta.tool = "decision-wizard"); to make a wizard companion ("Make a companion for my Decision Wizard"); and to send a two-round six-hats brainstorm when asked for one. Not for brainstorming in chat, quick clarifications, approving your own next steps, a single question, or questions for a teammate.
 metadata:
-  version: "0.10.1"
+  version: "0.11.0"
 compatibility: Needs Decision Wizard 0.3.0 or later, 0.4.0 for rounds with ranking, number, or bracket questions, 0.6.0 for a project's rounds to open in the wizard by themselves and for answers to be saved back into the round file, 0.7.0 for companions, 0.7.3 to drop a companion's zip on the wizard as it is, 0.9.0 for brainstorms, and 0.11.0 for their round 2. Older wizards still open plain rounds, but show no recommendations and give no way to add a note to a pick.
 ---
 
@@ -137,9 +137,11 @@ For a complete worked round demonstrating every feature, read `references/exampl
 
 File first. Whenever you can write files, deliver the round as a `.json` file named `<YYYY-MM-DD>-<topic>-round<N>.json` (today's date, a short kebab-case topic, the round number) and give its path in the message.
 
-- In Claude Code, working inside a project (a git repository): write the file to `wizard-rounds/` at the project root, and set `config.project` and `config.folder`. The first time you write a round in a project, check that `wizard-rounds/` is listed in the project's `.gitignore` and add it if it is not.
+- In Claude Code, working inside a project (a git repository): write the file to `wizard-rounds/` at the project root, and set `config.project` and `config.folder`. When the session works in a git worktree, the project root is the main checkout, the folder above `git rev-parse --path-format=absolute --git-common-dir`, never the worktree: a worktree is deleted once its work is done, and the wizard's link to the folder would go with it. The first time you write a round in a project, make sure `wizard-rounds/.gitignore` exists and holds the single line `*`; it keeps the folder out of git without a change to any file the project tracks, so never edit the project's own `.gitignore` for it. Before starting a new round, look in `wizard-rounds/` for earlier rounds on the same topic and build on what they settled.
 - Anywhere else, Claude included: write it wherever your file outputs go, and make it visible to the user the way your environment shows files, as a file in the conversation. Never write a round into one of the user's own folders, a project's `wizard-rounds/` folder included, even when you can reach them: that folder is Claude Code's, and the user's folders hold their work.
 - Only when no file tools exist: output the JSON in a single fenced `json` code block.
+
+Before delivering, where you can run commands, check the round with `python3 scripts/validate_round.py <round file>` from this skill's folder (`python` on Windows). It checks the rules above that a script can: ids, titles and questions, options, cards, recommendations, follow-ups, tables, `needs_wizard`, and dashes. Fix what it prints and run it again until it prints `ok`. It skips brainstorms, which have their own shape.
 
 Surround the round with at most three short sentences. Do not restate the questions in prose; the JSON is the communication, and duplicating it defeats the purpose.
 
@@ -160,6 +162,8 @@ For a round you wrote into a project's `wizard-rounds/` folder, read that file a
 - **The file is still exactly as you wrote it,** with `config` at the top level and no `meta`: no answer has reached it. The user's wizard may not have the folder, or may be an older one. Look for another `.json` file in `wizard-rounds/` whose `meta.tool` is `decision-wizard` and whose `meta.wizard_title` is this round's title; downloaded saves are named `<title>-answers-<YYYY-MM-DD>.json`. If there is none, ask for a paste or a file path.
 
 If the user says answers are ready and you wrote no round in this conversation, look in `wizard-rounds/` for the newest `.json` file whose `meta.tool` is `decision-wizard`, and say which round you took it to be. Do not write to a round file the user is answering, except to send a corrected version of the round.
+
+Where you can run commands, read the answers with `python3 scripts/read_answers.py <file>` from this skill's folder (`python` on Windows) rather than reading the file itself, which repeats the whole round. It prints one line per id with its status, answer, and note, and the rows and follow-ups under it. Given a round that has no answers yet, it reads the newest saved answers with the same title from the same folder, or says that none have arrived. `--full` adds each question and the text of a picked card. Open the file itself only for what the script leaves out, such as reconciling ids.
 
 What comes back:
 
