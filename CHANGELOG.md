@@ -2,6 +2,18 @@
 
 What changed in the Decision Wizard and the d-wizard skill, newest first. The wizard and the skill keep their own version numbers. 
 
+## Skill 0.11.0, 13 November 2026
+
+### Added
+
+- Skill: `scripts/validate_round.py` checks a round before Claude sends it: unique ids, titles that aren't questions, questions that end with a question mark, unique option labels, at most three cards, recommendations that name a real option or value, follow-ups whose `when` names a real option, table rows as wide as their columns, `needs_wizard` high enough for the question types, and no em or en dashes. It prints `ok`, or one problem per line, and skips brainstorms.
+- Skill: `scripts/read_answers.py` prints a round's answers one line per id, with notes, rows, and follow-ups under it. Given a round with no answers yet, it reads the newest saved answers with the same title from the same folder. `--full` adds each question and the text of a picked card. Claude reads answers through it instead of reading the whole round file again.
+
+### Changed
+
+- Skill: `wizard-rounds/` stays out of git through its own `.gitignore` holding `*`. Claude no longer edits the project's `.gitignore` for it.
+- Skill: a session working in a git worktree writes rounds to the main checkout's `wizard-rounds/`, since a worktree is deleted once its work is done. Before a new round, Claude looks there for earlier rounds on the same topic.
+
 ## Wizard 0.11.7, 11 November 2026
 
 ### Added

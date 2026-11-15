@@ -92,12 +92,12 @@ Each copy of the wizard keeps its own list of rounds, and clearing a browser's s
 
 - `index.html`: the wizard, and this site's homepage.
 - `manifest.webmanifest`, `sw.js`, and `icons/`: what makes the hosted wizard installable as an app, with its icons. The service worker keeps a copy for offline use and loads the newest version whenever you're online.
-- `d-wizard/`: the skill. This folder is its source; `references/example-round.json` is a complete worked round, `references/brainstorms.md` is how Claude writes a brainstorm's two rounds and reads their answers, with `references/example-brainstorm.json` and `references/example-brainstorm-round2.json` as complete ones, and `references/companions.md` is how Claude makes a companion.
+- `d-wizard/`: the skill. This folder is its source; `references/example-round.json` is a complete worked round, `references/brainstorms.md` is how Claude writes a brainstorm's two rounds and reads their answers, with `references/example-brainstorm.json` and `references/example-brainstorm-round2.json` as complete ones, and `references/companions.md` is how Claude makes a companion. `scripts/validate_round.py` checks a round before Claude sends it, and `scripts/read_answers.py` prints a round's answers one line per id.
 - `.nojekyll`: tells GitHub Pages to serve every file exactly as uploaded.
 
 ## Versions
 
 - **Wizard: 0.11.6.** It's shown at the bottom of the wizard's Options panel.
-- **Skill: 0.10.1.** It's in the skill's `SKILL.md`. It needs wizard 0.3.0 or later, 0.4.0 for rounds with ranking, number, or bracket questions, 0.6.0 for project folders, 0.7.0 for companions, 0.7.3 to drop a companion's zip on the wizard as it is, 0.9.0 for brainstorms, and 0.11.0 for their round 2.
+- **Skill: 0.11.0.** It's in the skill's `SKILL.md`. It needs wizard 0.3.0 or later, 0.4.0 for rounds with ranking, number, or bracket questions, 0.6.0 for project folders, 0.7.0 for companions, 0.7.3 to drop a companion's zip on the wizard as it is, 0.9.0 for brainstorms, and 0.11.0 for their round 2.
 
 A minor update bumps the last number (0.2.2). A major update bumps the middle number (0.3.0). What changed in each version is in [CHANGELOG.md](CHANGELOG.md).
