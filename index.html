@@ -405,21 +405,22 @@ table.xt td:first-child{font-weight:700}
 .dbody{flex:1;overflow:auto;padding:16px 18px 26px}
 .dsec{font-size:calc(11px*var(--fs));font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:22px 0 8px}
 .dsec:first-child{margin-top:0}
-.dropzone{border:1.5px dashed var(--gold);border-radius:12px;background:var(--panel);padding:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:calc(13.5px*var(--fs));color:var(--muted);line-height:1.45}
-.dropzone span{flex:1;min-width:150px}
-#qpaste{width:100%;border:1px solid var(--line);border-radius:9px;padding:10px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:calc(12.5px*var(--fs));min-height:110px;resize:vertical;background:var(--field);color:var(--ink)}
+#qpaste{display:block;width:100%;border:1px solid var(--line);border-radius:8px;padding:9px 10px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:calc(12.5px*var(--fs));min-height:76px;resize:vertical;background:var(--field);color:var(--ink)}
 #qpaste:focus-visible{outline:3px solid var(--focus);outline-offset:1px}
-.lrow{display:flex;align-items:stretch;border:1px solid var(--line);border-radius:12px;background:var(--card);margin-bottom:8px;overflow:hidden}
+.lrow{display:flex;align-items:stretch;border:1px solid var(--line);border-radius:11px;background:var(--card);margin-bottom:6px;overflow:hidden}
 .lrow.cur{border-color:var(--green);background:var(--green-soft)}
-.lopen{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;text-align:left;background:transparent;border:0;padding:10px 12px;cursor:pointer;color:var(--ink)}
+.lopen{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px;text-align:left;background:transparent;border:0;padding:8px 12px;cursor:pointer;color:var(--ink)}
 .lopen:hover{background:var(--line2)}
 .lrow.cur .lopen:hover{background:transparent}
 .lopen:focus-visible,.ldel:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}
-.ltitle{font-weight:700;font-size:calc(14.5px*var(--fs));line-height:1.35;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.ltag{font-size:calc(12.5px*var(--fs));color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.lmeta{display:flex;gap:12px;flex-wrap:wrap;font-size:calc(12px*var(--fs));color:var(--muted);font-variant-numeric:tabular-nums;margin-top:2px}
+.ltitle{display:flex;align-items:center;gap:6px;min-width:0;font-weight:700;font-size:calc(14.5px*var(--fs));line-height:1.35}
+.ltt{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lcheck{flex:none;width:14px;height:14px;color:var(--green)}
+.lmeta{display:flex;gap:10px;flex-wrap:wrap;font-size:calc(12px*var(--fs));color:var(--muted);font-variant-numeric:tabular-nums}
 .lnow{font-weight:700;color:var(--green)}
-.ldel{flex:none;border:0;border-left:1px solid var(--line2);background:transparent;color:var(--muted);padding:0 14px;font-size:calc(12.5px*var(--fs));font-weight:600;cursor:pointer}
+.ldel{flex:none;display:none;border:0;border-left:1px solid var(--line2);background:transparent;color:var(--muted);padding:0 14px;font-size:calc(12.5px*var(--fs));font-weight:600;cursor:pointer}
+.lrow:hover .ldel,.lrow:focus-within .ldel{display:block}
+@media(hover:none){.ldel{display:block}}
 .ldel:hover{color:var(--red);background:var(--red-soft)}
 .seg{display:flex;gap:6px;flex-wrap:wrap}
 .seg button{flex:1;min-width:96px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;padding:9px 12px;font-weight:600;font-size:calc(14px*var(--fs));cursor:pointer}
@@ -431,9 +432,10 @@ table.xt td:first-child{font-weight:700}
 .oversion{margin-top:18px;text-align:center;font-size:calc(12.5px*var(--fs));color:var(--muted);font-variant-numeric:tabular-nums}
 .odanger p{font-size:calc(13.5px*var(--fs));color:var(--muted);line-height:1.5;margin-bottom:12px}
 .lempty{font-size:calc(13.5px*var(--fs));color:var(--muted);line-height:1.5}
-details.fmt{margin-top:24px}
-details.fmt summary{cursor:pointer;font-size:calc(13px*var(--fs));font-weight:700;color:var(--muted)}
+.fmtnote{border:1px solid var(--line2);border-radius:10px;background:var(--panel);padding:12px 14px;margin:0 0 16px}
+.fmtnote .dsec{margin:0 0 4px}
 .ldef{font-size:calc(12.5px*var(--fs));color:var(--muted);margin:8px 0;line-height:1.6}
+.ldef:last-child{margin-bottom:0}
 .dropveil{position:fixed;inset:0;z-index:70;display:none;align-items:center;justify-content:center;background:rgba(14,91,70,.22);padding:18px}
 .dropveil.on{display:flex}
 .dropveil div{border:3px dashed #D2A62F;border-radius:20px;background:var(--card);color:var(--ink);padding:28px 36px;text-align:center;font-family:'Bricolage Grotesque',sans-serif;font-size:calc(24px*var(--fs));font-weight:800;pointer-events:none}
@@ -905,7 +907,6 @@ img.mimg.pix{image-rendering:pixelated}
 .bkm div.w{color:var(--ink);font-weight:700;background:var(--green-soft)}
 .sumrank{margin:4px 0 0 20px;padding:0}
 .sumsub{color:var(--muted);font-size:calc(13.5px*var(--fs))}
-.lbar{margin:0 0 10px}
 .odanger .crow{margin-top:0}
 .chiprow{display:flex;align-items:center;justify-content:space-between;gap:8px 12px;flex-wrap:wrap;margin:4px 0 14px}
 .chiprow .section-chip{margin:0}
@@ -928,25 +929,18 @@ img.mimg.pix{image-rendering:pixelated}
 .sumproj.ok svg{color:var(--green)}
 .sumproj.bad{border-color:var(--red);background:var(--red-soft)}
 .sumproj.wait{border-color:var(--gold);background:var(--gold-soft)}
-.frow{display:flex;align-items:stretch;border:1px solid var(--line);border-radius:12px;background:var(--card);margin-bottom:8px;overflow:hidden}
-.frow.ok{border-color:var(--green)}
-.fmain{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;padding:10px 12px}
-.fname{font-weight:700;font-size:calc(14.5px*var(--fs));line-height:1.35}
-.fpath{font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;font-size:calc(11.5px*var(--fs));line-height:1.45;color:var(--muted);overflow-wrap:anywhere}
-.fstate{font-size:calc(12px*var(--fs));font-weight:600;color:var(--amber)}
-.frow.ok .fstate{color:var(--green)}
-.fbtn{flex:none;border:0;border-left:1px solid var(--line2);background:var(--gold-soft);color:var(--amber);padding:0 14px;font-size:calc(12.5px*var(--fs));font-weight:700;cursor:pointer}
-.fbtn:hover{filter:brightness(1.06)}
-.fbtn:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}
 .lnew{font-weight:800;color:var(--btn-fg);background:var(--btn-bg);border-radius:999px;padding:0 8px}
-.lproj{font-weight:700;color:var(--ink)}
-.lproj.lsaves{display:inline-flex;align-items:center;gap:4px;font-weight:600;color:var(--muted)}
-.lproj.lsaves svg{width:13px;height:13px;flex:none}
 /* Load, grouped by project */
 .lsum{font-size:calc(12.5px*var(--fs));color:var(--muted);margin:2px 2px 10px}
 .lgroup{margin-bottom:12px}
-.lghead{margin:0;font-size:inherit}
-.lgbtn{display:flex;align-items:center;gap:9px;width:100%;min-width:0;background:transparent;border:0;border-bottom:1px solid var(--line);padding:6px 2px 7px;margin-bottom:8px;color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+.lghead{display:flex;align-items:center;gap:8px;margin:0 0 8px;font-size:inherit;border-bottom:1px solid var(--line)}
+.lgbtn{display:flex;align-items:center;gap:9px;flex:1;min-width:0;background:transparent;border:0;padding:6px 2px 7px;color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+.lgbtn.lgstatic{cursor:default}
+.lgbtn.lgstatic:hover .lgname{text-decoration:none}
+.lgconn{flex:none;display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:7px;padding:3px 9px;font-size:calc(12px*var(--fs));font-weight:700;cursor:pointer}
+.lgconn svg{width:13px;height:13px;color:var(--gold)}
+.lgconn:hover{border-color:var(--muted)}
+.lgconn:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
 .lgbtn:hover .lgname{text-decoration:underline;text-underline-offset:3px}
 .lgbtn:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:6px}
 .lgchev{flex:none;width:16px;height:16px;color:var(--muted);transition:transform .15s}
@@ -955,15 +949,70 @@ img.mimg.pix{image-rendering:pixelated}
 .lgroup.none .lgname{color:var(--muted);font-weight:700;font-size:calc(14px*var(--fs))}
 .lgcount{flex:none;font-size:calc(12.5px*var(--fs));color:var(--muted);font-variant-numeric:tabular-nums}
 .lgnew{flex:none;font-size:calc(12px*var(--fs));font-weight:800;color:var(--btn-fg);background:var(--btn-bg);border-radius:999px;padding:0 8px}
-.lgfold{flex:none;margin-left:auto;display:inline-flex;align-items:center;gap:5px;font-size:calc(11.5px*var(--fs));font-weight:700;color:var(--green)}
-.lgfold svg{width:13px;height:13px}
 .lglast{display:none;font-size:calc(12.5px*var(--fs));color:var(--muted);margin:-4px 2px 4px 27px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .lgroup.shut .lglast{display:block}
 .lgroup.shut .lgbody{display:none}
+/* Load: the ways in, the project buttons, the folders, and Backups */
+.dhead .dinfo{margin-right:auto}
+.ways{display:flex;gap:8px}
+.ways .btn{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:9px 12px}
+.ways .btn svg{flex:none}
+.whint{font-size:calc(12.5px*var(--fs));color:var(--muted);margin:7px 2px 0;line-height:1.45}
+.pastebox{margin-top:10px;border:1px solid var(--amber);border-radius:10px;background:var(--amber-soft);padding:10px}
+.pastebox p{font-size:calc(12.5px*var(--fs));color:var(--ink);margin:0 0 7px;line-height:1.45}
+.sechead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:22px 0 8px}
+.sechead .dsec{margin:0}
+.hbtn{flex:none;display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:4px 10px;font-size:calc(12.5px*var(--fs));font-weight:600;cursor:pointer}
+.hbtn:hover{border-color:var(--muted)}
+.hbtn:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.hbtn svg{flex:none;color:var(--muted)}
+.hchev{transition:transform .15s}
+.hbtn[aria-expanded="true"] .hchev{transform:rotate(180deg)}
+.projarea{position:relative}
+.fwarn{display:flex;align-items:center;gap:8px;width:100%;min-width:0;border:1px solid var(--amber);background:var(--amber-soft);color:var(--ink);border-radius:9px;padding:7px 10px;margin:0 0 6px;cursor:pointer;text-align:left;font-size:calc(13.5px*var(--fs));font-weight:600}
+.fwarn svg{flex:none;width:15px;height:15px;color:var(--amber)}
+.fwarn .fwn{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fwarn .fwst{margin-left:auto;flex:none;color:var(--amber);font-size:calc(12.5px*var(--fs));font-weight:700}
+.fwarn:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.pbtns{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.pbtn{display:flex;flex-direction:column;gap:1px;min-width:0;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:9px;padding:7px 10px;cursor:pointer;text-align:left}
+.pbtn:hover{border-color:var(--muted)}
+.pbtn:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.pbtn[aria-pressed="true"]{border-color:var(--gold);background:var(--gold-soft);box-shadow:inset 0 0 0 1px var(--gold)}
+.pbtop{display:flex;align-items:center;gap:6px;min-width:0;font-weight:700;font-size:calc(13.5px*var(--fs))}
+.pbname{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pbtn.none .pbname{color:var(--muted)}
+.pbdot{flex:none;width:7px;height:7px;border-radius:999px;background:var(--gold)}
+.pbsub{font-size:calc(12px*var(--fs));color:var(--muted);font-variant-numeric:tabular-nums}
+.pbmore{margin-top:6px;background:transparent;border:0;color:var(--muted);padding:2px;font-size:calc(12.5px*var(--fs));font-weight:600;cursor:pointer}
+.pbmore:hover{color:var(--ink)}
+.pbmore:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:4px}
+.fldpop{position:absolute;z-index:4;left:-4px;right:-4px;top:34px;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 14px 34px rgba(0,0,0,.3);padding:12px 14px;max-height:min(70vh,560px);overflow:auto}
+.fphead{display:flex;align-items:center;gap:8px}
+.fphead h4{margin:0;font-family:'Bricolage Grotesque','IBM Plex Sans',sans-serif;font-size:calc(16px*var(--fs));font-weight:800}
+.fpx{margin-left:auto;border:0;background:transparent;color:var(--muted);cursor:pointer;font-size:calc(14px*var(--fs));padding:2px 4px;border-radius:6px}
+.fpx:hover{color:var(--ink)}
+.fpx:focus-visible{outline:3px solid var(--focus);outline-offset:1px}
+.fpwhy{font-size:calc(12.5px*var(--fs));color:var(--muted);margin:3px 0 4px;line-height:1.45}
+.fprow{border-top:1px solid var(--line2);padding:9px 0 8px}
+.fprow:first-of-type{border-top:0}
+.fpline{display:flex;align-items:center;gap:8px;min-width:0}
+.fpline b{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:calc(13.5px*var(--fs))}
+.fpn{margin-left:auto;flex:none;font-size:calc(12px*var(--fs));color:var(--muted);font-variant-numeric:tabular-nums}
+.fpst{margin-left:auto;flex:none;display:inline-flex;align-items:center;gap:5px;font-size:calc(12px*var(--fs));font-weight:700;color:var(--amber)}
+.fpst svg{width:13px;height:13px}
+.fppath{font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;font-size:calc(11.5px*var(--fs));line-height:1.45;color:var(--muted);overflow-wrap:anywhere;margin:2px 0 7px}
+.fpnote{font-size:calc(12.5px*var(--fs));color:var(--muted);margin:0 0 8px;line-height:1.5}
+.fpacts{display:flex;gap:8px;flex-wrap:wrap}
+.fpacts .btn{padding:5px 12px;font-size:calc(12.5px*var(--fs));border-radius:8px;display:inline-flex;align-items:center;gap:6px}
+.fpacts .fpforget:hover{color:var(--red);border-color:var(--red)}
+.fpadd{border-top:1px solid var(--line2);padding-top:10px;margin-top:2px}
+.fpnone{font-size:calc(12.5px*var(--fs));color:var(--muted);margin:0;line-height:1.5}
+.bkfold{display:flex;gap:8px;margin:0 0 12px;padding:10px;border:1px solid var(--line2);border-radius:10px;background:var(--panel)}
+.bkfold .btn{flex:1;padding:6px 10px;font-size:calc(12.5px*var(--fs))}
+@media(prefers-reduced-motion:reduce){.hchev{transition:none}}
 @media(prefers-reduced-motion:reduce){.lgchev{transition:none}}
 .hbadge{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:#D2A62F;color:#221B06;font-size:calc(11.5px*var(--fs));font-weight:800;font-variant-numeric:tabular-nums}
-.fopen{margin:0 0 10px}
-.lempty + .fopen{margin-top:10px}
 .notices{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:44;display:flex;flex-direction:column-reverse;gap:8px;width:min(620px,calc(100% - 24px));pointer-events:none}
 .notices:empty{display:none}
 .wrap::after{content:"";display:block;height:var(--lift,0px)}
@@ -1407,6 +1456,7 @@ html{scroll-padding-bottom:var(--lift,0px)}
                 <div class="mmtime" id="mmtime" role="none" hidden><span><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5"/><path d="M9.5 2.5h5"/></svg> <em class="mtlab">Time on this round</em></span><b></b></div>
                 <button type="button" role="menuitem" data-action="mm-options"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M19.15 10.08 L22.10 10.58 L22.10 13.42 L19.15 13.92 L18.41 15.70 L20.15 18.14 L18.14 20.15 L15.70 18.41 L13.92 19.15 L13.42 22.10 L10.58 22.10 L10.08 19.15 L8.30 18.41 L5.86 20.15 L3.85 18.14 L5.59 15.70 L4.85 13.92 L1.90 13.42 L1.90 10.58 L4.85 10.08 L5.59 8.30 L3.85 5.86 L5.86 3.85 L8.30 5.59 L10.08 4.85 L10.58 1.90 L13.42 1.90 L13.92 4.85 L15.70 5.59 L18.14 3.85 L20.15 5.86 L18.41 8.30Z"/><circle cx="12" cy="12" r="3"/></svg><span>Options</span></button>
                 <button type="button" role="menuitem" data-action="mm-load"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span>Load new question round</span></button>
+                <button type="button" role="menuitem" data-action="mm-paste"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4H7a2 2 0 0 0-2 2v4a2 2 0 0 1-2 2 2 2 0 0 1 2 2v4a2 2 0 0 0 2 2h1"/><path d="M16 4h1a2 2 0 0 1 2 2v4a2 2 0 0 0 2 2 2 2 0 0 0-2 2v4a2 2 0 0 1-2 2h-1"/></svg><span>Paste JSON</span></button>
                 <button type="button" role="menuitem" data-action="mm-sleep"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11h7l-7 9h7"/><path d="M13 5h5l-5 6h5"/><path d="M19 15h3l-3 4h3"/></svg><span>Sleep</span></button>
                 <button type="button" role="menuitem" data-action="mm-save"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg><span>Save round JSON file</span></button>
                 <button type="button" role="menuitem" class="mm-main" data-action="mm-copy"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg><span>Copy answers JSON</span></button>
@@ -1438,29 +1488,26 @@ html{scroll-padding-bottom:var(--lift,0px)}
 
 <div class="dback" id="drawerback" data-action="drawer-close"></div>
 <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawertitle" aria-hidden="true">
-  <div class="dhead"><h2 id="drawertitle">Load a round</h2><button type="button" class="mclose" data-action="drawer-close" aria-label="Close">&#10005;</button></div>
+  <div class="dhead"><h2 id="drawertitle">Load a round</h2><button type="button" class="oinfo dinfo" data-action="opt-info" data-note="fmtnote" aria-expanded="false" aria-controls="fmtnote" aria-label="What the files look like"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M12 11v7M12 6.5v.01"/></svg></button><button type="button" class="mclose" data-action="drawer-close" aria-label="Close">&#10005;</button></div>
   <div class="dbody">
-    <h3 class="dsec">From a file</h3>
-    <div class="dropzone"><button type="button" class="btn" id="pickbtn" data-action="pick-file">Choose file</button><span>or drop a round, a saved file, or a backup anywhere on this page</span></div>
-    <h3 class="dsec">Paste JSON</h3>
-    <textarea id="qpaste" spellcheck="false" aria-label="Paste a round, a saved file, answers JSON, or a backup" placeholder="A round, a saved file, answers JSON, or a backup"></textarea>
-    <div class="crow"><button type="button" class="btn sec" data-action="paste-load">Load</button></div>
-    <div class="status" id="loader-status" role="status"></div>
-    <h3 class="dsec">Project folders</h3>
-    <div id="folderlist" aria-label="Project folders"></div>
-    <h3 class="dsec">Rounds in this browser</h3>
-    <div class="crow lbar"><button type="button" class="btn sec" data-action="backup-all">Back up all rounds</button><button type="button" class="btn sec" data-action="pick-file">Restore from a backup</button></div>
-    <div id="liblist" aria-label="Rounds in this browser"></div>
-    <details class="fmt">
-      <summary>What the files look like</summary>
+    <div class="fmtnote" id="fmtnote" hidden>
+      <h3 class="dsec">What the files look like</h3>
       <div class="ldef"><b>Round.</b> Either a bare array of questions, or an object {config, questions} where config sets {title, tagline, product, project}; Load groups rounds by their project, or by their product when they have none. Each question: <b>id</b>, <b>section</b>, <b>title</b>, <b>options</b> (array of strings). Ids must be unique, and so must row ids inside one batch. Optional: <b>question</b> (the question itself, shown large, with the title as a small topic line above it; the sidebar keeps the title); <b>context</b>; <b>detail</b> (array of {kind: quote, note, or code, src, text}; code keeps indentation and line breaks and shows src exactly as written, such as a file path and line); <b>links</b> (array of {label, url}); <b>extra</b> ({label, blocks:[{kind: text, text}, {kind: table, title, columns, rows}, {kind: quote, src, text}, {kind: note, text}, or {kind: code, src, text}]}, or a list of them for several buttons) for context popups; <b>customLabel</b>; <b>custom</b>: false; <b>skip</b>: false; <b>recommend</b> (the label of the recommended option) with <b>because</b> (the reason, finishing "I recommend this because"), on a question, a follow-up, or a batch row. For a batch table set <b>type</b>: "batch" and <b>items</b>: [{id, label, note}], sharing one options set per row. Every question and every row takes a note with the pen. <b>type</b>: "rank" makes a ranking of 2 to 10 options (recommend is the whole order); "number" takes <b>min</b>, <b>max</b>, <b>step</b>, and <b>unit</b> instead of options (recommend is a number); "bracket" runs 4 to 32 options in knockout pairs, in the listed order. In config, <b>needs_wizard</b> names the oldest wizard version the round is made for, and a round written into a project sets <b>project</b> (the project's name) and <b>folder</b> (the full path of the folder the round file is in).</div>
       <div class="ldef"><b>Brainstorm.</b> An object with config.kind set to "brainstorm", a <b>topic</b> (a <b>title</b> and a <b>question</b>, and maybe context, detail, links, and extra, as a question has), and the cards of one of its two rounds. <b>Round 1</b> has <b>hold</b> (the six hats, Blue first, each with an optional <b>question</b>), <b>sparks</b> (optional: a hat with an optional <b>line</b> and up to three sparks {id, text}), <b>suggest</b> (the six hats, Blue last, each with a <b>line</b> and up to four <b>ideas</b> {id, text, why}), and an optional <b>recap</b> {line}. <b>Round 2</b> has <b>aims</b> (Blue's <b>line</b>, your <b>goals</b>, what to <b>avoid</b>, and <b>said</b>, your answers from round 1 that weren't ideas, each {hat, question, answer}), optional <b>extras</b> {line, ideas: [{id, hat, text, why, council}]}, <b>ideas</b> [{id, text, by, hat, from, council}], where by is "you", the hat that suggested it, or "merged" (then <b>merged</b> lists the cards it came from, each {text, by, hat}), and council holds up to four {hat, say} per hat, and an optional <b>order</b> {line}. Ids use letters, digits, - and _, and are unique; ids like u1 are kept for your own cards. A brainstorm saves, backs up, and works with project folders as a round does. A file made for wizard 0.8.0, with a hats list, no longer loads; one already in your list keeps its answers.</div>
       <div class="ldef"><b>Saved file.</b> What Save writes: the answers JSON (meta and answers, the same as Copy answers JSON) with the whole round under <b>round</b>, so opening it picks up where you left off.</div>
       <div class="ldef"><b>Answers JSON.</b> Answers on their own merge into the round with the same title, or into the open round: matching ids overwrite, and open entries are ignored unless they carry a note. A note comes back as <b>comment</b>.</div>
       <div class="ldef"><b>Backup.</b> What Back up all rounds writes: every round in this browser with its answers, each in the saved-file form, under <b>rounds</b>. Loading a backup adds the rounds that are missing here and brings back the ones the backup has a newer copy of. When a round changed here after the backup was made, the wizard asks whether to keep it.</div>
-      <div class="ldef"><b>Project folders.</b> When a round names its folder, the wizard offers to save your answers into it. Pick the folder once, in Chrome or Edge on a computer, when a round asks or with Open a project folder. From then on your answers are written into the round's file as you go, in the saved-file form, and a new round landing in that folder opens by itself, or waits in the list while you are partway through another.</div>
-      <div class="ldef"><b>The list.</b> Every round stays in this browser, with its answers, until you delete it. A round whose title is already in the list replaces the saved one, and answers to questions that did not change stay.</div>
-    </details>
+      <div class="ldef"><b>Project folders.</b> When a round names its folder, the wizard offers to save your answers into it. Pick the folder once, in Chrome or Edge on a computer, when a round asks or with Connect a project, under the folders button in Load. From then on your answers are written into the round's file as you go, in the saved-file form, and a new round landing in that folder opens by itself, or waits in the list while you are partway through another.</div>
+      <div class="ldef"><b>The list.</b> Every round stays in this browser, with its answers, until you delete it. The project buttons above it show one project's rounds at a time, or all of them. A round whose title is already in the list replaces the saved one, and answers to questions that did not change stay.</div>
+    </div>
+    <div class="ways"><button type="button" class="btn" id="pickbtn" data-action="pick-file"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>Choose file</button><button type="button" class="btn sec" id="pastebtn" data-action="paste-clip"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4H7a2 2 0 0 0-2 2v4a2 2 0 0 1-2 2 2 2 0 0 1 2 2v4a2 2 0 0 0 2 2h1"/><path d="M16 4h1a2 2 0 0 1 2 2v4a2 2 0 0 0 2 2 2 2 0 0 0-2 2v4a2 2 0 0 1-2 2h-1"/></svg>Paste JSON</button></div>
+    <div class="whint">or drop a round, a saved file, or a backup anywhere on the page</div>
+    <div class="pastebox" id="pastebox" hidden><p id="pastewhy"></p><textarea id="qpaste" spellcheck="false" aria-label="Paste a round, a saved file, answers JSON, or a backup" aria-describedby="pastewhy" placeholder="A round, a saved file, answers JSON, or a backup"></textarea></div>
+    <div class="status" id="loader-status" role="status"></div>
+    <div class="projarea" id="projarea"></div>
+    <div class="sechead"><h3 class="dsec">Rounds in this browser</h3><button type="button" class="hbtn" id="bkbtn" data-action="bk-toggle" aria-expanded="false" aria-controls="bkfold"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="5" rx="1"/><path d="M5 9v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9"/><path d="M10 13h4"/></svg>Backups<svg class="hchev" viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></button></div>
+    <div class="bkfold" id="bkfold" hidden><button type="button" class="btn sec" data-action="backup-all">Back up all rounds</button><button type="button" class="btn sec" data-action="pick-file">Restore from a backup</button></div>
+    <div id="liblist" aria-label="Rounds in this browser"></div>
   </div>
 </div>
 <div class="drawer" id="optdrawer" role="dialog" aria-modal="true" aria-labelledby="opttitle" aria-hidden="true">
@@ -1574,7 +1621,7 @@ html{scroll-padding-bottom:var(--lift,0px)}
 <script>
 "use strict";
 /* The wizard's version. Bump the last number (0.1.1) for a minor update, the middle one (0.2.0) for a major one. */
-var WIZARD_VERSION = "0.13.2";
+var WIZARD_VERSION = "0.14.0";
 
 var CONFIG = { title:"Decision Wizard", tagline:"", product:"" };
 
@@ -4104,7 +4151,31 @@ function pasteLoad(){
   var t = document.getElementById("qpaste");
   if(!t) return;
   if(!t.value.trim()){ setStatus("loader-status", false, "Paste a round, a saved file, or answers JSON first."); return; }
-  Promise.resolve(ingestText(t.value, {})).then(function(ok){ if(ok){ t.value = ""; } });
+  Promise.resolve(ingestText(t.value, {})).then(function(ok){ if(ok){ t.value = ""; pasteBoxClose(); } });
+}
+function pasteBox(why){
+  if(!(drawerOpen && drawerId === "drawer")) openDrawer();
+  var b = document.getElementById("pastebox"), w = document.getElementById("pastewhy"), t = document.getElementById("qpaste");
+  if(!b || !t) return;
+  if(w) w.textContent = why;
+  b.hidden = false;
+  setTimeout(function(){ if(drawerOpen && drawerId === "drawer") focusQuiet(t); }, 90);
+}
+function pasteBoxClose(){
+  var b = document.getElementById("pastebox"), t = document.getElementById("qpaste");
+  if(b) b.hidden = true;
+  if(t) t.value = "";
+}
+function pasteClip(){
+  var cb = (typeof navigator !== "undefined") ? navigator.clipboard : null;
+  if(!cb || typeof cb.readText !== "function"){ pasteBox("This browser doesn't let the wizard read what you copied. Paste it here, and it loads by itself:"); return; }
+  Promise.resolve().then(function(){ return cb.readText(); }).then(function(txt){
+    if(!String(txt || "").trim()){ pasteBox("Nothing is copied right now. Copy a round and press Paste JSON again, or paste it here:"); return; }
+    pasteBoxClose();
+    ingestText(String(txt), {});
+  }, function(){
+    pasteBox("The browser didn't let the wizard read what you copied. Paste it here, and it loads by itself:");
+  });
 }
 
 /* Saving: back into the opened file when the browser allows, a download otherwise. */
@@ -5174,7 +5245,7 @@ function askProject(key, src, kind, wrong, sub){
     });
   });
 }
-/* Open a project folder: connect a project's wizard-rounds folder from Load, with no round loaded first. The rounds in
+/* Connect a project: connect a project's wizard-rounds folder from Load, with no round loaded first. The rounds in
    it name their folder, so the newest of them sets it, and the folder is known by its own name. The newest round still as Claude wrote it then
    opens, as if it were chosen by hand; every other file in the folder is noted and left alone, as on any connection. */
 function openProjectFolder(){
@@ -5227,7 +5298,8 @@ function connectDir(dir, known, list){
     if(p !== "granted"){
       tellPages("folders");
       foldersChanged();
-      toast(true, recName(rec) + "'s folder is remembered. Press Allow on it here to let the wizard write into it.");
+      if(drawerOpen && drawerId === "drawer") foldersOpen(rec.key);
+      toast(true, recName(rec) + "'s folder is remembered. Press Allow to let the wizard write into it.");
       return true;
     }
     grantDone(rec);
@@ -5314,7 +5386,7 @@ function okNotice(rec, again){
 }
 function notAllowed(rec, p){
   foldersChanged();
-  if(p === "denied") toast(false, "The browser is blocking this folder. Allow it from the icon in the address bar, or forget the folder in Load and pick it again.");
+  if(p === "denied") toast(false, "The browser is blocking this folder. Allow it from the icon in the address bar, or forget it under the folders button in Load and connect it again.");
   else okNotice(rec, true);
 }
 function allowFolder(k){
@@ -5387,31 +5459,55 @@ function projectAct(v){
   if(v === "allow"){ allowFolder(e.fkey); return; }
   getHandle(key).then(function(h){ if(CURKEY === key) askProject(key, { handle: h }); });
 }
-var FOLDER_OPEN_BTN = '<div class="crow fopen"><button type="button" class="btn sec" data-action="folder-open">Open a project folder</button></div>';
-function renderFolders(){
-  var el = document.getElementById("folderlist");
-  if(!el) return;
-  var list = folderList();
-  if(list.length) el.setAttribute("role", "list"); else el.removeAttribute("role");
-  if(!list.length){
-    el.innerHTML = fsSupported()
-      ? '<div class="lempty">None yet. Rounds Claude Code writes name their project\'s folder. Open that folder here, or load one of its rounds and pick the folder when the wizard asks. From then on the wizard saves your answers into it, and opens that project\'s new rounds by itself.</div>' + FOLDER_OPEN_BTN
-      : '<div class="lempty">Saving into a project\'s folder, and opening its new rounds by themselves, need Chrome or Edge on a computer.</div>';
-    return;
-  }
-  var h = "";
-  list.forEach(function(rec){
-    var ok = rec.perm === "granted", gone = rec.perm === "gone", name = recName(rec);
-    h += '<div class="frow' + (ok ? " ok" : "") + '" role="listitem"><div class="fmain"><span class="fname" ' + dirA(name) + '>' + esc(name) + '</span>';
-    h += '<span class="fpath" dir="ltr" title="' + esc(rec.path) + '">' + esc(rec.path) + '</span>';
-    h += '<span class="fstate">' + (ok ? "Saving your answers, and opening new rounds" : gone ? "This folder can't be found right now. If it moved, load a round from it and pick it again" : rec.perm === "denied" ? "Blocked in the browser" : "Waiting for your OK") + '</span></div>';
-    if(!ok && !gone) h += '<button type="button" class="fbtn" data-action="folder-allow" data-key="' + esc(rec.key) + '" aria-label="Allow ' + esc(name) + '">Allow</button>';
-    h += '<button type="button" class="ldel" data-action="folder-forget" data-key="' + esc(rec.key) + '" aria-label="Forget ' + esc(name) + '">Forget</button></div>';
-  });
-  h += FOLDER_OPEN_BTN;
-  h += '<div class="onote">The wizard watches these folders while it is open. In a browser tab, the browser asks for your OK again on a later visit: choose Allow on every visit there, and it stops asking. The installed app keeps access by itself.</div>';
-  el.innerHTML = h;
+/* Load's folders. A working folder shows nothing; one that needs you has its own line above the project buttons,
+   always in view. Every folder, with its path, Allow, and Forget, sits behind one button at the head of the projects. */
+var FLD = { open: false };
+var LINK_ICO = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.07 0l2.83-2.83a5 5 0 0 0-7.07-7.07L11.5 4.5"/><path d="M14 11a5 5 0 0 0-7.07 0L4.1 13.83a5 5 0 0 0 7.07 7.07L12.5 19.5"/></svg>';
+var BROKEN_ICO = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 17H7A5 5 0 0 1 7 7"/><path d="M15 7h2a5 5 0 0 1 3.5 8.5"/><path d="M8 12h2"/><path d="M3 3l18 18"/></svg>';
+var PLUS_ICO = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>';
+var HCHEV = '<svg class="hchev" viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg>';
+function folderWords(rec){ return rec.perm === "gone" ? "Can't be found" : rec.perm === "denied" ? "Blocked in the browser" : "Waiting for your OK"; }
+function folderNoteText(rec){
+  if(rec.perm === "gone") return "The wizard can't find this folder right now. If it moved, load a round from it and pick it again.";
+  if(rec.perm === "denied") return "The browser is blocking this folder. Allow it from the icon in the address bar, or forget it here and connect it again.";
+  return "In a browser tab, the browser asks for your OK again on a later visit: choose Allow on every visit there, and it stops asking. The installed app keeps access by itself.";
 }
+function folderRoundCount(rec){
+  var n = 0;
+  LIB.rounds.forEach(function(e){ if(e.fkey && canonKey(e.fkey) === rec.key) n++; });
+  return n;
+}
+function foldersPopHTML(list){
+  var h = '<div class="fldpop" id="fldpop" role="group" aria-labelledby="fldpoph"><div class="fphead"><h4 id="fldpoph">Connected folders</h4><button type="button" class="fpx" data-action="folders-close" aria-label="Close the folders">&#10005;</button></div>';
+  h += '<p class="fpwhy">Where your answers save, and where new rounds open from.</p>';
+  list.forEach(function(rec){
+    var ok = rec.perm === "granted", name = recName(rec);
+    h += '<div class="fprow"><div class="fpline"><b ' + dirA(name) + '>' + esc(name) + '</b>' + (ok ? '<span class="fpn">' + plur(folderRoundCount(rec), "round") + '</span>' : '<span class="fpst">' + BROKEN_ICO + esc(folderWords(rec)) + '</span>') + '</div>';
+    h += '<div class="fppath" dir="ltr">' + esc(rec.path) + '</div>';
+    if(!ok) h += '<p class="fpnote">' + esc(folderNoteText(rec)) + '</p>';
+    h += '<div class="fpacts">' + (!ok && rec.perm !== "gone" ? '<button type="button" class="btn" data-action="folder-allow" data-key="' + esc(rec.key) + '" aria-label="Allow ' + esc(name) + '">Allow</button>' : "");
+    h += '<button type="button" class="btn sec fpforget" data-action="folder-forget" data-key="' + esc(rec.key) + '" aria-label="Forget ' + esc(name) + '">Forget</button></div></div>';
+  });
+  if(fsSupported()) h += '<div class="fpadd fpacts"><button type="button" class="btn sec" data-action="folder-open">' + PLUS_ICO + 'Connect a project</button></div>';
+  return h + '</div>';
+}
+function foldersOpen(key){
+  FLD.open = true;
+  renderLib();
+  var pop = document.getElementById("fldpop");
+  if(!pop) return;
+  var first = key ? pop.querySelector('[data-action="folder-allow"][data-key="' + cssAttr(key) + '"]') : null;
+  focusQuiet(first || pop.querySelector("button"));
+}
+function foldersClose(refocus){
+  if(!FLD.open) return;
+  var inside = document.getElementById("fldpop"), had = !!(inside && inside.contains(document.activeElement));
+  FLD.open = false;
+  renderLib();
+  if(refocus || had) focusQuiet("#fldbtn");
+}
+function foldersToggle(){ if(FLD.open) foldersClose(true); else foldersOpen(null); }
+function renderFolders(){ if(drawerOpen && drawerId === "drawer") renderLib(); }
 function renderBadge(){
   var n = 0;
   for(var i=0;i<LIB.rounds.length;i++){ if(LIB.rounds[i].unseen) n++; }
@@ -5847,8 +5943,8 @@ function openRef(r){
       return;
     }
     var fs = fsSupported();
-    addNotice({ id: "ref", label: fs ? "Open a project folder" : undefined, fn: fs ? function(){ Promise.resolve(openProjectFolder()).then(function(ok){ if(ok) openRef(r); }); } : undefined,
-                text: '"' + title + '" isn\'t in this wizard yet.' + (file ? " Its file is " + file + ", in the wizard-rounds folder it came from." : "") + (fs ? " Open that folder once, and it opens here." : " Load that file in Load.") });
+    addNotice({ id: "ref", label: fs ? "Connect a project" : undefined, fn: fs ? function(){ Promise.resolve(openProjectFolder()).then(function(ok){ if(ok) openRef(r); }); } : undefined,
+                text: '"' + title + '" isn\'t in this wizard yet.' + (file ? " Its file is " + file + ", in the wizard-rounds folder it came from." : "") + (fs ? " Connect that folder once, and it opens here." : " Load that file in Load.") });
   });
 }
 function allowThen(list, r){
@@ -5910,56 +6006,152 @@ function lfoldToggle(btn){
   btn.setAttribute("aria-expanded", shut ? "false" : "true");
 }
 var LG_CHEV = '<svg class="lgchev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg>';
-var LG_FOLDER = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M2 4.5h4l1.5 1.5H14v6.5H2z"/></svg>';
-function libRowHTML(e, grouped){
-  var isCur = e.key === CURKEY, title = e.title || "Untitled round";
+var CHECK_ICO = '<svg class="lcheck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="All answered"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+function libRowHTML(e){
+  var isCur = e.key === CURKEY, title = e.title || "Untitled round", done = (e.total || 0) > 0 && (e.answered || 0) >= e.total;
   var h = '<div class="lrow' + (isCur ? " cur" : "") + '" role="listitem">';
-  h += '<button type="button" class="lopen" data-action="lib-open" data-key="' + esc(e.key) + '"' + (isCur ? ' aria-current="true"' : "") + '>';
-  h += '<span class="ltitle" ' + dirA(title) + '>' + esc(title) + '</span>';
-  if(e.tagline){ h += '<span class="ltag" ' + dirA(e.tagline) + '>' + esc(e.tagline) + '</span>'; }
-  h += '<span class="lmeta">' + (e.unseen ? '<span class="lnew">New</span>' : "") + (e.project && grouped === false ? '<span class="lproj" ' + dirA(e.project) + '>' + esc(e.project) + '</span>' : (e.project && typeof grouped === "string" && pkey(e.project) !== grouped ? '<span class="lproj lsaves">' + LG_FOLDER + '<span ' + dirA(e.project) + '>Saves in ' + esc(e.project) + '</span></span>' : "")) + '' + (e.kind === "brainstorm" ? '<span class="lkind">' + BS_MARK + (e.bsround ? 'Brainstorm, round ' + e.bsround : 'Older brainstorm') + '</span><span>' + (e.answered || 0) + ' of ' + (e.total || 0) + ' cards seen</span>' : '<span>' + (e.answered || 0) + ' of ' + (e.total || 0) + ' answered</span>') + '<span>' + esc(fmtWhen(e.changed)) + '</span>' + (isCur ? '<span class="lnow">Open now</span>' : "") + '</span>';
+  h += '<button type="button" class="lopen" data-action="lib-open" data-key="' + esc(e.key) + '"' + (isCur ? ' aria-current="true"' : "") + (e.tagline ? ' title="' + esc(e.tagline) + '"' : "") + '>';
+  h += '<span class="ltitle"><span class="ltt" ' + dirA(title) + '>' + esc(title) + '</span>' + (done ? CHECK_ICO : "") + '</span>';
+  h += '<span class="lmeta">' + (e.unseen ? '<span class="lnew">New</span>' : "") + (e.kind === "brainstorm" ? '<span class="lkind">' + BS_MARK + (e.bsround ? 'Brainstorm, round ' + e.bsround : 'Older brainstorm') + '</span><span>' + (e.answered || 0) + ' of ' + (e.total || 0) + ' cards seen</span>' : '<span>' + (e.answered || 0) + ' of ' + (e.total || 0) + ' answered</span>') + '<span>' + esc(fmtWhen(e.changed)) + '</span>' + (isCur ? '<span class="lnow">Open now</span>' : "") + '</span>';
   h += '</button>';
   h += '<button type="button" class="ldel" data-action="lib-delete" data-key="' + esc(e.key) + '" aria-label="Delete ' + esc(title) + '">Delete</button>';
-  h += '</div>';
-  return h;
+  return h + '</div>';
 }
-function renderLib(){
-  var el = document.getElementById("liblist");
-  if(!el) return;
-  if(!LIB.rounds.length){ el.removeAttribute("role"); el.innerHTML = '<div class="lempty">No rounds yet. Every round you load stays here, with its answers, until you delete it.</div>'; return; }
+/* Which rounds Load shows: all of them, or one project's, by the buttons over the list. The last one picked stays
+   picked in this browser; "*" is all, "" the rounds with no project. */
+var LFILT_KEY = "decision-wizard-lfilter-v1", PB_MORE = false, PB_LIMIT = 8;
+function lfilterGet(){ var v = lsGet(LFILT_KEY); return typeof v === "string" ? v : "*"; }
+function lfilterSet(k){
+  lsSet(LFILT_KEY, k);
+  PB_MORE = false;
+  renderLib();
+  var list = document.getElementById("liblist");
+  if(list && list.parentNode && list.parentNode.scrollTop > list.offsetTop) list.parentNode.scrollTop = Math.max(0, list.offsetTop - 120);
+}
+function libView(){
   var rows = LIB.rounds.slice().sort(function(a, b){ return (b.changed || 0) - (a.changed || 0); });
   var groups = {}, order = [];
   for(var i=0;i<rows.length;i++){
     var n = ensurePname(rows[i]), k = pkey(n);
-    if(!own(groups, k)){ groups[k] = { k: k, name: n, rows: [], latest: rows[i].changed || 0 }; order.push(k); }
+    if(!own(groups, k)){ groups[k] = { k: k, name: n, rows: [], latest: rows[i].changed || 0, fresh: 0 }; order.push(k); }
     else if(!/[A-Z\s]/.test(groups[k].name) && /[A-Z\s]/.test(n)) groups[k].name = n;
     groups[k].rows.push(rows[i]);
+    if(rows[i].unseen) groups[k].fresh++;
   }
   if(PNAME_DIRTY){ PNAME_DIRTY = false; saveLib(); }
+  /* The project with the newest round first, and the rounds with no project last. */
+  order.sort(function(a, b){ return (a === "") - (b === "") || groups[b].latest - groups[a].latest; });
+  var showBtns = order.length > 1, filt = showBtns ? lfilterGet() : "*";
+  if(filt !== "*" && !own(groups, filt)) filt = "*";
+  return { rows: rows, groups: groups, order: order, total: rows.length, filt: filt, showBtns: showBtns };
+}
+function projButtonsHTML(V){
+  var cells = [{ k: "*", name: "All rounds", n: V.total, fresh: 0, none: false }];
+  V.order.forEach(function(k){ var G = V.groups[k]; cells.push({ k: k, name: G.name || "Other rounds", n: G.rows.length, fresh: G.fresh, none: !k }); });
+  var shown = cells;
+  if(cells.length > PB_LIMIT && !PB_MORE){
+    shown = cells.slice(0, PB_LIMIT - 1);
+    var picked = cells.filter(function(c){ return c.k === V.filt; })[0];
+    if(picked && shown.indexOf(picked) === -1) shown.push(picked);
+  }
+  var h = '<div class="pbtns" role="group" aria-label="Show the rounds of">';
+  shown.forEach(function(c){
+    h += '<button type="button" class="pbtn' + (c.none ? " none" : "") + '" data-action="lib-filter" data-k="' + esc(c.k) + '" aria-pressed="' + (V.filt === c.k ? "true" : "false") + '">';
+    h += '<span class="pbtop"><span class="pbname" ' + dirA(c.name) + '>' + esc(c.name) + '</span>' + (c.fresh ? '<span class="pbdot" role="img" aria-label="' + plur(c.fresh, "new round") + '"></span>' : "") + '</span>';
+    h += '<span class="pbsub">' + plur(c.n, "round") + '</span></button>';
+  });
+  h += '</div>';
+  if(cells.length > PB_LIMIT) h += '<button type="button" class="pbmore" data-action="lib-more" aria-expanded="' + (PB_MORE ? "true" : "false") + '">' + (PB_MORE ? "View less" : "View more (" + (cells.length - shown.length) + ")") + '</button>';
+  return h;
+}
+function projAreaHTML(V){
+  var list = folderList(), fs = fsSupported(), h = "";
+  if(!V.showBtns && !list.length && !fs) return "";
+  if(!list.length) FLD.open = false;
+  h += '<div class="sechead"><h3 class="dsec">Projects</h3>';
+  if(list.length) h += '<button type="button" class="hbtn" id="fldbtn" data-action="folders-toggle" aria-expanded="' + (FLD.open ? "true" : "false") + '"' + (FLD.open ? ' aria-controls="fldpop"' : "") + '>' + LINK_ICO + plur(list.length, "folder") + HCHEV + '</button>';
+  else if(fs) h += '<button type="button" class="hbtn" id="fldbtn" data-action="folder-open">' + LINK_ICO + 'Connect a project</button>';
+  h += '</div>';
+  if(FLD.open) h += foldersPopHTML(list);
+  list.forEach(function(rec){
+    if(rec.perm === "granted") return;
+    var name = recName(rec);
+    h += '<button type="button" class="fwarn" data-action="folders-open" data-key="' + esc(rec.key) + '"><span class="fwi">' + BROKEN_ICO + '</span><span class="fwn" ' + dirA(name) + '>' + esc(name) + '</span><span class="fwst">' + esc(folderWords(rec)) + '</span></button>';
+  });
+  if(V.showBtns) h += projButtonsHTML(V);
+  return h;
+}
+/* A project whose rounds name a folder the wizard doesn't have offers Connect on its heading. */
+function connectKey(G){
+  if(!fsSupported()) return null;
+  for(var i=0;i<G.rows.length;i++){ var e = G.rows[i]; if(e.fkey && !recOfEntry(e)) return e.key; }
+  return null;
+}
+function groupHeadHTML(G, fold, shut, bid){
+  var label = G.name || "Other rounds";
+  var inner = (fold ? LG_CHEV : "") + '<span class="lgname" ' + dirA(label) + '>' + esc(label) + '</span><span class="lgcount">' + plur(G.rows.length, "round") + '</span>' + (G.fresh ? '<span class="lgnew">' + G.fresh + ' new</span>' : "");
+  var h = '<h4 class="lghead">' + (fold ? '<button type="button" class="lgbtn" data-action="lib-fold" aria-expanded="' + (shut ? "false" : "true") + '" aria-controls="' + bid + '">' + inner + '</button>' : '<span class="lgbtn lgstatic">' + inner + '</span>');
+  var ck = connectKey(G);
+  if(ck) h += '<button type="button" class="lgconn" data-action="proj-connect" data-key="' + esc(ck) + '" aria-label="Connect the folder of ' + esc(label) + '">' + LINK_ICO + 'Connect</button>';
+  return h + '</h4>';
+}
+function listHTML(V){
+  if(!V.total) return { list: false, h: '<div class="lempty">No rounds yet. Every round you load stays here, with its answers, until you delete it.</div>' };
   var h = "";
-  if(order.length === 1 && order[0] === ""){
-    el.setAttribute("role", "list");
-    for(var r=0;r<rows.length;r++) h += libRowHTML(rows[r], false);
-    el.innerHTML = h;
-    return;
+  if(V.order.length === 1 && V.order[0] === ""){
+    V.rows.forEach(function(e){ h += libRowHTML(e); });
+    return { list: true, h: h };
   }
-  el.removeAttribute("role");
-  order.sort(function(a, b){ return groups[b].latest - groups[a].latest; });
-  var named = order.filter(function(k){ return k !== ""; }).length, folded = lfoldList();
-  h += '<div class="lsum">' + plur(rows.length, "round") + ' in ' + plur(named, "project") + '</div>';
-  for(var g=0;g<order.length;g++){
-    var G = groups[order[g]], shut = folded.indexOf(G.k) !== -1, bid = "lgb-" + g;
-    var fresh = G.rows.filter(function(e){ return e.unseen; }).length;
-    var saves = G.rows.some(function(e){ var rec = e.fkey ? recOfEntry(e) : null; return !!(rec && rec.perm === "granted" && pkey(e.project) === G.k); });
-    var label = G.name || "Without a project";
-    h += '<section class="lgroup' + (G.k ? "" : " none") + (shut ? " shut" : "") + '" data-pk="' + esc(G.k) + '">';
-    h += '<h4 class="lghead"><button type="button" class="lgbtn" data-action="lib-fold" aria-expanded="' + (shut ? "false" : "true") + '" aria-controls="' + bid + '">' + LG_CHEV + '<span class="lgname" ' + dirA(label) + '>' + esc(label) + '</span><span class="lgcount">' + plur(G.rows.length, "round") + '</span>' + (fresh ? '<span class="lgnew">' + fresh + ' new</span>' : "") + (saves ? '<span class="lgfold">' + LG_FOLDER + 'Saves to its folder</span>' : "") + '</button></h4>';
+  if(V.filt !== "*"){
+    var P1 = V.groups[V.filt];
+    h += '<section class="lgroup' + (P1.k ? "" : " none") + '" data-pk="' + esc(P1.k) + '">' + groupHeadHTML(P1, false) + '<div class="lgbody" role="list" aria-label="' + esc(P1.name || "Other rounds") + '">';
+    P1.rows.forEach(function(e){ h += libRowHTML(e); });
+    return { list: false, h: h + '</div></section>' };
+  }
+  var named = V.order.filter(function(k){ return k !== ""; }).length, folded = lfoldList();
+  h += '<div class="lsum">' + plur(V.total, "round") + ' in ' + plur(named, "project") + '</div>';
+  V.order.forEach(function(k, g){
+    var G = V.groups[k], shut = folded.indexOf(G.k) !== -1, bid = "lgb-" + g;
+    h += '<section class="lgroup' + (G.k ? "" : " none") + (shut ? " shut" : "") + '" data-pk="' + esc(G.k) + '">' + groupHeadHTML(G, true, shut, bid);
     h += '<div class="lglast" ' + dirA(G.rows[0].title || "") + '>Latest: ' + esc(G.rows[0].title || "Untitled round") + '</div>';
-    h += '<div class="lgbody" id="' + bid + '" role="list" aria-label="' + esc(label) + '">';
-    for(var j=0;j<G.rows.length;j++) h += libRowHTML(G.rows[j], G.k);
+    h += '<div class="lgbody" id="' + bid + '" role="list" aria-label="' + esc(G.name || "Other rounds") + '">';
+    G.rows.forEach(function(e){ h += libRowHTML(e); });
     h += '</div></section>';
-  }
-  el.innerHTML = h;
+  });
+  return { list: false, h: h };
+}
+/* Load redraws often (a save, a folder's state, another page), so the button that had the keyboard keeps it. */
+function cssAttr(v){ return String(v).replace(/["\\]/g, "\\$&"); }
+function lpFocusKey(){
+  var a = document.activeElement, d = document.getElementById("drawer");
+  if(!a || !d || !d.contains(a) || !a.getAttribute || !a.getAttribute("data-action")) return null;
+  return { act: a.getAttribute("data-action"), key: a.getAttribute("data-key"), k: a.getAttribute("data-k") };
+}
+function lpFocusBack(f){
+  if(!f) return;
+  var sel = '#drawer [data-action="' + cssAttr(f.act) + '"]' + (f.key !== null ? '[data-key="' + cssAttr(f.key) + '"]' : "") + (f.k !== null ? '[data-k="' + cssAttr(f.k) + '"]' : "");
+  var el = document.querySelector(sel);
+  if(el && el !== document.activeElement) focusQuiet(el);
+}
+function renderLib(){
+  var el = document.getElementById("liblist"), pa = document.getElementById("projarea");
+  if(!el) return;
+  var V = libView(), f = lpFocusKey(), L = listHTML(V);
+  if(pa) pa.innerHTML = projAreaHTML(V);
+  if(L.list) el.setAttribute("role", "list"); else el.removeAttribute("role");
+  el.innerHTML = L.h;
+  lpFocusBack(f);
+}
+function projConnect(key){
+  var e = libEntry(key);
+  if(!e || !e.fkey) return;
+  getHandle(key).then(function(h){ return askProject(key, { handle: h }); }).then(function(){ renderLib(); });
+}
+function bkToggle(){
+  var b = document.getElementById("bkbtn"), f = document.getElementById("bkfold");
+  if(!b || !f) return;
+  f.hidden = !f.hidden;
+  b.setAttribute("aria-expanded", f.hidden ? "false" : "true");
 }
 function openFromLib(key){
   if(key === CURKEY){ closeDrawer(); return; }
@@ -6025,11 +6217,12 @@ function hideDrawerOnly(){
   if(d){ d.className = "drawer"; d.setAttribute("aria-hidden", "true"); }
   var s = document.getElementById("loader-status");
   if(s){ s.className = "status"; s.textContent = ""; }
+  if(drawerId === "drawer"){ pasteBoxClose(); FLD.open = false; }
 }
 function openDrawer(){
-  renderLib();
-  renderFolders();
+  FLD.open = false;
   showDrawer("drawer", document.getElementById("pickbtn"));
+  renderLib();
 }
 function openOptions(){
   renderOptions();
@@ -9403,7 +9596,7 @@ function optReact(key, frame){
 }
 
 var menuOpen = false, menuBy = null, menuCloseTimer = null, lastPointer = "mouse";
-var MENU_ORDER = ["mm-options", "mm-load", "mm-sleep", "mm-save", "mm-copy"];
+var MENU_ORDER = ["mm-options", "mm-load", "mm-paste", "mm-sleep", "mm-save", "mm-copy"];
 function wideMode(){ try{ return window.matchMedia("(min-width: 1440px)").matches; }catch(e){ return false; } }
 /* Where the companion stands: beside the cards on a wide screen, under the question list while the list is a
    column beside the cards, and beside the progress bar below that. Only the list's column needs the companion
@@ -9526,7 +9719,8 @@ function mascotClick(ev){
   if(sleeping){ wakeUp(); return; }
   if(Date.now() - wokeAt < 600) return;
   if(notePoke()) return;
-  if(isBatch(cur())) gridSoon();
+  var cq = cur();
+  if(cq && isBatch(cq)) gridSoon();
   if(ev && ev.detail === 0){ if(menuOpen) closeMenu(true); else openMenu("key"); return; }
   if(lastPointer === "mouse"){ if(!menuOpen) openMenu("click"); return; }
   if(menuOpen) closeMenu(false); else openMenu("touch");
@@ -11874,6 +12068,7 @@ document.addEventListener("click", function(ev){
     var fw = document.querySelector(".wrap"), ft = ev.target;
     if(fw && ft && fw.contains(ft) && ft.tagName !== "TEXTAREA" && ft.tagName !== "INPUT" && !(ft.closest && ft.closest("#notices"))){ followCatchUp(true); return; }
   }
+  if(FLD.open && !confirmOpen && ev.target && ev.target.closest && !ev.target.closest("#fldpop, #fldbtn, .fwarn")) foldersClose(false);
   var el = ev.target;
   while(el && el !== document && !(el.getAttribute && el.getAttribute("data-action"))){ el = el.parentNode; }
   if(!el || el === document) return;
@@ -11911,6 +12106,14 @@ document.addEventListener("click", function(ev){
   else if(act === "drawer-close"){ closeDrawer(); }
   else if(act === "pick-file"){ pickFile(); }
   else if(act === "paste-load"){ pasteLoad(); }
+  else if(act === "paste-clip"){ pasteClip(); }
+  else if(act === "lib-filter"){ lfilterSet(el.getAttribute("data-k")); }
+  else if(act === "lib-more"){ PB_MORE = !PB_MORE; renderLib(); }
+  else if(act === "folders-toggle"){ foldersToggle(); }
+  else if(act === "folders-open"){ foldersOpen(el.getAttribute("data-key")); }
+  else if(act === "folders-close"){ foldersClose(true); }
+  else if(act === "proj-connect"){ projConnect(el.getAttribute("data-key")); }
+  else if(act === "bk-toggle"){ bkToggle(); }
   else if(act === "lib-open"){ openFromLib(el.getAttribute("data-key")); }
   else if(act === "lib-fold"){ lfoldToggle(el); }
   else if(act === "ans-jump"){ ansJump(); }
@@ -11920,6 +12123,7 @@ document.addEventListener("click", function(ev){
   else if(act === "mm-sleep"){ closeMenu(true); goSleep(Date.now()); }
   else if(act === "mm-options"){ closeMenu(true); wakeUp(); openOptions(); }
   else if(act === "mm-load"){ closeMenu(true); wakeUp(); openDrawer(); }
+  else if(act === "mm-paste"){ closeMenu(true); wakeUp(); pasteClip(); }
   else if(act === "mm-save"){ closeMenu(true); wakeUp(); saveRound(); }
   else if(act === "mm-copy"){ closeMenu(true); wakeUp(); copyAnswers(true); }
   else if(act === "bubble-act"){ var ba = bubbleAction; hideBubble(); focusQuiet("#mascotbtn"); if(ba && ba.fn) ba.fn(); }
@@ -12031,6 +12235,12 @@ document.addEventListener("pointermove", rankDragMove);
 document.addEventListener("pointerup", rankDragEnd);
 document.addEventListener("pointercancel", rankDragEnd);
 (function(){ var mo = document.getElementById("modal"); if(mo) mo.addEventListener("click", function(e){ if(e.target === mo) extraClose(); }); })();
+(function(){
+  var t = document.getElementById("qpaste");
+  if(!t) return;
+  t.addEventListener("paste", function(){ setTimeout(function(){ if(t.value.trim()) pasteLoad(); }, 0); });
+  t.addEventListener("keydown", function(ev){ if(ev.key === "Enter" && (ev.ctrlKey || ev.metaKey)){ ev.preventDefault(); pasteLoad(); } });
+})();
 document.addEventListener("keydown", function(ev){
   if(confirmOpen){ if(ev.key === "Escape" && confirmDone){ confirmDone(null); } return; }
   if(bldOpen()){ if(ev.key === "Escape"){ ev.preventDefault(); builderClose(); } return; }
@@ -12042,6 +12252,7 @@ document.addEventListener("keydown", function(ev){
   if(ev.key === "Escape"){
     var m = document.getElementById("modal");
     if(m && m.className.indexOf("on") !== -1){ extraClose(); return; }
+    if(drawerOpen && drawerId === "drawer" && FLD.open){ foldersClose(true); return; }
     if(drawerOpen){ closeDrawer(); return; }
   }
   if(drawerOpen) return;

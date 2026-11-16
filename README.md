@@ -25,7 +25,7 @@ A local copy of `index.html` keeps working as a plain page; installing is for th
 
 1. **Ask for a round.** Say "d-wizard this" and name the topic. Claude may also start one on its own when decisions need weighing.
 2. **Get the round file.** In Claude it arrives as a file in the chat, even when Claude can reach your folders. In Claude Code it lands in `wizard-rounds/` in your project.
-3. **Load and answer.** Open the wizard, press **Load**, and choose the file, drag it in, or paste it. Answer each question, or skip it to leave it open. A question's context sits between the question and its answers: **Hide** on the Context panel folds it on that question, and Options can move it under the answers, or beside them on a wide screen. What can't be undone stands out as **At stake**. While the answers are below the window, **Answers below** takes you to them, and Back, Skip, and Finish now stay at the bottom of the window. The bar on top has a flag where each section starts and a wizard hat where you are.
+3. **Load and answer.** Open the wizard, press **Load**, and choose the file, drag it in, or press **Paste JSON** to load what you copied. Answer each question, or skip it to leave it open. A question's context sits between the question and its answers: **Hide** on the Context panel folds it on that question, and Options can move it under the answers, or beside them on a wide screen. What can't be undone stands out as **At stake**. While the answers are below the window, **Answers below** takes you to them, and Back, Skip, and Finish now stay at the bottom of the window. The bar on top has a flag where each section starts and a wizard hat where you are.
 4. **Send the answers back.** Choose **Copy answers JSON** in the companion's menu or on the last screen, and paste it to Claude. Or use **Save round JSON file** and give Claude the file. In Chrome or Edge, saving writes the answers into the round file itself, so in Claude Code you just say the answers are ready.
 
 ## Brainstorms
@@ -51,17 +51,17 @@ Send each round back the way you send a round. Brainstorms need wizard 0.9.0 and
 
 ## Rounds by project
 
-Every round names the project it's about, in Claude and in Claude Code alike, whatever folder it's written into. **Load** keeps your rounds by project: the newest round first in each, and the project with the newest round first. Names match loosely, so `decision-wizard` and `Decision Wizard` are one project. A round whose answers save into another project's folder says **Saves in** that project on its row. A project's heading shows how many rounds it has, how many are new, and **Saves to its folder** when its own folder is connected. Click a heading to fold that project away; the wizard remembers it, and a new round in that project opens it again. Rounds from before keep their answers: a round with no project sorts under its product, then under its folder's name, or under **Without a project**. Two projects can each have their own "Round 1".
+Every round names the project it's about, in Claude and in Claude Code alike, whatever folder it's written into. **Load** keeps your rounds by project: the newest round first in each, and the project with the newest round first. Names match loosely, so `decision-wizard` and `Decision Wizard` are one project. A button for each project, two to a row, shows only that project's rounds, and **All rounds** shows them all, grouped by project; the button you picked last stays picked. A project with a new round has a dot on its button. In **All rounds**, a project's heading shows how many rounds it has and how many are new; click it to fold that project away, and the wizard remembers it. A round's row is its title, with a green check once every question is answered, then how far you got and when; its tagline shows when the mouse rests on it, and so does **Delete**. Rounds from before keep their answers: a round with no project sorts under its product, then under its folder's name, or under **Other rounds**. Two projects can each have their own "Round 1".
 
 ## Project folders, for Claude Code
 
-A round Claude Code writes names the `wizard-rounds/` folder it's in. The first time you load a round from a folder, the wizard says which project's folder it came from, and asks you to pick that folder once, because a web page can't open a folder from a written path. The wizard checks that the folder holds the round, then remembers it, by the folder's own name. You can also start from the folder: **Open a project folder** in Load connects it and opens its newest round that has no answers yet. From then on:
+A round Claude Code writes names the `wizard-rounds/` folder it's in. The first time you load a round from a folder, the wizard says which project's folder it came from, and asks you to pick that folder once, because a web page can't open a folder from a written path. The wizard checks that the folder holds the round, then remembers it, by the folder's own name. You can also start from the folder: **Connect a project**, under the folders button in Load, connects it and opens its newest round that has no answers yet. A project whose rounds name a folder the wizard doesn't have yet shows **Connect** on its heading. From then on:
 
 - **Your answers save themselves.** Each answer is written into the round's file a moment after you give it. When you're done, tell Claude the answers are ready; there's nothing to copy.
 - **New rounds open by themselves.** A round that lands in the folder opens right away. If you're partway through another round, it waits in **Load** instead, with a notice and a count on the Load button.
 - **Corrected rounds arrive too.** When Claude rewrites a round you've started, the answers to questions that didn't change stay. If an answer would be cleared, the new version waits: **Review** on the round lets you keep yours or replace them.
 
-This works in Chrome and Edge on a computer, while the wizard is open. In a browser tab, the browser asks for your OK again on a later visit: choose **Allow on every visit** there, and it stops asking. The installed app keeps access by itself. **Load** lists the folders the wizard has, each with **Forget**.
+This works in Chrome and Edge on a computer, while the wizard is open. In a browser tab, the browser asks for your OK again on a later visit: choose **Allow on every visit** there, and it stops asking. The installed app keeps access by itself. In **Load**, the folders button lists the folders the wizard has, each with its path and **Forget**. A working folder shows nothing else; one that waits for your OK, is blocked, or can't be found has its own line above the project buttons, and **Allow** waits in the list.
 
 ## Opened from another app
 
@@ -90,7 +90,7 @@ A folder that can't be added, such as one with no idle picture, over 5 MB, or wi
 
 Rounds and answers are kept in your own browser, and files go only where you save them. With a project folder connected, your answers are also written into that folder's round files, and nowhere else. Nothing you answer is sent anywhere; the page only loads its fonts from Google Fonts.
 
-Each copy of the wizard keeps its own list of rounds, and clearing a browser's site data erases that list. **Back up all rounds**, in the Load panel and next to Clear everything in Options, writes every round and its answers to one file. Load that file in any copy of the wizard to bring the rounds back: it adds what's missing, updates what the backup has a newer copy of, and asks before touching a round that changed after the backup was made.
+Each copy of the wizard keeps its own list of rounds, and clearing a browser's site data erases that list. **Back up all rounds**, under **Backups** in Load and next to Clear everything in Options, writes every round and its answers to one file. Load that file in any copy of the wizard to bring the rounds back: it adds what's missing, updates what the backup has a newer copy of, and asks before touching a round that changed after the backup was made.
 
 ## What's in this repository
 
@@ -101,7 +101,7 @@ Each copy of the wizard keeps its own list of rounds, and clearing a browser's s
 
 ## Versions
 
-- **Wizard: 0.13.2.** It's shown at the bottom of the wizard's Options panel.
+- **Wizard: 0.14.0.** It's shown at the bottom of the wizard's Options panel.
 - **Skill: 0.13.1.** It's in the skill's `SKILL.md`. It needs wizard 0.3.0 or later, 0.4.0 for rounds with ranking, number, or bracket questions, 0.6.0 for project folders, 0.7.0 for companions, 0.7.3 to drop a companion's zip on the wizard as it is, 0.9.0 for brainstorms, 0.11.0 for their round 2, 0.12.0 to keep rounds by project, and 0.13.0 to set a stake apart from the notes.
 
 A minor update bumps the last number (0.2.2). A major update bumps the middle number (0.3.0). What changed in each version is in [CHANGELOG.md](CHANGELOG.md).

@@ -2,6 +2,29 @@
 
 What changed in the Decision Wizard and the d-wizard skill, newest first. The wizard and the skill keep their own version numbers. 
 
+## Wizard 0.14.0, 17 November 2026
+
+Load, reworked: what you open it for comes first, and folders stay quiet until they need you.
+
+### Added
+
+- Wizard: **Paste JSON** in Load, beside Choose file. One click loads what you copied. When the browser won't let the wizard read it, or nothing is copied, a paste box opens under the button and says why; a round pasted into it loads by itself, and Ctrl+Enter or Cmd+Enter loads what you typed.
+- Wizard: Paste JSON in the companion's menu too, under Load new question round.
+- Wizard: a button for each project, two to a row, over the list in Load, plus **All rounds** and **Other rounds**. A button shows only that project's rounds; All rounds shows them all, grouped. The button you picked last stays picked the next time Load opens, and a project with a new round has a dot on its button. Past eight buttons, View more shows the rest.
+- Wizard: a green check after the title of a round with every question answered.
+- Wizard: **Backups**, at the head of the list, folds open with Back up all rounds and Restore from a backup.
+- Wizard: **Connect** on the heading of a project whose rounds name a folder the wizard doesn't have yet.
+
+### Changed
+
+- Wizard: Load's folders sit behind one button at the head of the projects, with a link mark and how many there are. It opens a small panel listing each folder with its path, Forget, and, when the browser wants your OK, Allow, and ends with **Connect a project**, which was Open a project folder. Escape or a click outside closes it.
+- Wizard: a working folder shows nothing more. A folder that waits for your OK, is blocked, or can't be found has its own line above the project buttons, with a broken link and what's wrong, and a click on it opens the folders. The note about the browser asking again shows only under a folder that waits for your OK.
+- Wizard: a round's row is two lines: the title, then how far you got and when. Its tagline shows when the mouse rests on the row, and so does Delete, which stays in view on a touch screen.
+- Wizard: the paste box opens only when Paste JSON needs it, and its Load button and the dashed file box are gone. A file still drops anywhere on the page.
+- Wizard: What the files look like waits behind a small i beside Load's title.
+- Wizard: rounds with no project sit under **Other rounds**, last, where they were Without a project.
+- Wizard: a round's row no longer says Saves in, and a project's heading no longer says Saves to its folder. The chip above the question still names the open round's folder.
+
 ## Wizard 0.13.2 and skill 0.13.1, 17 November 2026
 
 Rounds are kept by what they're about; the folder only says where the answers are saved.
