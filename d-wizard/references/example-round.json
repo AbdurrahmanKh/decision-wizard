@@ -68,6 +68,9 @@
       "title": "Launch payment providers",
       "question": "Which payment providers should the store launch with?",
       "context": "Fees and coverage differ; each card sums up one route, and the full comparison is in the popup.",
+      "detail": [
+        { "kind": "stake", "text": "PayB's contract is annual: choosing it, alone or with PayA, commits the store to it for a year." }
+      ],
       "extra": [
         {
           "label": "Show the provider comparison",

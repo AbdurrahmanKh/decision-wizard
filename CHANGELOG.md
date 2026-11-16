@@ -2,6 +2,25 @@
 
 What changed in the Decision Wizard and the d-wizard skill, newest first. The wizard and the skill keep their own version numbers. 
 
+## Wizard 0.13.0 and skill 0.13.0, 17 November 2026
+
+The rest of the Hero's Journey review, in one release.
+
+### Added
+
+- Wizard: **At stake**, a detail block for what is hard or impossible to undo, set apart from the notes with a lock, in the question's context and in popups.
+- Wizard: **Answers below**, a button at the bottom of the window while a question's answers are wholly below it, with their count. It takes you to the answers and puts the keyboard on the first one; it never picks.
+- Wizard: **Beside the answers**, a third choice for where the context shows, in Options under Answering. On a screen 1600 px wide or wider the context sits to the left of the answers and the page widens to at most 1400 px; on smaller screens, and on grouped rows, it stays before them. Before the answers stays the default.
+- Wizard: the list beside the cards shows how many questions of each section are answered (8 of 9).
+- Skill: `{"kind":"stake","text":"..."}` in `detail`, for what can't be undone once decided, at most one a question and only when it is true. The example round has one, on the payment providers.
+
+### Changed
+
+- Wizard: above the question, one line holds the section, the id, and the topic. The section's own row and the id in the card's corner are gone, so the card's text takes its full width. A round in a project folder keeps its project's row.
+- Wizard: Back, Skip, and Finish now stay at the bottom edge of the window while the card is taller than the window, and settle under the card once you reach them.
+- Wizard: the progress bar has a small flag where each section starts, green once the section before it is all answered, and a wizard hat on the question you're on. Its fill follows your answers section by section, so a question left open shows as a gap, and the current section's place shows beside it (Members 3 of 6). Brainstorms keep their bar.
+- Wizard: the list's titles wrap to a second line instead of being cut. On screens 1440 px wide and wider the list is 280 px, and from 1600 px it is 300 px with the page at 1170 px.
+
 ## Wizard 0.12.0 and skill 0.12.0, 17 November 2026
 
 ### Added

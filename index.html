@@ -108,6 +108,72 @@ html[data-topbar="bar"] #app .ptop{position:sticky;top:var(--topbar-h,60px);z-in
 .corner .n{display:block;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:calc(21px*var(--fs));color:var(--green)}
 .corner .s{display:block;font-size:calc(16px*var(--fs));color:var(--gold)}
 .qtopic{font-family:'Bricolage Grotesque',sans-serif;font-size:calc(15px*var(--fs));font-weight:700;color:var(--muted);line-height:1.3;margin-bottom:5px}
+/* T1: the trail line, and the card without the corner */
+.qcard:not(.bscard){padding-left:26px}
+.qtrail{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 9px;margin-bottom:6px;font-family:'Bricolage Grotesque','IBM Plex Sans',sans-serif;line-height:1.3}
+.qtsec{font-family:'IBM Plex Sans',sans-serif;font-size:calc(11.5px*var(--fs));font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--amber)}
+.qtsep{color:var(--line);font-weight:700;font-size:calc(14px*var(--fs))}
+.qtid{font-weight:800;font-size:calc(16px*var(--fs));color:var(--green)}
+.qttop{font-weight:700;font-size:calc(15px*var(--fs));color:var(--muted)}
+/* R1: Back, Skip, and Finish now stay at the window's bottom edge while the card runs taller than the window */
+#app > .controls{position:sticky;bottom:0;z-index:30;padding:12px 0 14px;margin-top:-4px;background:linear-gradient(to top,var(--bg) 78%,transparent)}
+#app > .controls::before{content:"";position:absolute;left:0;right:0;top:8px;border-top:1px solid var(--line);pointer-events:none}
+#app > .controls > *{position:relative}
+/* D1: the Answers below pill */
+.anspill{position:fixed;z-index:31;left:50%;bottom:calc(var(--ctlh,0px) + 12px);transform:translateX(-50%);display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px 0 13px;border-radius:999px;background:var(--green-soft);border:1px solid var(--green);color:var(--ink);font:inherit;font-size:calc(14.5px*var(--fs));font-weight:700;box-shadow:0 8px 22px rgba(0,0,0,.35);white-space:nowrap;cursor:pointer}
+.anspill[hidden]{display:none}
+.anspill svg{color:var(--green)}
+.anspill .apn{font-weight:600;color:var(--muted)}
+.anspill .apn:empty{display:none}
+.anspill:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+/* P1: the road */
+.proad{position:relative;overflow:visible}
+.prow{padding-top:16px}
+.pfill{position:absolute;top:0;bottom:0;background:linear-gradient(90deg,var(--green),var(--green2))}
+.pfill.first{border-radius:999px 0 0 999px}
+.pfill.first.last{border-radius:999px}
+.pfill.last:not(.first){border-radius:0 999px 999px 0}
+.pflag{position:absolute;bottom:50%;width:12px;height:22px;margin-left:-1px;pointer-events:none}
+.pflag svg{display:block;width:12px;height:22px}
+.pflag .pole{stroke:var(--line)}
+.pflag .cloth{fill:var(--line)}
+[data-theme="dark"] .pflag .pole,[data-theme="dark"] .pflag .cloth{stroke:#5E5A47}
+[data-theme="dark"] .pflag .cloth{fill:#5E5A47}
+.pflag.done .pole{stroke:var(--green)}
+.pflag.done .cloth{fill:var(--green)}
+.phat{position:absolute;bottom:2px;width:26px;height:26px;margin-left:-13px;pointer-events:none;filter:drop-shadow(0 2px 2px rgba(0,0,0,.35))}
+.phat svg{display:block;width:26px;height:26px}
+.pchap{font-size:calc(13px*var(--fs));color:var(--muted);white-space:nowrap}
+.pchap b{color:var(--amber);font-weight:700}
+/* S1: a readable list */
+.shead{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.shcount{font-variant-numeric:tabular-nums;letter-spacing:0;text-transform:none;font-weight:600;flex:none}
+@media(min-width:881px){
+  .sitem{align-items:flex-start}
+  .sitem .dot{margin-top:5px}
+  .sitem .stt{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+}
+@media(min-width:1440px){
+  .layout{grid-template-columns:280px minmax(0,1fr)}
+}
+@media(min-width:1600px){
+  .wrap,.head-in{max-width:1170px}
+  .layout{grid-template-columns:300px minmax(0,1fr)}
+  html #mascot{width:clamp(120px,calc((100vw - 1130px) / 2 - 40px),240px)}
+}
+/* C1: Beside the answers */
+.ctxsplit{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,1fr);gap:18px;align-items:start}
+.ctxsplit > section.ctx{margin:0}
+.ctxans{min-width:0}
+.ctxans .ocards{grid-template-columns:minmax(0,1fr)}
+@media(min-width:1600px){
+  html[data-ctx="beside"] .wrap,html[data-ctx="beside"] .head-in{max-width:min(1400px,calc(100vw - 340px))}
+  html[data-ctx="beside"] #mascot{width:clamp(110px,calc((100vw - min(1400px,100vw - 340px)) / 2 - 30px),200px)}
+}
+/* K1: the stake block */
+.cstake{display:flex;gap:10px;align-items:flex-start;margin:8px 0;padding:9px 12px;border-radius:10px;background:var(--amber-soft);border:1px solid var(--amber);border-left-width:4px;color:var(--ink);font-size:calc(14.5px*var(--fs));line-height:1.55}
+.cstake svg{flex:none;margin-top:3px;color:var(--amber)}
+.cstake .sklab{display:block;font-size:calc(11px*var(--fs));font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--amber);margin-bottom:1px}
 .qtitle{font-family:'Bricolage Grotesque',sans-serif;font-size:calc(23px*var(--fs));font-weight:800;line-height:1.2;margin-bottom:8px}
 .qtitle:focus,.fuptitle:focus,.sumcard h2:focus,main:focus{outline:none}
 .qcontext{font-size:calc(15.5px*var(--fs));color:var(--muted);margin-bottom:10px;line-height:1.55}
@@ -743,6 +809,10 @@ img.mimg.pix{image-rendering:pixelated}
   .sitem{width:auto;flex:none;padding:6px 10px}
   .sitem .stt,.shead,.sitem .scount{display:none}
   .qcard{padding:22px 16px 18px 56px}
+  .qcard:not(.bscard){padding-left:16px}
+  .prow{flex-wrap:wrap;row-gap:4px}
+  .prow .proad{flex:1 1 100%}
+  .prow .pchap{flex:1}
   .corner{left:12px}
   .bops{white-space:normal}
 }
@@ -1324,6 +1394,7 @@ html{scroll-padding-bottom:var(--lift,0px)}
     <main id="main" tabindex="-1">
       <div class="stage" id="stage">
         <div id="app"></div>
+        <button type="button" class="anspill" id="anspill" data-action="ans-jump" hidden><svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2.5v10M3.5 8.5 8 13l4.5-4.5"/></svg><span class="apl">Answers below</span><span class="apn"></span></button>
         <aside id="mascot" aria-label="Companion">
           <div class="mstick">
             <div class="mfig">
@@ -1437,10 +1508,11 @@ html{scroll-padding-bottom:var(--lift,0px)}
         <div class="orow" id="row-recs"><span class="olabw"><span class="olab">Wizard recommendations</span><button type="button" class="oinfo" data-action="opt-info" data-note="nt-recs" aria-expanded="false" aria-controls="nt-recs" aria-label="About Wizard recommendations"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M12 11v7M12 6.5v.01"/></svg></button></span><button type="button" class="oswitch" role="switch" data-action="toggle-opt" data-k="recs" aria-checked="false" aria-label="Wizard recommendations"></button></div>
         <div class="onote" id="nt-recs" hidden>When a round recommends an answer, a small wizard hat marks it, with the reason under it when there is one.</div>
         <div class="osub olabw"><span>Where the context shows</span><button type="button" class="oinfo" data-action="opt-info" data-note="nt-ctx" aria-expanded="false" aria-controls="nt-ctx" aria-label="About where the context shows"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M12 11v7M12 6.5v.01"/></svg></button></div>
-        <div class="onote onote-sub" id="nt-ctx" hidden>Context is the framing, quotes, notes, links, and popups a question comes with. Hide, on its panel, folds it on that question, and Show brings it back.</div>
+        <div class="onote onote-sub" id="nt-ctx" hidden>Context is the framing, quotes, notes, links, and popups a question comes with. Beside the answers puts it to their left on screens 1600 px wide and wider, and before them on smaller ones and on grouped rows. Hide, on its panel, folds it on that question, and Show brings it back.</div>
         <div class="seg" role="group" aria-label="Where the context shows on a question">
           <button type="button" data-action="set-ctx" data-v="before" aria-pressed="false">Before the answers</button>
           <button type="button" data-action="set-ctx" data-v="after" aria-pressed="false">After the answers</button>
+          <button type="button" data-action="set-ctx" data-v="beside" aria-pressed="false">Beside the answers</button>
         </div>
         <div class="orow" id="row-keys"><span class="olabw"><span class="olab">Number keys pick answers</span><button type="button" class="oinfo" data-action="opt-info" data-note="nt-keys" aria-expanded="false" aria-controls="nt-keys" aria-label="About Number keys pick answers"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M12 11v7M12 6.5v.01"/></svg></button></span><button type="button" class="oswitch" role="switch" data-action="toggle-opt" data-k="keys" aria-checked="false" aria-label="Number keys pick answers"></button></div>
         <div class="onote" id="nt-keys" hidden>Keys 1 to 9 pick an answer while you're on the question, and 1 and 2 pick in a bracket. Shift with a number picks the answer and opens its note instead of moving on. They never pick while you type.</div>
@@ -1497,7 +1569,7 @@ html{scroll-padding-bottom:var(--lift,0px)}
 <script>
 "use strict";
 /* The wizard's version. Bump the last number (0.1.1) for a minor update, the middle one (0.2.0) for a major one. */
-var WIZARD_VERSION = "0.12.0";
+var WIZARD_VERSION = "0.13.0";
 
 var CONFIG = { title:"Decision Wizard", tagline:"", product:"" };
 
@@ -1787,7 +1859,7 @@ function loadSettings(){
     if(typeof s.timerBar === "boolean") SETTINGS.timerBar = s.timerBar;
     if(typeof s.recs === "boolean") SETTINGS.recs = s.recs;
     if(typeof s.keys === "boolean") SETTINGS.keys = s.keys;
-    if(s.ctx === "before" || s.ctx === "after") SETTINGS.ctx = s.ctx;
+    if(s.ctx === "before" || s.ctx === "after" || s.ctx === "beside") SETTINGS.ctx = s.ctx;
     if(s.topbar === "scroll" || s.topbar === "header" || s.topbar === "bar") SETTINGS.topbar = s.topbar;
     if(typeof s.estAuto === "boolean") SETTINGS.estAuto = s.estAuto;
     if(typeof s.estSec === "number" && s.estSec >= 5 && s.estSec <= 600) SETTINGS.estSec = Math.round(s.estSec);
@@ -1809,6 +1881,7 @@ function applySettings(){
     document.documentElement.setAttribute("data-theme", t);
     if(SETTINGS.size === "normal"){ document.documentElement.removeAttribute("data-size"); }
     else { document.documentElement.setAttribute("data-size", SETTINGS.size); }
+    if(SETTINGS.ctx === "beside"){ document.documentElement.setAttribute("data-ctx", "beside"); } else { document.documentElement.removeAttribute("data-ctx"); }
     if(SETTINGS.topbar === "scroll"){ document.documentElement.removeAttribute("data-topbar"); }
     else { document.documentElement.setAttribute("data-topbar", SETTINGS.topbar); }
   }catch(e){}
@@ -1877,7 +1950,7 @@ function secVals(){
   return {
     companion: [comp].concat(offs).filter(Boolean).join(", "),
     look: { dark: "Dark", light: "Light", system: "System" }[SETTINGS.theme] + ", " + { compact: "Compact", normal: "Normal", large: "Large" }[SETTINGS.size] + (SETTINGS.topbar === "header" ? ", header stays" : SETTINGS.topbar === "bar" ? ", header and bar stay" : ""),
-    answering: "Recommendations " + on(SETTINGS.recs) + ", keys " + on(SETTINGS.keys) + ", context " + (SETTINGS.ctx === "after" ? "last" : "first"),
+    answering: "Recommendations " + on(SETTINGS.recs) + ", keys " + on(SETTINGS.keys) + ", context " + (SETTINGS.ctx === "after" ? "last" : SETTINGS.ctx === "beside" ? "beside" : "first"),
     time: clock + ", " + (SETTINGS.estAuto ? "your pace" : SETTINGS.estSec + " s a question"),
     appdata: [plur(n, "round") + " saved", app].filter(Boolean).join(", ")
   };
@@ -1964,7 +2037,7 @@ function setOption(k, v){
   else if(k === "mascot"){ if(v !== "quill" && v !== "swoop" && v !== "none" && !own(CMP.list, v)) return; SETTINGS.mascot = v; SETTINGS.mascotFolder = own(CMP.list, v) ? CMP.list[v].folder : ""; }
   else if(k === "talk" || k === "quips" || k === "sound" || k === "timerHover" || k === "timerBar" || k === "recs" || k === "keys"){ SETTINGS[k] = (v === "on" || v === true); }
   else if(k === "name"){ SETTINGS.name = String(v || "").trim().slice(0, 30); }
-  else if(k === "ctx"){ if(v !== "before" && v !== "after") return; SETTINGS.ctx = v; }
+  else if(k === "ctx"){ if(v !== "before" && v !== "after" && v !== "beside") return; SETTINGS.ctx = v; }
   else if(k === "topbar"){ if(v !== "scroll" && v !== "header" && v !== "bar") return; SETTINGS.topbar = v; }
   else if(k === "estAuto"){ SETTINGS.estAuto = (v === "on" || v === true); if(!SETTINGS.estAuto && !SETTINGS.estSec) SETTINGS.estSec = paceSuggest(); }
   else if(k === "estSec"){ var n = Math.round(parseFloat(v)); if(!(n >= 5 && n <= 600)){ renderOptions(); return; } SETTINGS.estSec = n; SETTINGS.estAuto = false; }
@@ -2094,10 +2167,10 @@ function renderSide(){
   if(QUESTIONS.length === 0){ el.innerHTML = '<div class="shead">No round loaded</div>'; return; }
   if(bsOn()){ el.innerHTML = bsSideHTML(); return; }
   var h = "";
-  var lastSection = null;
+  var lastSection = null, secs = roadSections(), si = -1;
   for(var i=0;i<QUESTIONS.length;i++){
     var q = QUESTIONS[i];
-    if(q.section !== lastSection){ h += '<div class="shead">' + esc(q.section) + '</div>'; lastSection = q.section; }
+    if(q.section !== lastSection){ si++; var sc = secs[si] || { done: 0, n: 0 }; h += '<div class="shead"><span>' + esc(q.section) + '</span><span class="shcount">' + sc.done + ' of ' + sc.n + '</span></div>'; lastSection = q.section; }
     var done = qAnswered(q);
     var count = "";
     if(isBatch(q)){
@@ -2167,8 +2240,9 @@ function render(){
   var behind = followNew && followKey === CURKEY;
   var fx = focusBefore();
   followWait = false; followNew = false; followShown = null;
-  renderCore(); renderHooks(); updateTimers(); try{ cutStaleLine(); fitBatch(); }catch(e){}
+  renderCore(); try{ ctxSplit(); }catch(e){} renderHooks(); updateTimers(); try{ cutStaleLine(); fitBatch(); }catch(e){}
   focusAfter(fx);
+  try{ ansWatch(); }catch(e){}
   if(behind) tell("ver:" + CURKEY, 'A new version of "' + CONFIG.title + '" arrived.');
 }
 /* Drawing replaces the cards, and with them the focused button. Focus goes back to the same control when the
@@ -2292,14 +2366,42 @@ function renderCore(){
 var TIMER_PILL = '<span class="ptime" id="ptime" title="Time on this round" hidden><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5"/><path d="M9.5 2.5h5"/></svg><b></b></span>';
 function chromeTop(q){
   if(isHat(q)) return bsTopHTML(q);
-  var pct = Math.round(state.idx / QUESTIONS.length * 100);
+  var road = roadHTML();
   var h = '<div class="ptop">';
-  h += '<div class="progress"><div class="ptrack"><div class="pbar" style="width:' + pct + '%"></div></div>';
-  h += '<div class="pcount" id="pcount">' + (isHat(q) ? 'Hat ' : 'Issue ') + (state.idx+1) + ' of ' + QUESTIONS.length + '</div>' + TIMER_PILL + '</div>';
+  h += '<div class="progress prow">' + road.bar;
+  h += road.lab + '<div class="pcount" id="pcount">' + (isHat(q) ? 'Hat ' : 'Issue ') + (state.idx+1) + ' of ' + QUESTIONS.length + '</div>' + TIMER_PILL + '</div>';
   var chip = projectChipHTML();
-  var sec = isHat(q) ? '<span class="section-chip bssec bs-' + esc(q.hat) + '"><span class="bsdot" aria-hidden="true"></span>' + esc(bsHatName(q)) + ' hat</span>' : '<span class="section-chip">' + esc(q.section) + '</span>';
-  h += chip ? '<div class="chiprow">' + sec + chip + '</div>' : sec;
+  if(chip) h += '<div class="chiprow">' + chip + '</div>';
   return h + '</div>';
+}
+/* The road: one bar, a small flag where each section starts (green once the section before it is answered), the fill
+   following answers section by section, and a wizard hat on the question you're on. */
+var ROAD_HAT = '<svg viewBox="0 0 26 26" aria-hidden="true"><path d="M7 20.5C9.2 14.6 11.2 9.4 13.6 4.2c.7-1.4 2.4-1.2 3.2.1l1 1.5c-1.3-.5-2.3 0-2.5 1.1L19.6 20.5Z" fill="#2E9B6A" stroke="#1B1810" stroke-width="1.3" stroke-linejoin="round"/><ellipse cx="13.2" cy="21" rx="11" ry="3" fill="#2E9B6A" stroke="#1B1810" stroke-width="1.3"/><path d="M7.9 17.7q5.3 1.3 10.8 0l.5 1.8q-5.9 1.4-11.8 0Z" fill="#D2A62F" stroke="#1B1810" stroke-width=".9" stroke-linejoin="round"/><path d="M13.6 9.3l.7 1.5 1.5.7-1.5.7-.7 1.5-.7-1.5-1.5-.7 1.5-.7Z" fill="#F2C55C"/></svg>';
+var ROAD_FLAG = '<svg viewBox="0 0 12 22" aria-hidden="true"><line class="pole" x1="1" y1="1" x2="1" y2="22" stroke-width="1.4"/><path class="cloth" d="M1.6 1.5 10.5 4.4 1.6 7.3Z"/></svg>';
+function roadSections(){
+  var secs = [], L = QUESTIONS.length;
+  for(var i=0;i<L;i++){
+    var q = QUESTIONS[i], c = secs[secs.length - 1];
+    if(!c || c.name !== q.section){ c = { name: q.section || "", start: i, n: 0, done: 0, at: -1 }; secs.push(c); }
+    if(i === state.idx) c.at = c.n;
+    c.n++;
+    if(qAnswered(q)) c.done++;
+  }
+  return secs;
+}
+function roadHTML(){
+  var L = QUESTIONS.length, secs = roadSections(), p = function(x){ return Math.round(x * 10000) / 100; };
+  var h = '<div class="ptrack proad">';
+  for(var k=0;k<secs.length;k++){
+    var c = secs[k];
+    if(c.done) h += '<i class="pfill' + (k === 0 ? " first" : "") + (c.start + c.done === L ? " last" : "") + '" style="left:' + p(c.start / L) + '%;width:' + p(c.done / L) + '%"></i>';
+    if(k > 0) h += '<span class="pflag' + (secs[k - 1].done === secs[k - 1].n ? " done" : "") + '" style="left:' + p(c.start / L) + '%">' + ROAD_FLAG + '</span>';
+  }
+  h += '<span class="phat" style="left:' + p((state.idx + 0.5) / L) + '%">' + ROAD_HAT + '</span></div>';
+  var cur = null;
+  for(var j=0;j<secs.length;j++){ if(secs[j].at >= 0) cur = secs[j]; }
+  var lab = (secs.length > 1 && cur && cur.name) ? '<span class="pchap"><b ' + dirA(cur.name) + '>' + esc(cur.name) + '</b> ' + (cur.at + 1) + ' of ' + cur.n + '</span>' : '';
+  return { bar: h, lab: lab };
 }
 function chromeControls(q){
   var h = '<div class="controls">';
@@ -2395,6 +2497,7 @@ function extras(q){
   return arr.filter(function(e){ return e && Array.isArray(e.blocks) && e.blocks.length; });
 }
 function xIcon(e){ for(var i=0;i<e.blocks.length;i++){ if(e.blocks[i] && e.blocks[i].kind === "table") return ICO.table; } return ICO.text; }
+var STAKE_ICO = '<svg viewBox="0 0 20 20" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="9" width="12" height="8.5" rx="2"/><path d="M6.8 9V6.6a3.2 3.2 0 0 1 6.4 0V9"/><circle cx="10" cy="13.2" r="1.1" fill="currentColor" stroke="none"/></svg>';
 function blockHTML(d, inDetail){
   if(!d || typeof d !== "object") return "";
   if(d.kind === "quote"){
@@ -2417,6 +2520,7 @@ function blockHTML(d, inDetail){
   }
   var t = d.text == null ? "" : String(d.text);
   if(!t) return "";
+  if(d.kind === "stake") return '<div class="cstake">' + STAKE_ICO + '<span><span class="sklab">At stake</span><span ' + dirA(t) + '>' + esc(t) + '</span></span></div>';
   if(d.kind === "note" || (inDetail && d.kind !== "text")) return '<div class="cnote">' + ICO.info + '<span ' + dirA(t) + '>' + esc(t) + '</span></div>';
   return '<p class="ctext" ' + dirA(t) + '>' + esc(t) + '</p>';
 }
@@ -2425,6 +2529,61 @@ function blockHTML(d, inDetail){
    closes, so every new question opens with its context showing. */
 var CTXSHUT = {};
 function ctxBefore(){ return SETTINGS.ctx !== "after"; }
+/* Beside the answers: on a wide screen the context sits to the left of the answers. Grouped rows keep it before
+   them, since their rows need the width. */
+var WIDE_MQ = null;
+try{ WIDE_MQ = window.matchMedia("(min-width: 1600px)"); }catch(e){}
+function besideOn(){ return SETTINGS.ctx === "beside" && !!(WIDE_MQ && WIDE_MQ.matches); }
+try{ if(WIDE_MQ){ var wideNow = function(){ if(SETTINGS.ctx === "beside" && QUESTIONS.length) scrollKeep(render); }; if(WIDE_MQ.addEventListener) WIDE_MQ.addEventListener("change", wideNow); else WIDE_MQ.addListener(wideNow); } }catch(e){}
+function ctxSplit(){
+  if(!besideOn()) return;
+  var card = document.querySelector("#app .qcard:not(.bscard)");
+  var ctx = card && card.querySelector(":scope > section.ctx.pre");
+  if(!ctx || card.querySelector(".btable")) return;
+  var split = document.createElement("div"), ans = document.createElement("div");
+  split.className = "ctxsplit"; ans.className = "ctxans";
+  card.insertBefore(split, ctx);
+  var n = split.nextSibling, list = [];
+  while(n){ list.push(n); n = n.nextSibling; }
+  split.appendChild(ctx);
+  split.appendChild(ans);
+  for(var i=1;i<list.length;i++) ans.appendChild(list[i]);
+}
+/* Answers below: while the answers are wholly under the window, a pill says so and takes you to them. It never picks. */
+var ansObs = null, ansAnchor = null;
+function ansTarget(){
+  var card = document.querySelector("#app .qcard:not(.bscard)");
+  return card ? card.querySelector(".ocards, .opts, .btable, .rlist, .numtop, .bkpair, .bkline") : null;
+}
+function ansWatch(){
+  var pill = document.getElementById("anspill");
+  if(!pill) return;
+  if(ansObs){ try{ ansObs.disconnect(); }catch(e){} ansObs = null; }
+  ansAnchor = (QUESTIONS.length && state.idx < QUESTIONS.length) ? ansTarget() : null;
+  var ctl = document.querySelector("#app > .controls");
+  document.documentElement.style.setProperty("--ctlh", (ctl ? ctl.offsetHeight : 0) + "px");
+  if(!ansAnchor || !window.IntersectionObserver){ pill.hidden = true; return; }
+  var q = QUESTIONS[state.idx], n = isBatch(q) ? q.items.length : (qType(q) === "single" && Array.isArray(q.options)) ? q.options.length : 0;
+  pill.querySelector(".apl").textContent = n > 1 ? "Answers below" : "Answer below";
+  pill.querySelector(".apn").textContent = n > 1 ? String(n) : "";
+  var bottom = (ctl ? ctl.offsetHeight : 0);
+  ansObs = new IntersectionObserver(function(es){
+    var e = es[es.length - 1];
+    pill.hidden = e.isIntersecting || e.boundingClientRect.top < 0;
+  }, { rootMargin: "0px 0px -" + bottom + "px 0px" });
+  ansObs.observe(ansAnchor);
+}
+function ansJump(){
+  var a = ansAnchor || ansTarget();
+  if(!a) return;
+  var reduce = false;
+  try{ reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches; }catch(e){}
+  a.scrollIntoView({ block: "start", behavior: reduce ? "auto" : "smooth" });
+  var f = a.querySelector('button:not([disabled]), input, [tabindex="0"]');
+  if(f){ try{ f.focus({ preventScroll: true }); }catch(e){ f.focus(); } }
+  var pill = document.getElementById("anspill");
+  if(pill) pill.hidden = true;
+}
 function ctxKey(id){ return (CURKEY || "") + "#" + String(id == null ? "" : id); }
 var ctxSeq = 0;
 function ctxToggle(btn){
@@ -2467,10 +2626,17 @@ function contextHTML(q, id, pre){
   return h + '</div></section>';
 }
 function hasQuestion(q){ return !!(q && typeof q.question === "string" && q.question.trim()); }
+/* Above the question, one trail line: the section, the id, and the topic. */
+function trailHTML(q){
+  var h = '<div class="qtrail">' + (q.section ? '<span class="qtsec" ' + dirA(q.section) + '>' + esc(q.section) + '</span><span class="qtsep" aria-hidden="true">&rsaquo;</span>' : '');
+  h += '<span class="qtid">' + esc(q.id) + '</span>';
+  if(hasQuestion(q)) h += '<span class="qttop" ' + dirA(q.title) + '>' + esc(q.title) + '</span>';
+  return h + '</div>';
+}
 function headHTML(q){
   var hd = ' id="qh" tabindex="-1" aria-describedby="pcount"';
-  if(hasQuestion(q)) return '<div class="qtopic" ' + dirA(q.title) + '>' + esc(q.title) + '</div><h2 class="qtitle"' + hd + ' ' + dirA(q.question) + '>' + esc(q.question) + '</h2>';
-  return '<h2 class="qtitle"' + hd + ' ' + dirA(q.title) + '>' + esc(q.title) + '</h2>';
+  if(hasQuestion(q)) return trailHTML(q) + '<h2 class="qtitle"' + hd + ' ' + dirA(q.question) + '>' + esc(q.question) + '</h2>';
+  return trailHTML(q) + '<h2 class="qtitle"' + hd + ' ' + dirA(q.title) + '>' + esc(q.title) + '</h2>';
 }
 function renderSingle(q){
   customOpen = false;
@@ -2478,7 +2644,6 @@ function renderSingle(q){
   var card = isCardList(q.options), all = fups(q), live = liveFups(q, state.answers);
   var h = chromeTop(q);
   h += '<div class="qcard">';
-  h += '<div class="corner"><span class="n">' + esc(q.id) + '</span><span class="s" aria-hidden="true">&#10022;</span></div>';
   h += headHTML(q);
   var pre = ctxBefore();
   if(pre) h += contextHTML(q, q.id, true);
@@ -2557,7 +2722,6 @@ function typeTail(q, saved, hint){
 function typeHead(q, a){
   var h = chromeTop(q);
   h += '<div class="qcard">';
-  h += '<div class="corner"><span class="n">' + esc(q.id) + '</span><span class="s" aria-hidden="true">&#10022;</span></div>';
   h += headHTML(q) + (ctxBefore() ? contextHTML(q, q.id, true) : "") + recordedHTML(a);
   return h;
 }
@@ -2871,7 +3035,6 @@ function renderBatch(q){
   var done = batchDone(q);
   var h = chromeTop(q);
   h += '<div class="qcard">';
-  h += '<div class="corner"><span class="n">' + esc(q.id) + '</span><span class="s" aria-hidden="true">&#10022;</span></div>';
   h += headHTML(q);
   var pre = ctxBefore();
   if(pre) h += contextHTML(q, q.id, true);
@@ -11693,6 +11856,7 @@ document.addEventListener("click", function(ev){
   else if(act === "paste-load"){ pasteLoad(); }
   else if(act === "lib-open"){ openFromLib(el.getAttribute("data-key")); }
   else if(act === "lib-fold"){ lfoldToggle(el); }
+  else if(act === "ans-jump"){ ansJump(); }
   else if(act === "lib-delete"){ deleteRound(el.getAttribute("data-key")); }
   else if(act === "open-options"){ openOptions(); }
   else if(act === "timer-reset"){ resetTimer(); }
