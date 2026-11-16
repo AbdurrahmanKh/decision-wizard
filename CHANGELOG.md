@@ -2,6 +2,17 @@
 
 What changed in the Decision Wizard and the d-wizard skill, newest first. The wizard and the skill keep their own version numbers. 
 
+## Wizard 0.11.8, 16 November 2026
+
+### Added
+
+- Wizard: Top bar, in Options under Look: Scrolls away (as before), Header stays, or Header and bar. Header stays keeps the round's name, Load, Save, and Options at the top of the window while you scroll; Header and bar keeps the progress bar under it too. The list beside the cards stays below it.
+
+### Changed
+
+- Wizard: the round's tagline is a second line under the title, and wraps instead of being cut short. The header grows by a few pixels. A phone still leaves the tagline out.
+- Wizard: the title shows the round's project first, in gold, then a hyphen and the rest of the title, with a closing "Round 1" or "Brainstorm 1" smaller and in light grey. The project is the round's `project`, or else its `product`. A title that doesn't start with it gets it in front, and a round with neither shows its title as before. The browser tab keeps the plain title.
+
 ## Skill 0.11.0, 13 November 2026
 
 ### Added

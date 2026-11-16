@@ -46,10 +46,22 @@ html{-webkit-text-size-adjust:100%}
 body{font-family:'IBM Plex Sans','IBM Plex Sans Arabic',system-ui,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;font-size:calc(17px*var(--fs))}
 .wrap{max-width:1120px;margin:0 auto;padding:0 20px 60px}
 
-header{background:#0E5B46;color:#F4EFE2;padding:12px 0 10px;border-bottom:4px solid #B18A1E}
+header{background:#0E5B46;color:#F4EFE2;padding:8px 0 7px;border-bottom:4px solid #B18A1E}
+header:has(.head-meta:empty){padding:12px 0 10px}
+.head-text{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:2px}
+.head-text h1{flex:none;max-width:100%}
 .head-in{max-width:1120px;margin:0 auto;padding:0 20px;position:relative;display:flex;align-items:center;gap:14px}
 h1{font-family:'Bricolage Grotesque','IBM Plex Sans',sans-serif;font-size:calc(22px*var(--fs));line-height:1.1;font-weight:800;color:#FDFBF4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:0 1 auto}
-.head-meta{font-size:calc(13.5px*var(--fs));color:#A9CBB6;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1 1 0;min-width:0}
+.head-meta{font-size:calc(13.5px*var(--fs));line-height:1.3;color:#BFDCC9;overflow-wrap:anywhere;min-width:0}
+.head-meta:empty{display:none}
+#wiztitle .tproj{color:#F2C55C}
+#wiztitle .tsep{color:#8FB8A6;font-weight:600}
+#wiztitle .trnd{font-size:.8em;font-weight:700;color:#D3DDD6}
+/* Top bar: Header stays, or Header and bar stay. --topbar-h is the header's height, kept by topbarSync(). */
+html[data-topbar] header{position:sticky;top:0;z-index:35;box-shadow:0 8px 22px rgba(0,0,0,.28)}
+html[data-topbar]{scroll-padding-top:calc(var(--topbar-h,60px) + 10px)}
+html[data-topbar="bar"]{scroll-padding-top:calc(var(--topbar-h,60px) + 70px)}
+html[data-topbar="bar"] #app .ptop{position:sticky;top:var(--topbar-h,60px);z-index:34;background:var(--bg);padding:10px 0 2px;margin-top:-10px;box-shadow:0 10px 16px -12px rgba(0,0,0,.6)}
 .hbtn{flex:none;display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 14px;border:1px solid rgba(244,239,226,.45);background:transparent;color:#F4EFE2;border-radius:999px;font-size:calc(13.5px*var(--fs));font-weight:700;cursor:pointer;font-family:inherit}
 .hbtn:hover{background:rgba(244,239,226,.1)}
 .hbtn:disabled{opacity:.45;cursor:not-allowed;background:transparent}
@@ -862,8 +874,12 @@ img.mimg.pix{image-rendering:pixelated}
 html{scroll-padding-bottom:var(--lift,0px)}
 .notice{pointer-events:auto;display:flex;align-items:center;gap:11px;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:14px;padding:9px 10px;box-shadow:0 12px 30px rgba(0,0,0,.28);font-size:calc(14px*var(--fs));line-height:1.45}
 .sidecol{min-width:0}
+@media(max-width:880px){
+  html[data-topbar] #side{top:calc(var(--topbar-h,60px) + 14px);max-height:calc(100vh - 28px - var(--topbar-h,60px))}
+}
 @media(min-width:881px){
   .sidecol{position:sticky;top:14px;align-self:start;display:flex;flex-direction:column;gap:10px;max-height:calc(100vh - 28px)}
+  html[data-topbar] .sidecol{top:calc(var(--topbar-h,60px) + 14px);max-height:calc(100vh - 28px - var(--topbar-h,60px))}
   .sidecol #side{position:static;align-self:stretch;max-height:none;min-height:0;flex:0 1 auto}
   .sidecol .notices{position:static;transform:none;width:auto;z-index:auto;flex:0 0 auto;flex-direction:column;max-height:calc(100vh - 160px);overflow-y:auto}
   .sidecol .notice{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px 10px;align-items:start;padding:10px;box-shadow:none;font-size:calc(13.5px*var(--fs))}
@@ -1268,8 +1284,10 @@ html{scroll-padding-bottom:var(--lift,0px)}
 <a class="skip" href="#main">Skip to the question</a>
 <header>
   <div class="head-in">
-    <h1 id="wiztitle">Decision Wizard</h1>
-    <div class="head-meta" id="headmeta"></div>
+    <div class="head-text">
+      <h1 id="wiztitle">Decision Wizard</h1>
+      <div class="head-meta" id="headmeta"></div>
+    </div>
     <button type="button" class="hbtn" id="openbtn" data-action="open-drawer" aria-haspopup="dialog" aria-label="Load a round"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span class="hlab">Load</span><span class="hbadge" id="loadbadge" hidden></span></button>
     <button type="button" class="hbtn" id="savebtn" data-action="save" aria-label="Save the round and its answers"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg><span class="hlab">Save</span></button>
     <button type="button" class="icon-btn" id="optsbtn" data-action="open-options" aria-haspopup="dialog" aria-label="Options"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M19.15 10.08 L22.10 10.58 L22.10 13.42 L19.15 13.92 L18.41 15.70 L20.15 18.14 L18.14 20.15 L15.70 18.41 L13.92 19.15 L13.42 22.10 L10.58 22.10 L10.08 19.15 L8.30 18.41 L5.86 20.15 L3.85 18.14 L5.59 15.70 L4.85 13.92 L1.90 13.42 L1.90 10.58 L4.85 10.08 L5.59 8.30 L3.85 5.86 L5.86 3.85 L8.30 5.59 L10.08 4.85 L10.58 1.90 L13.42 1.90 L13.92 4.85 L15.70 5.59 L18.14 3.85 L20.15 5.86 L18.41 8.30Z"/><circle cx="12" cy="12" r="3"/></svg></button>
@@ -1383,6 +1401,13 @@ html{scroll-padding-bottom:var(--lift,0px)}
           <button type="button" data-action="set-size" data-v="normal" aria-pressed="false">Normal</button>
           <button type="button" data-action="set-size" data-v="large" aria-pressed="false">Large</button>
         </div>
+        <div class="osub olabw"><span>Top bar</span><button type="button" class="oinfo" data-action="opt-info" data-note="nt-topbar" aria-expanded="false" aria-controls="nt-topbar" aria-label="About the top bar"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M12 11v7M12 6.5v.01"/></svg></button></div>
+        <div class="onote onote-sub" id="nt-topbar" hidden>Header stays keeps the round's name, Load, Save, and Options in view while you scroll. Header and bar keeps the progress bar under it too.</div>
+        <div class="seg" role="group" aria-label="Top bar">
+          <button type="button" data-action="set-topbar" data-v="scroll" aria-pressed="false">Scrolls away</button>
+          <button type="button" data-action="set-topbar" data-v="header" aria-pressed="false">Header stays</button>
+          <button type="button" data-action="set-topbar" data-v="bar" aria-pressed="false">Header and bar</button>
+        </div>
       </div>
     </section>
     <section class="ogroup" data-sec="answering">
@@ -1451,7 +1476,7 @@ html{scroll-padding-bottom:var(--lift,0px)}
 <script>
 "use strict";
 /* The wizard's version. Bump the last number (0.1.1) for a minor update, the middle one (0.2.0) for a major one. */
-var WIZARD_VERSION = "0.11.7";
+var WIZARD_VERSION = "0.11.8";
 
 var CONFIG = { title:"Decision Wizard", tagline:"", product:"" };
 
@@ -1695,15 +1720,16 @@ function loadLib(){
 function applyConfig(){
   try{ document.title = CONFIG.title || "Decision Wizard"; }catch(e){}
   var t = document.getElementById("wiztitle");
-  if(t){ t.textContent = CONFIG.title || "Decision Wizard"; }
+  if(t){ t.innerHTML = titleHTML(CONFIG); }
   var f = document.getElementById("wizfoot");
   if(f){ f.textContent = CONFIG.product || ""; }
   var sb = document.getElementById("savebtn");
   if(sb){ sb.disabled = !CURKEY || QUESTIONS.length === 0; }
   headMeta();
+  topbarSync();
 }
 var SETKEY = "decision-wizard-settings-v1";
-var SETTINGS = { theme: "dark", size: "normal", mascot: "quill", mascotFolder: "", hidden: [], talk: true, quips: true, sound: true, name: "", timerHover: true, timerBar: false, recs: true, keys: true, ctx: "before", estAuto: true, estSec: 0, secs: ["companion"] };
+var SETTINGS = { theme: "dark", size: "normal", mascot: "quill", mascotFolder: "", hidden: [], talk: true, quips: true, sound: true, name: "", timerHover: true, timerBar: false, recs: true, keys: true, ctx: "before", topbar: "scroll", estAuto: true, estSec: 0, secs: ["companion"] };
 /* The sections of Options, top to bottom. SETTINGS.secs lists the ones left open. */
 var OSECS = ["companion", "look", "answering", "time", "appdata"];
 function loadSettings(){
@@ -1722,6 +1748,7 @@ function loadSettings(){
     if(typeof s.recs === "boolean") SETTINGS.recs = s.recs;
     if(typeof s.keys === "boolean") SETTINGS.keys = s.keys;
     if(s.ctx === "before" || s.ctx === "after") SETTINGS.ctx = s.ctx;
+    if(s.topbar === "scroll" || s.topbar === "header" || s.topbar === "bar") SETTINGS.topbar = s.topbar;
     if(typeof s.estAuto === "boolean") SETTINGS.estAuto = s.estAuto;
     if(typeof s.estSec === "number" && s.estSec >= 5 && s.estSec <= 600) SETTINGS.estSec = Math.round(s.estSec);
     if(typeof s.name === "string") SETTINGS.name = s.name.slice(0, 30);
@@ -1742,11 +1769,14 @@ function applySettings(){
     document.documentElement.setAttribute("data-theme", t);
     if(SETTINGS.size === "normal"){ document.documentElement.removeAttribute("data-size"); }
     else { document.documentElement.setAttribute("data-size", SETTINGS.size); }
+    if(SETTINGS.topbar === "scroll"){ document.documentElement.removeAttribute("data-topbar"); }
+    else { document.documentElement.setAttribute("data-topbar", SETTINGS.topbar); }
   }catch(e){}
+  topbarSync();
   applyMascot();
   renderOptions();
 }
-var OPTKEYS = { "set-theme": "theme", "set-size": "size", "set-mascot": "mascot", "set-talk": "talk", "set-quips": "quips", "set-sound": "sound", "set-timerhover": "timerHover", "set-timerbar": "timerBar", "set-recs": "recs", "set-keys": "keys", "set-ctx": "ctx", "set-estauto": "estAuto" };
+var OPTKEYS = { "set-theme": "theme", "set-size": "size", "set-mascot": "mascot", "set-talk": "talk", "set-quips": "quips", "set-sound": "sound", "set-timerhover": "timerHover", "set-timerbar": "timerBar", "set-recs": "recs", "set-keys": "keys", "set-ctx": "ctx", "set-topbar": "topbar", "set-estauto": "estAuto" };
 function renderOptions(){
   renderCompanions();
   var bs = document.querySelectorAll('#optdrawer [data-action^="set-"]');
@@ -1806,7 +1836,7 @@ function secVals(){
   var n = LIB.rounds.length, app = standalone() ? "installed" : (hosted() && installPrompt) ? "can install" : "";
   return {
     companion: [comp].concat(offs).filter(Boolean).join(", "),
-    look: { dark: "Dark", light: "Light", system: "System" }[SETTINGS.theme] + ", " + { compact: "Compact", normal: "Normal", large: "Large" }[SETTINGS.size],
+    look: { dark: "Dark", light: "Light", system: "System" }[SETTINGS.theme] + ", " + { compact: "Compact", normal: "Normal", large: "Large" }[SETTINGS.size] + (SETTINGS.topbar === "header" ? ", header stays" : SETTINGS.topbar === "bar" ? ", header and bar stay" : ""),
     answering: "Recommendations " + on(SETTINGS.recs) + ", keys " + on(SETTINGS.keys) + ", context " + (SETTINGS.ctx === "after" ? "last" : "first"),
     time: clock + ", " + (SETTINGS.estAuto ? "your pace" : SETTINGS.estSec + " s a question"),
     appdata: [plur(n, "round") + " saved", app].filter(Boolean).join(", ")
@@ -1895,6 +1925,7 @@ function setOption(k, v){
   else if(k === "talk" || k === "quips" || k === "sound" || k === "timerHover" || k === "timerBar" || k === "recs" || k === "keys"){ SETTINGS[k] = (v === "on" || v === true); }
   else if(k === "name"){ SETTINGS.name = String(v || "").trim().slice(0, 30); }
   else if(k === "ctx"){ if(v !== "before" && v !== "after") return; SETTINGS.ctx = v; }
+  else if(k === "topbar"){ if(v !== "scroll" && v !== "header" && v !== "bar") return; SETTINGS.topbar = v; }
   else if(k === "estAuto"){ SETTINGS.estAuto = (v === "on" || v === true); if(!SETTINGS.estAuto && !SETTINGS.estSec) SETTINGS.estSec = paceSuggest(); }
   else if(k === "estSec"){ var n = Math.round(parseFloat(v)); if(!(n >= 5 && n <= 600)){ renderOptions(); return; } SETTINGS.estSec = n; SETTINGS.estAuto = false; }
   else return;
@@ -1987,6 +2018,30 @@ function firstOpenIn(qs, answers){
 function batchDone(q){ return batchDoneIn(q, state.answers); }
 function qAnswered(q){ return qAnsweredIn(q, state.answers); }
 function answeredCount(){ return countAnswered(QUESTIONS, state.answers); }
+/* The header's title: the round's project, or else its product, first in color; a closing "Round 2" or "Brainstorm 2" smaller. A title that doesn't start with the project gets it in front. */
+function titleHTML(c){
+  var t = (c && c.title) || "Decision Wizard", p = c && (c.project || c.product) ? String(c.project || c.product).trim() : "";
+  var rest = t, num = "", m = /^(.*\S)\s*,\s*((?:round|brainstorm)\s+\d+)$/i.exec(t);
+  if(m){ rest = m[1]; num = m[2]; }
+  if(p && rest.length > p.length && rest.slice(0, p.length).toLowerCase() === p.toLowerCase() && /[\s:,.\-]/.test(rest.charAt(p.length))){ rest = rest.slice(p.length).replace(/^[\s:,.\-]+/, ""); }
+  else if(p && rest.toLowerCase() === p.toLowerCase()){ rest = ""; }
+  var h = p ? '<span class="tproj">' + esc(p) + '</span>' + (rest || num ? '<span class="tsep"> - </span>' : '') : '';
+  h += esc(rest);
+  if(num) h += (rest ? ',' : '') + ' <span class="trnd">' + esc(num) + '</span>';
+  return h;
+}
+function topbarSync(){
+  try{
+    var h = document.querySelector("header");
+    if(h) document.documentElement.style.setProperty("--topbar-h", h.offsetHeight + "px");
+  }catch(e){}
+}
+try{
+  window.addEventListener("resize", topbarSync);
+  var headEl = document.querySelector("header");
+  if(headEl && window.ResizeObserver) new ResizeObserver(topbarSync).observe(headEl);
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(topbarSync, function(){});
+}catch(e){}
 function headMeta(){
   var el = document.getElementById("headmeta");
   if(!el) return;
@@ -5766,6 +5821,7 @@ function wipeAll(){
   SETTINGS.recs = true;
   SETTINGS.keys = true;
   SETTINGS.ctx = "before";
+  SETTINGS.topbar = "scroll";
   SETTINGS.estAuto = true;
   SETTINGS.estSec = 0;
   SETTINGS.secs = ["companion"];
