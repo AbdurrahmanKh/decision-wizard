@@ -2,6 +2,18 @@
 
 What changed in the Decision Wizard and the d-wizard skill, newest first. The wizard and the skill keep their own version numbers. 
 
+## Wizard 0.13.2 and skill 0.13.1, 17 November 2026
+
+Rounds are kept by what they're about; the folder only says where the answers are saved.
+
+### Changed
+
+- Wizard: Load puts the newest round first in each project, and the project with the newest round first. The open round's project no longer comes first.
+- Wizard: project names match loosely, so `decision-wizard` and `Decision Wizard` are one project, shown the way people write it.
+- Wizard: a round's project is what the round names: its project, else its product, and its folder's name only when it names neither. A round whose answers save into another project's folder says **Saves in** that project on its row, and a project's **Saves to its folder** counts only its own folder.
+- Wizard: a folder is known by its own name, on the question's chip, in Load, and when the wizard asks for it, not by the project of the first round found in it.
+- Skill: `project` names what the round is about, the same in Claude and Claude Code, and never comes from where the round is written. A round Claude Code writes into one project's folder about another project names the project it is about.
+
 ## Wizard 0.13.1, 17 November 2026
 
 ### Fixed

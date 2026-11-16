@@ -940,6 +940,8 @@ img.mimg.pix{image-rendering:pixelated}
 .fbtn:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}
 .lnew{font-weight:800;color:var(--btn-fg);background:var(--btn-bg);border-radius:999px;padding:0 8px}
 .lproj{font-weight:700;color:var(--ink)}
+.lproj.lsaves{display:inline-flex;align-items:center;gap:4px;font-weight:600;color:var(--muted)}
+.lproj.lsaves svg{width:13px;height:13px;flex:none}
 /* Load, grouped by project */
 .lsum{font-size:calc(12.5px*var(--fs));color:var(--muted);margin:2px 2px 10px}
 .lgroup{margin-bottom:12px}
@@ -1572,7 +1574,7 @@ html{scroll-padding-bottom:var(--lift,0px)}
 <script>
 "use strict";
 /* The wizard's version. Bump the last number (0.1.1) for a minor update, the middle one (0.2.0) for a major one. */
-var WIZARD_VERSION = "0.13.1";
+var WIZARD_VERSION = "0.13.2";
 
 var CONFIG = { title:"Decision Wizard", tagline:"", product:"" };
 
@@ -1649,15 +1651,19 @@ function cmpVer(a, b){
   return 0;
 }
 function needsNewer(cfg){ return !!(cfg && cfg.needs_wizard && cmpVer(cfg.needs_wizard, WIZARD_VERSION) > 0); }
-/* A round's project, for sorting and for knowing rounds apart: its project, else its product. pkey compares them. */
-function pnameOf(cfg, e){ return cleanStr(cfg && cfg.project) || cleanStr(e && e.fkey ? e.project : "") || cleanStr(cfg && cfg.product); }
-function pkey(n){ return cleanStr(n).toLowerCase(); }
-/* Entries saved before 0.12.0 have no pname: it is read once from the stored round. */
+/* A round's project, for sorting and for knowing rounds apart: what the round says it is about (its project, else
+   its product), and its folder's project only when it names neither. The folder says where answers are saved, not
+   what a round is about. pkey compares names loosely: "decision-wizard" and "Decision Wizard" are one project. */
+function pnameOf(cfg, e){ return cleanStr(cfg && cfg.project) || cleanStr(cfg && cfg.product) || cleanStr(e && e.fkey ? e.project : ""); }
+function pkey(n){ return cleanStr(n).toLowerCase().replace(/[\s\-_.]+/g, ""); }
+/* A round's project is read once from the stored round: for rounds saved before 0.12.0, and again for rounds
+   whose name came from their folder before their product (0.12.0 to 0.13.1). */
 function ensurePname(e){
   if(!e) return "";
-  if(typeof e.pname === "string") return e.pname;
+  if(typeof e.pname === "string" && e.pnv === 2) return e.pname;
   var r = readJSON(RPFX + e.key), c = r && r.config && typeof r.config === "object" ? r.config : null;
   e.pname = pnameOf(c, e).slice(0, 80);
+  e.pnv = 2;
   PNAME_DIRTY = true;
   return e.pname;
 }
@@ -1735,9 +1741,10 @@ function upsertEntry(key, cfg, titled, questions, stateObj){
   e.tagline = cfg.tagline;
   var fk = canonKey(folderKey(cfg.folder));
   if((e.fkey || "") !== fk){ delete e.file; delete e.fsig; delete e.fsaved; }
-  if(fk){ e.fkey = fk; e.folder = cfg.folder; e.project = cleanStr(cfg.project) || (folderRec(fk) || {}).project || projectName(cfg); }
+  if(fk){ e.fkey = fk; e.folder = cfg.folder; e.project = (folderRec(fk) || {}).project || projectName({ folder: cfg.folder }); }
   else { delete e.fkey; delete e.folder; delete e.project; }
   e.pname = pnameOf(cfg, e).slice(0, 80);
+  e.pnv = 2;
   lfoldOpen(e.pname);
   if(isBS(cfg)){ e.kind = "brainstorm"; if(cfg.round === 1 || cfg.round === 2) e.bsround = cfg.round; else delete e.bsround; } else { delete e.kind; delete e.bsround; }
   e.total = questions.length;
@@ -5148,7 +5155,7 @@ function askProject(key, src, kind, wrong, sub){
   if(kind === "wrong" && sub) o = { title: "One folder deeper", message: 'The round is inside "' + sub + '", in the folder you picked' + (wrong ? ', "' + wrong + '"' : "") + '. Pick "' + sub + '" itself:', ok: "Pick again" };
   else if(kind === "wrong") o = { title: "That folder doesn't hold this round", message: '"' + e.title + '" isn\'t in the folder you picked' + (wrong ? ', "' + wrong + '"' : "") + ". The round names this folder:", ok: "Pick again" };
   else if(rec) o = { title: "Keep saving into " + name + "?", message: "The wizard knows this project's folder. The browser wants your OK again before the wizard saves your answers there and opens the project's new rounds.", ok: "Allow" };
-  else o = { title: "Save your answers into " + name + "?", message: "This round is from " + name + ". Pick its folder once: the wizard then saves your answers into the round's file as you go, and opens new rounds from " + name + " by itself.", ok: "Pick the folder" };
+  else o = { title: "Save your answers into " + name + "?", message: "This round came from " + name + "'s folder. Pick that folder once: the wizard then saves your answers into the round's file as you go, and opens new rounds from " + name + " by itself.", ok: "Pick the folder" };
   o.cancel = "Not now"; o.calm = true; o.path = e.folder; o.key = key;
   return confirmBox(o).then(function(yes){
     if(!yes){ LATER[e.fkey] = true; projectUI(); return false; }
@@ -5168,7 +5175,7 @@ function askProject(key, src, kind, wrong, sub){
   });
 }
 /* Open a project folder: connect a project's wizard-rounds folder from Load, with no round loaded first. The rounds in
-   it name their project and folder, so the newest of them sets both. The newest round still as Claude wrote it then
+   it name their folder, so the newest of them sets it, and the folder is known by its own name. The newest round still as Claude wrote it then
    opens, as if it were chosen by hand; every other file in the folder is noted and left alone, as on any connection. */
 function openProjectFolder(){
   if(!fsSupported()) return Promise.resolve(false);
@@ -5211,7 +5218,7 @@ function connectDir(dir, known, list){
     if(rec.keys.indexOf(raw) === -1) rec.keys.push(raw);
     rec.handle = dir;
   } else {
-    rec = { key: raw, keys: [raw], path: cleanStr(lead.folder), project: cleanStr(lead.project) || "", handle: dir, seen: {}, addedAt: Date.now(), perm: "prompt" };
+    rec = { key: raw, keys: [raw], path: cleanStr(lead.folder), project: projectName({ folder: lead.folder }), handle: dir, seen: {}, addedAt: Date.now(), perm: "prompt" };
   }
   /* As with a folder picked for a round: every file already in it is noted before the folder joins the list. */
   return (isNew ? markAllSeen(rec) : Promise.resolve()).then(function(){ return dirPut(rec); }).then(function(){ return dirPerm(rec); }).then(function(p){
@@ -5880,11 +5887,15 @@ function setupSent(){
 }
 
 /* The list of rounds and the Open drawer. */
-/* Load groups rounds by project once any round has one: the open round's project first, then the project used most
-   recently, newest round first inside each, and rounds with no project last. A heading folds its project away;
-   folded projects are kept in this browser, and a round arriving in one unfolds it. */
+/* Load groups rounds by project once any round has one: the newest round first inside each project, and the project
+   with the newest round first. A round whose answers save into another project's folder says so on its row.
+   A heading folds its project away; folded projects are kept in this browser, and a round arriving in one unfolds it. */
 var LFKEY = "decision-wizard-lfold-v1";
-function lfoldList(){ var a = readJSON(LFKEY); return Array.isArray(a) ? a.filter(function(x){ return typeof x === "string"; }) : []; }
+function lfoldList(){
+  var a = readJSON(LFKEY), out = [];
+  if(Array.isArray(a)) a.forEach(function(x){ if(typeof x === "string"){ var k = pkey(x); if(k && out.indexOf(k) === -1) out.push(k); } });
+  return out;
+}
 function lfoldOpen(name){
   var k = pkey(name), a = lfoldList(), i = a.indexOf(k);
   if(i !== -1){ a.splice(i, 1); lsSet(LFKEY, JSON.stringify(a)); }
@@ -5906,7 +5917,7 @@ function libRowHTML(e, grouped){
   h += '<button type="button" class="lopen" data-action="lib-open" data-key="' + esc(e.key) + '"' + (isCur ? ' aria-current="true"' : "") + '>';
   h += '<span class="ltitle" ' + dirA(title) + '>' + esc(title) + '</span>';
   if(e.tagline){ h += '<span class="ltag" ' + dirA(e.tagline) + '>' + esc(e.tagline) + '</span>'; }
-  h += '<span class="lmeta">' + (e.unseen ? '<span class="lnew">New</span>' : "") + (e.project && !grouped ? '<span class="lproj" ' + dirA(e.project) + '>' + esc(e.project) + '</span>' : "") + '' + (e.kind === "brainstorm" ? '<span class="lkind">' + BS_MARK + (e.bsround ? 'Brainstorm, round ' + e.bsround : 'Older brainstorm') + '</span><span>' + (e.answered || 0) + ' of ' + (e.total || 0) + ' cards seen</span>' : '<span>' + (e.answered || 0) + ' of ' + (e.total || 0) + ' answered</span>') + '<span>' + esc(fmtWhen(e.changed)) + '</span>' + (isCur ? '<span class="lnow">Open now</span>' : "") + '</span>';
+  h += '<span class="lmeta">' + (e.unseen ? '<span class="lnew">New</span>' : "") + (e.project && grouped === false ? '<span class="lproj" ' + dirA(e.project) + '>' + esc(e.project) + '</span>' : (e.project && typeof grouped === "string" && pkey(e.project) !== grouped ? '<span class="lproj lsaves">' + LG_FOLDER + '<span ' + dirA(e.project) + '>Saves in ' + esc(e.project) + '</span></span>' : "")) + '' + (e.kind === "brainstorm" ? '<span class="lkind">' + BS_MARK + (e.bsround ? 'Brainstorm, round ' + e.bsround : 'Older brainstorm') + '</span><span>' + (e.answered || 0) + ' of ' + (e.total || 0) + ' cards seen</span>' : '<span>' + (e.answered || 0) + ' of ' + (e.total || 0) + ' answered</span>') + '<span>' + esc(fmtWhen(e.changed)) + '</span>' + (isCur ? '<span class="lnow">Open now</span>' : "") + '</span>';
   h += '</button>';
   h += '<button type="button" class="ldel" data-action="lib-delete" data-key="' + esc(e.key) + '" aria-label="Delete ' + esc(title) + '">Delete</button>';
   h += '</div>';
@@ -5921,6 +5932,7 @@ function renderLib(){
   for(var i=0;i<rows.length;i++){
     var n = ensurePname(rows[i]), k = pkey(n);
     if(!own(groups, k)){ groups[k] = { k: k, name: n, rows: [], latest: rows[i].changed || 0 }; order.push(k); }
+    else if(!/[A-Z\s]/.test(groups[k].name) && /[A-Z\s]/.test(n)) groups[k].name = n;
     groups[k].rows.push(rows[i]);
   }
   if(PNAME_DIRTY){ PNAME_DIRTY = false; saveLib(); }
@@ -5932,20 +5944,19 @@ function renderLib(){
     return;
   }
   el.removeAttribute("role");
-  var cur = libEntry(CURKEY), ck = cur ? pkey(ensurePname(cur)) : null;
-  order.sort(function(a, b){ return (a === "") - (b === "") || (b === ck) - (a === ck) || groups[b].latest - groups[a].latest; });
+  order.sort(function(a, b){ return groups[b].latest - groups[a].latest; });
   var named = order.filter(function(k){ return k !== ""; }).length, folded = lfoldList();
   h += '<div class="lsum">' + plur(rows.length, "round") + ' in ' + plur(named, "project") + '</div>';
   for(var g=0;g<order.length;g++){
     var G = groups[order[g]], shut = folded.indexOf(G.k) !== -1, bid = "lgb-" + g;
     var fresh = G.rows.filter(function(e){ return e.unseen; }).length;
-    var saves = G.rows.some(function(e){ var rec = e.fkey ? recOfEntry(e) : null; return !!(rec && rec.perm === "granted"); });
+    var saves = G.rows.some(function(e){ var rec = e.fkey ? recOfEntry(e) : null; return !!(rec && rec.perm === "granted" && pkey(e.project) === G.k); });
     var label = G.name || "Without a project";
     h += '<section class="lgroup' + (G.k ? "" : " none") + (shut ? " shut" : "") + '" data-pk="' + esc(G.k) + '">';
     h += '<h4 class="lghead"><button type="button" class="lgbtn" data-action="lib-fold" aria-expanded="' + (shut ? "false" : "true") + '" aria-controls="' + bid + '">' + LG_CHEV + '<span class="lgname" ' + dirA(label) + '>' + esc(label) + '</span><span class="lgcount">' + plur(G.rows.length, "round") + '</span>' + (fresh ? '<span class="lgnew">' + fresh + ' new</span>' : "") + (saves ? '<span class="lgfold">' + LG_FOLDER + 'Saves to its folder</span>' : "") + '</button></h4>';
     h += '<div class="lglast" ' + dirA(G.rows[0].title || "") + '>Latest: ' + esc(G.rows[0].title || "Untitled round") + '</div>';
     h += '<div class="lgbody" id="' + bid + '" role="list" aria-label="' + esc(label) + '">';
-    for(var j=0;j<G.rows.length;j++) h += libRowHTML(G.rows[j], true);
+    for(var j=0;j<G.rows.length;j++) h += libRowHTML(G.rows[j], G.k);
     h += '</div></section>';
   }
   el.innerHTML = h;
