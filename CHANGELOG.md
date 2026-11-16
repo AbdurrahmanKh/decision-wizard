@@ -2,6 +2,12 @@
 
 What changed in the Decision Wizard and the d-wizard skill, newest first. The wizard and the skill keep their own version numbers. 
 
+## Wizard 0.13.1, 17 November 2026
+
+### Fixed
+
+- Wizard: the companion's menu is never cut. It stays clear of the header and of the bar when they stay at the top, and inside the window; it opens the other way when only that way fits, scrolls when the window is too short for it, and nothing else on the page covers it. It keeps clear while the page scrolls, and closes once the companion has scrolled out of sight.
+
 ## Wizard 0.13.0 and skill 0.13.0, 17 November 2026
 
 The rest of the Hero's Journey review, in one release.

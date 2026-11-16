@@ -458,6 +458,9 @@ body.nomascot #mascot{display:none}
 .mstick{position:relative;z-index:5;display:flex;flex-direction:row;align-items:center;gap:12px}
 .mmenu{position:absolute;top:calc(100% + 6px);left:0;z-index:40;display:none;flex-direction:column;gap:2px;min-width:214px;padding:6px;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:0 14px 34px rgba(0,0,0,.35)}
 .mmenu.on{display:flex}
+.mmenu{overflow-y:auto;overscroll-behavior:contain}
+.mmenu > *{flex:none}
+html.mmopen .mstick,html.mmopen .sidecol.withcomp,html.mmopen .stage #mascot{z-index:34}
 .mmenu.up{top:auto;bottom:calc(100% + 8px)}
 .mmenu.down{top:calc(100% + 8px);bottom:auto}
 .mmenu button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:transparent;border:0;border-radius:9px;padding:7px 11px;font-size:calc(14px*var(--fs));font-weight:600;color:var(--ink);cursor:pointer;white-space:nowrap;font-family:inherit}
@@ -1569,7 +1572,7 @@ html{scroll-padding-bottom:var(--lift,0px)}
 <script>
 "use strict";
 /* The wizard's version. Bump the last number (0.1.1) for a minor update, the middle one (0.2.0) for a major one. */
-var WIZARD_VERSION = "0.13.0";
+var WIZARD_VERSION = "0.13.1";
 
 var CONFIG = { title:"Decision Wizard", tagline:"", product:"" };
 
@@ -9409,11 +9412,56 @@ function placeCompanion(){
   host.appendChild(m);
   if(had){ var b = document.getElementById("mascotbtn"); if(b) b.focus(); }
 }
-function menuFitsBelow(m){
-  m.className = "mmenu on down";
-  var r = m.getBoundingClientRect();
-  return r.bottom <= (window.innerHeight || document.documentElement.clientHeight) - 8;
+/* The companion's menu is never cut. It stays clear of the header (and of the bar, when the bar stays and
+   the menu reaches over it) and inside the window; layers that could cover it sit below it while it's open. */
+function menuLimits(m){
+  var vh = window.innerHeight || document.documentElement.clientHeight, top = 8, hb = 0, mr = m.getBoundingClientRect();
+  var hd = document.querySelector("header");
+  if(hd){ hb = hd.getBoundingClientRect().bottom; if(hb > 0) top = Math.max(top, hb + 8); }
+  var pt = document.documentElement.getAttribute("data-topbar") === "bar" ? document.querySelector("#app .ptop") : null;
+  if(pt){
+    var pr = pt.getBoundingClientRect();
+    if(pr.bottom > 0 && pr.top <= Math.max(hb, 0) + 2 && pr.left < mr.right && pr.right > mr.left) top = Math.max(top, pr.bottom + 8);
+  }
+  return { top: top, bottom: vh - 8 };
 }
+function menuFits(m, up, lim){
+  m.className = "mmenu on " + (up ? "up" : "down");
+  m.style.transform = "";
+  var r = m.getBoundingClientRect();
+  return r.top >= lim.top && r.bottom <= lim.bottom;
+}
+/* Wide screens open the menu above the companion and the rest below it; it opens the other way when only that way fits. */
+function menuDir(m){
+  m.style.maxHeight = "";
+  var lim = menuLimits(m), pref = wideMode();
+  if(menuFits(m, pref, lim)) return pref;
+  if(menuFits(m, !pref, lim)) return !pref;
+  return pref;
+}
+function placeMenu(m){
+  m = m || document.getElementById("mmenu");
+  if(!m) return;
+  m.className = "mmenu on " + (menuUp ? "up" : "down");
+  m.style.transform = "";
+  m.style.maxHeight = "";
+  var lim = menuLimits(m), room = Math.max(96, Math.floor(lim.bottom - lim.top));
+  if(m.offsetHeight > room) m.style.maxHeight = room + "px";
+  var r = m.getBoundingClientRect(), dy = 0;
+  if(r.top < lim.top) dy = Math.ceil(lim.top - r.top);
+  else if(r.bottom > lim.bottom) dy = Math.floor(lim.bottom - r.bottom);
+  if(dy) m.style.transform = "translateY(" + dy + "px)";
+}
+/* While the page scrolls the open menu keeps clear; once the companion has gone out of sight, its menu closes. */
+function menuFollow(){
+  if(!menuOpen) return;
+  var m = document.getElementById("mmenu"), b = document.getElementById("mascotbtn");
+  if(!m || !b) return;
+  var br = b.getBoundingClientRect(), lim = menuLimits(m);
+  if(Math.min(br.bottom, lim.bottom + 8) - Math.max(br.top, lim.top - 8) < 16){ closeMenu(false); return; }
+  placeMenu(m);
+}
+window.addEventListener("scroll", menuFollow, { passive: true });
 function menuItems(){
   var m = document.getElementById("mmenu");
   return m ? Array.prototype.filter.call(m.querySelectorAll("button"), function(x){ return !x.disabled && !x.hidden; }) : [];
@@ -9437,15 +9485,12 @@ function openMenu(by){
   if(menuCloseTimer){ clearTimeout(menuCloseTimer); menuCloseTimer = null; }
   if(!menuOpen){
     updateTimers();
-    menuUp = wideMode() || (sideMode() && !menuFitsBelow(m));
+    document.documentElement.classList.add("mmopen");
+    arrangeMenu(true);
+    menuUp = menuDir(m);
     arrangeMenu(menuUp);
   }
-  m.className = "mmenu on " + (menuUp ? "up" : "down");
-  m.style.transform = "";
-  if(menuUp){
-    var mr = m.getBoundingClientRect();
-    if(mr.top < 8) m.style.transform = "translateY(" + Math.ceil(8 - mr.top) + "px)";
-  }
+  placeMenu(m);
   if(b) b.setAttribute("aria-expanded", "true");
   menuOpen = true;
   menuBy = by;
@@ -9459,7 +9504,8 @@ function closeMenu(restoreFocus){
   if(menuCloseTimer){ clearTimeout(menuCloseTimer); menuCloseTimer = null; }
   if(!menuOpen) return;
   var m = document.getElementById("mmenu"), b = document.getElementById("mascotbtn");
-  if(m) m.className = "mmenu";
+  if(m){ m.className = "mmenu"; m.style.transform = ""; m.style.maxHeight = ""; }
+  document.documentElement.classList.remove("mmopen");
   if(b) b.setAttribute("aria-expanded", "false");
   menuOpen = false;
   menuBy = null;
