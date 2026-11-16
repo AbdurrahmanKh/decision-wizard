@@ -3,6 +3,7 @@
     "title": "Checkout Redesign, Round 1",
     "tagline": "7 decisions before the build starts",
     "product": "Web store",
+    "project": "Web store",
     "needs_wizard": "0.4.0"
   },
   "questions": [

@@ -3,6 +3,7 @@
     "title": "Steam Handheld, Brainstorm 1",
     "tagline": "Round 1: your ideas first",
     "product": "Handheld",
+    "project": "Handheld",
     "kind": "brainstorm",
     "round": 1,
     "needs_wizard": "0.9.0"

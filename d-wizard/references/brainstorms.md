@@ -45,7 +45,7 @@ Round 1 asks before it suggests. First each hat asks its question, in the order 
 
 ```json
 {
-  "config": { "title": "Steam Handheld, Brainstorm 1", "tagline": "Round 1: your ideas first", "product": "Handheld", "kind": "brainstorm", "round": 1, "needs_wizard": "0.9.0" },
+  "config": { "title": "Steam Handheld, Brainstorm 1", "tagline": "Round 1: your ideas first", "product": "Handheld", "project": "Handheld", "kind": "brainstorm", "round": 1, "needs_wizard": "0.9.0" },
   "topic": { "title": "Steam games on my handheld", "question": "What could get my Steam games onto my handheld?", "context": "..." },
   "hold": [
     { "hat": "blue" }, { "hat": "white" }, { "hat": "red" }, { "hat": "yellow" }, { "hat": "black" }, { "hat": "green" }
@@ -67,7 +67,7 @@ Round 1 asks before it suggests. First each hat asks its question, in the order 
 
 For a complete round 1, read `example-brainstorm.json` next to this file.
 
-`config` works as in a round: `kind` is always `"brainstorm"`, `round` is `1`, `needs_wizard` is `"0.9.0"`, and `project` and `folder` go on a brainstorm Claude Code writes into a project's `wizard-rounds/` folder, exactly as for a round.
+`config` works as in a round: `kind` is always `"brainstorm"`, `round` is `1`, `needs_wizard` is `"0.9.0"`, `project` goes on every brainstorm, and `folder` on a brainstorm Claude Code writes into a project's `wizard-rounds/` folder, exactly as for a round.
 
 `topic` is the one subject of the whole brainstorm, and both rounds carry the same one:
 
@@ -110,7 +110,7 @@ Write round 2 from round 1's answers. Its parts, in the order the user meets the
 
 ```json
 {
-  "config": { "title": "Steam Handheld, Brainstorm 1, Round 2", "tagline": "From Steam Handheld, Brainstorm 1", "product": "Handheld", "kind": "brainstorm", "round": 2, "needs_wizard": "0.11.0" },
+  "config": { "title": "Steam Handheld, Brainstorm 1, Round 2", "tagline": "From Steam Handheld, Brainstorm 1", "product": "Handheld", "project": "Handheld", "kind": "brainstorm", "round": 2, "needs_wizard": "0.11.0" },
   "topic": { "title": "Steam games on my handheld", "question": "What could get my Steam games onto my handheld?", "context": "..." },
   "aims": {
     "line": "Round 2. The hats have a few more ideas first, then the council takes your ideas one at a time.",

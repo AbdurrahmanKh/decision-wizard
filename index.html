@@ -26,6 +26,7 @@
   --amber:#8F5E0B; --amber-soft:#F5EAD1;
   --field:#FFFFFF; --panel:#FFFDF6;
   --btn-bg:#221F17; --btn-fg:#F4EFE2; --linkc:#0E5B46; --focus:#946F12;
+  --proj:#8A5F00;
 }
 [data-theme="dark"]{
   color-scheme:dark;
@@ -37,6 +38,7 @@
   --amber:#D8A445; --amber-soft:#403319;
   --field:#161B10; --panel:#2A2E1D;
   --btn-bg:#D2A62F; --btn-fg:#221B06; --linkc:#7BD0AC; --focus:#D2A62F;
+  --proj:#F2C55C;
 }
 :root{--fs:1}
 html[data-size="compact"]{--fs:.9}
@@ -865,6 +867,25 @@ img.mimg.pix{image-rendering:pixelated}
 .fbtn:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}
 .lnew{font-weight:800;color:var(--btn-fg);background:var(--btn-bg);border-radius:999px;padding:0 8px}
 .lproj{font-weight:700;color:var(--ink)}
+/* Load, grouped by project */
+.lsum{font-size:calc(12.5px*var(--fs));color:var(--muted);margin:2px 2px 10px}
+.lgroup{margin-bottom:12px}
+.lghead{margin:0;font-size:inherit}
+.lgbtn{display:flex;align-items:center;gap:9px;width:100%;min-width:0;background:transparent;border:0;border-bottom:1px solid var(--line);padding:6px 2px 7px;margin-bottom:8px;color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+.lgbtn:hover .lgname{text-decoration:underline;text-underline-offset:3px}
+.lgbtn:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:6px}
+.lgchev{flex:none;width:16px;height:16px;color:var(--muted);transition:transform .15s}
+.lgroup.shut .lgchev{transform:rotate(-90deg)}
+.lgname{font-family:'Bricolage Grotesque','IBM Plex Sans',sans-serif;font-weight:800;font-size:calc(16px*var(--fs));color:var(--proj);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lgroup.none .lgname{color:var(--muted);font-weight:700;font-size:calc(14px*var(--fs))}
+.lgcount{flex:none;font-size:calc(12.5px*var(--fs));color:var(--muted);font-variant-numeric:tabular-nums}
+.lgnew{flex:none;font-size:calc(12px*var(--fs));font-weight:800;color:var(--btn-fg);background:var(--btn-bg);border-radius:999px;padding:0 8px}
+.lgfold{flex:none;margin-left:auto;display:inline-flex;align-items:center;gap:5px;font-size:calc(11.5px*var(--fs));font-weight:700;color:var(--green)}
+.lgfold svg{width:13px;height:13px}
+.lglast{display:none;font-size:calc(12.5px*var(--fs));color:var(--muted);margin:-4px 2px 4px 27px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lgroup.shut .lglast{display:block}
+.lgroup.shut .lgbody{display:none}
+@media(prefers-reduced-motion:reduce){.lgchev{transition:none}}
 .hbadge{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:#D2A62F;color:#221B06;font-size:calc(11.5px*var(--fs));font-weight:800;font-variant-numeric:tabular-nums}
 .fopen{margin:0 0 10px}
 .lempty + .fopen{margin-top:10px}
@@ -1356,7 +1377,7 @@ html{scroll-padding-bottom:var(--lift,0px)}
     <div id="liblist" aria-label="Rounds in this browser"></div>
     <details class="fmt">
       <summary>What the files look like</summary>
-      <div class="ldef"><b>Round.</b> Either a bare array of questions, or an object {config, questions} where config sets {title, tagline, product}. Each question: <b>id</b>, <b>section</b>, <b>title</b>, <b>options</b> (array of strings). Ids must be unique, and so must row ids inside one batch. Optional: <b>question</b> (the question itself, shown large, with the title as a small topic line above it; the sidebar keeps the title); <b>context</b>; <b>detail</b> (array of {kind: quote, note, or code, src, text}; code keeps indentation and line breaks and shows src exactly as written, such as a file path and line); <b>links</b> (array of {label, url}); <b>extra</b> ({label, blocks:[{kind: text, text}, {kind: table, title, columns, rows}, {kind: quote, src, text}, {kind: note, text}, or {kind: code, src, text}]}, or a list of them for several buttons) for context popups; <b>customLabel</b>; <b>custom</b>: false; <b>skip</b>: false; <b>recommend</b> (the label of the recommended option) with <b>because</b> (the reason, finishing "I recommend this because"), on a question, a follow-up, or a batch row. For a batch table set <b>type</b>: "batch" and <b>items</b>: [{id, label, note}], sharing one options set per row. Every question and every row takes a note with the pen. <b>type</b>: "rank" makes a ranking of 2 to 10 options (recommend is the whole order); "number" takes <b>min</b>, <b>max</b>, <b>step</b>, and <b>unit</b> instead of options (recommend is a number); "bracket" runs 4 to 32 options in knockout pairs, in the listed order. In config, <b>needs_wizard</b> names the oldest wizard version the round is made for, and a round written into a project sets <b>project</b> (the project's name) and <b>folder</b> (the full path of the folder the round file is in).</div>
+      <div class="ldef"><b>Round.</b> Either a bare array of questions, or an object {config, questions} where config sets {title, tagline, product, project}; Load groups rounds by their project, or by their product when they have none. Each question: <b>id</b>, <b>section</b>, <b>title</b>, <b>options</b> (array of strings). Ids must be unique, and so must row ids inside one batch. Optional: <b>question</b> (the question itself, shown large, with the title as a small topic line above it; the sidebar keeps the title); <b>context</b>; <b>detail</b> (array of {kind: quote, note, or code, src, text}; code keeps indentation and line breaks and shows src exactly as written, such as a file path and line); <b>links</b> (array of {label, url}); <b>extra</b> ({label, blocks:[{kind: text, text}, {kind: table, title, columns, rows}, {kind: quote, src, text}, {kind: note, text}, or {kind: code, src, text}]}, or a list of them for several buttons) for context popups; <b>customLabel</b>; <b>custom</b>: false; <b>skip</b>: false; <b>recommend</b> (the label of the recommended option) with <b>because</b> (the reason, finishing "I recommend this because"), on a question, a follow-up, or a batch row. For a batch table set <b>type</b>: "batch" and <b>items</b>: [{id, label, note}], sharing one options set per row. Every question and every row takes a note with the pen. <b>type</b>: "rank" makes a ranking of 2 to 10 options (recommend is the whole order); "number" takes <b>min</b>, <b>max</b>, <b>step</b>, and <b>unit</b> instead of options (recommend is a number); "bracket" runs 4 to 32 options in knockout pairs, in the listed order. In config, <b>needs_wizard</b> names the oldest wizard version the round is made for, and a round written into a project sets <b>project</b> (the project's name) and <b>folder</b> (the full path of the folder the round file is in).</div>
       <div class="ldef"><b>Brainstorm.</b> An object with config.kind set to "brainstorm", a <b>topic</b> (a <b>title</b> and a <b>question</b>, and maybe context, detail, links, and extra, as a question has), and the cards of one of its two rounds. <b>Round 1</b> has <b>hold</b> (the six hats, Blue first, each with an optional <b>question</b>), <b>sparks</b> (optional: a hat with an optional <b>line</b> and up to three sparks {id, text}), <b>suggest</b> (the six hats, Blue last, each with a <b>line</b> and up to four <b>ideas</b> {id, text, why}), and an optional <b>recap</b> {line}. <b>Round 2</b> has <b>aims</b> (Blue's <b>line</b>, your <b>goals</b>, what to <b>avoid</b>, and <b>said</b>, your answers from round 1 that weren't ideas, each {hat, question, answer}), optional <b>extras</b> {line, ideas: [{id, hat, text, why, council}]}, <b>ideas</b> [{id, text, by, hat, from, council}], where by is "you", the hat that suggested it, or "merged" (then <b>merged</b> lists the cards it came from, each {text, by, hat}), and council holds up to four {hat, say} per hat, and an optional <b>order</b> {line}. Ids use letters, digits, - and _, and are unique; ids like u1 are kept for your own cards. A brainstorm saves, backs up, and works with project folders as a round does. A file made for wizard 0.8.0, with a hats list, no longer loads; one already in your list keeps its answers.</div>
       <div class="ldef"><b>Saved file.</b> What Save writes: the answers JSON (meta and answers, the same as Copy answers JSON) with the whole round under <b>round</b>, so opening it picks up where you left off.</div>
       <div class="ldef"><b>Answers JSON.</b> Answers on their own merge into the round with the same title, or into the open round: matching ids overwrite, and open entries are ignored unless they carry a note. A note comes back as <b>comment</b>.</div>
@@ -1476,7 +1497,7 @@ html{scroll-padding-bottom:var(--lift,0px)}
 <script>
 "use strict";
 /* The wizard's version. Bump the last number (0.1.1) for a minor update, the middle one (0.2.0) for a major one. */
-var WIZARD_VERSION = "0.11.8";
+var WIZARD_VERSION = "0.12.0";
 
 var CONFIG = { title:"Decision Wizard", tagline:"", product:"" };
 
@@ -1553,6 +1574,19 @@ function cmpVer(a, b){
   return 0;
 }
 function needsNewer(cfg){ return !!(cfg && cfg.needs_wizard && cmpVer(cfg.needs_wizard, WIZARD_VERSION) > 0); }
+/* A round's project, for sorting and for knowing rounds apart: its project, else its product. pkey compares them. */
+function pnameOf(cfg, e){ return cleanStr(cfg && cfg.project) || cleanStr(e && e.fkey ? e.project : "") || cleanStr(cfg && cfg.product); }
+function pkey(n){ return cleanStr(n).toLowerCase(); }
+/* Entries saved before 0.12.0 have no pname: it is read once from the stored round. */
+function ensurePname(e){
+  if(!e) return "";
+  if(typeof e.pname === "string") return e.pname;
+  var r = readJSON(RPFX + e.key), c = r && r.config && typeof r.config === "object" ? r.config : null;
+  e.pname = pnameOf(c, e).slice(0, 80);
+  PNAME_DIRTY = true;
+  return e.pname;
+}
+var PNAME_DIRTY = false;
 function libEntry(key){
   for(var i=0;i<LIB.rounds.length;i++){ if(LIB.rounds[i].key === key) return LIB.rounds[i]; }
   return null;
@@ -1565,17 +1599,21 @@ function findByTitle(title){
   }
   return best;
 }
-/* A round's title is its identity within its project. Two projects can each have a "Round 1"; a round with no
-   project matches the saved round of the same title, so adding or dropping the project keeps its answers. */
-function findRound(title, fkey){
-  var exact = null, loose = null;
+/* A round's title is its identity within its project: its folder when it has one, else its project's name.
+   Two projects can each have a "Round 1". A round with no project matches the saved round of the same title,
+   so adding or dropping the project keeps its answers; two different projects never match. */
+function findRound(title, fkey, pname){
+  var exact = null, loose = null, pn = pkey(pname);
   fkey = canonKey(fkey || "");
   for(var i=0;i<LIB.rounds.length;i++){
     var e = LIB.rounds[i];
     if(!e.titled || e.title !== title) continue;
-    var k = canonKey(e.fkey || "");
-    if(k === fkey){ if(!exact || (e.changed || 0) > (exact.changed || 0)) exact = e; }
-    else if(!k || !fkey){ if(!loose || (e.changed || 0) > (loose.changed || 0)) loose = e; }
+    var k = canonKey(e.fkey || ""), ep = pkey(ensurePname(e)), clash = !!(pn && ep && pn !== ep);
+    if(k || fkey){
+      if(k === fkey){ if(!exact || (e.changed || 0) > (exact.changed || 0)) exact = e; }
+      else if((!k || !fkey) && !clash){ if(!loose || (e.changed || 0) > (loose.changed || 0)) loose = e; }
+    } else if(pn === ep){ if(!exact || (e.changed || 0) > (exact.changed || 0)) exact = e; }
+    else if(!clash){ if(!loose || (e.changed || 0) > (loose.changed || 0)) loose = e; }
   }
   return exact || loose;
 }
@@ -1624,6 +1662,8 @@ function upsertEntry(key, cfg, titled, questions, stateObj){
   if((e.fkey || "") !== fk){ delete e.file; delete e.fsig; delete e.fsaved; }
   if(fk){ e.fkey = fk; e.folder = cfg.folder; e.project = cleanStr(cfg.project) || (folderRec(fk) || {}).project || projectName(cfg); }
   else { delete e.fkey; delete e.folder; delete e.project; }
+  e.pname = pnameOf(cfg, e).slice(0, 80);
+  lfoldOpen(e.pname);
   if(isBS(cfg)){ e.kind = "brainstorm"; if(cfg.round === 1 || cfg.round === 2) e.bsround = cfg.round; else delete e.bsround; } else { delete e.kind; delete e.bsround; }
   e.total = questions.length;
   e.answered = countAnswered(questions, stateObj.answers);
@@ -3987,7 +4027,7 @@ function ingestBackup(b){
     var qarr = x.round.questions, cfg = normConfig(x.round.config), titled = hasTitle(x.round.config) && kept.titled !== false;
     var incoming = { config: cfg, questions: qarr };
     var conv = answersFromExport(Array.isArray(x.answers) ? x.answers : [], qarr);
-    var ex = titled ? findRound(cfg.title, canonKey(folderKey(cfg.folder))) : findUntitled(incoming);
+    var ex = titled ? findRound(cfg.title, canonKey(folderKey(cfg.folder)), pnameOf(cfg)) : findUntitled(incoming);
     var item = { incoming: incoming, cfg: cfg, titled: titled, qarr: qarr, answers: conv.answers, kept: kept, ex: ex, action: "add", lost: 0 };
     if(ex){
       var old = readJSON(RPFX + ex.key) || { config: normConfig(null), questions: [] }, oldState = validState(readJSON(APFX + ex.key));
@@ -4238,9 +4278,9 @@ function findRoundFile(dir, e, src){
    A round from a project folder with no title of its own (a saved file gives such a round the default title) is
    known by its file, or failing that by what it holds. Anything else is as it always was: by its title. */
 function roundFor(cfg, titled, src, incoming){
-  if(titled && ownTitle(cfg)) return findRound(cfg.title, canonKey(folderKey(cfg.folder)));
+  if(titled && ownTitle(cfg)) return findRound(cfg.title, canonKey(folderKey(cfg.folder)), pnameOf(cfg));
   if(cfg.folder) return (src ? untitledAt(src.rec, src.fname) : null) || findUntitled(incoming);
-  return titled ? findRound(cfg.title, "") : null;
+  return titled ? findRound(cfg.title, "", pnameOf(cfg)) : null;
 }
 /* A file opened by hand that sits in the round's folder is the round's file from then on. */
 function linkOpened(e, rec, src){
@@ -4364,7 +4404,7 @@ function considerFile(rec, name, f, stamp){
       /* A saved file is never loaded from here; it only shows which round's file it is. */
       var se = ownTitle(r.config) ? null : untitledAt(rec, name);
       if(!se && inc.titled){
-        se = findRound(inc.cfg.title, rec.key);
+        se = findRound(inc.cfg.title, rec.key, pnameOf(inc.cfg));
         if(se && !(se.fkey && canonKey(se.fkey) === rec.key)) se = null;
       }
       if(inc.titled || se){
@@ -4420,7 +4460,7 @@ function arriveRound(rec, name, inc){
   var cfg = inc.cfg, qarr = inc.incoming.questions, incoming = inc.incoming;
   /* A round with no title of its own is known by what it holds, or by its file. */
   var titled = inc.titled && ownTitle(cfg);
-  var ex = titled ? findRound(cfg.title, rec.key) : (findUntitled(incoming) || untitledAt(rec, name));
+  var ex = titled ? findRound(cfg.title, rec.key, pnameOf(cfg)) : (findUntitled(incoming) || untitledAt(rec, name));
   if(!ex){
     var key = newKey(), st = { idx: 0, answers: {} };
     if(!writePair(key, incoming, st)){ warnFull(); return; }
@@ -4735,7 +4775,7 @@ function fileFirst(fh, e, rec, name, rt, sv){
       if(other){
         letGo();
         if(r.saved){
-          var se = ownTitle(r.config) ? findRound(inc.cfg.title, rec.key) : null;
+          var se = ownTitle(r.config) ? findRound(inc.cfg.title, rec.key, pnameOf(inc.cfg)) : null;
           if(se && se.fkey && canonKey(se.fkey) === rec.key && !se.file) patchEntry(se, { file: name });
         } else if(okRound){ arriveRound(rec, name, inc); }
         throw hold("taken");
@@ -5602,7 +5642,7 @@ function sentGo(){
 function openSent(p){
   var round = p.round, cfg = (round.config && typeof round.config === "object") ? round.config : {};
   var title = hasTitle(cfg) ? cfg.title : "";
-  var have = title ? findRound(title, canonKey(folderKey(cfg.folder))) : null;
+  var have = title ? findRound(title, canonKey(folderKey(cfg.folder)), pnameOf(cfg)) : null;
   /* A round the wizard keeps in a project folder stays in it, though the copy sent names no folder. */
   if(have && have.folder && !cleanStr(cfg.folder)){
     var nc = {}, nr = {}, k;
@@ -5674,23 +5714,73 @@ function setupSent(){
 }
 
 /* The list of rounds and the Open drawer. */
+/* Load groups rounds by project once any round has one: the open round's project first, then the project used most
+   recently, newest round first inside each, and rounds with no project last. A heading folds its project away;
+   folded projects are kept in this browser, and a round arriving in one unfolds it. */
+var LFKEY = "decision-wizard-lfold-v1";
+function lfoldList(){ var a = readJSON(LFKEY); return Array.isArray(a) ? a.filter(function(x){ return typeof x === "string"; }) : []; }
+function lfoldOpen(name){
+  var k = pkey(name), a = lfoldList(), i = a.indexOf(k);
+  if(i !== -1){ a.splice(i, 1); lsSet(LFKEY, JSON.stringify(a)); }
+}
+function lfoldToggle(btn){
+  var g = btn && btn.closest(".lgroup");
+  if(!g) return;
+  var k = g.getAttribute("data-pk"), a = lfoldList(), i = a.indexOf(k), shut = i === -1;
+  if(shut) a.push(k); else a.splice(i, 1);
+  lsSet(LFKEY, JSON.stringify(a));
+  g.classList.toggle("shut", shut);
+  btn.setAttribute("aria-expanded", shut ? "false" : "true");
+}
+var LG_CHEV = '<svg class="lgchev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg>';
+var LG_FOLDER = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M2 4.5h4l1.5 1.5H14v6.5H2z"/></svg>';
+function libRowHTML(e, grouped){
+  var isCur = e.key === CURKEY, title = e.title || "Untitled round";
+  var h = '<div class="lrow' + (isCur ? " cur" : "") + '" role="listitem">';
+  h += '<button type="button" class="lopen" data-action="lib-open" data-key="' + esc(e.key) + '"' + (isCur ? ' aria-current="true"' : "") + '>';
+  h += '<span class="ltitle" ' + dirA(title) + '>' + esc(title) + '</span>';
+  if(e.tagline){ h += '<span class="ltag" ' + dirA(e.tagline) + '>' + esc(e.tagline) + '</span>'; }
+  h += '<span class="lmeta">' + (e.unseen ? '<span class="lnew">New</span>' : "") + (e.project && !grouped ? '<span class="lproj" ' + dirA(e.project) + '>' + esc(e.project) + '</span>' : "") + '' + (e.kind === "brainstorm" ? '<span class="lkind">' + BS_MARK + (e.bsround ? 'Brainstorm, round ' + e.bsround : 'Older brainstorm') + '</span><span>' + (e.answered || 0) + ' of ' + (e.total || 0) + ' cards seen</span>' : '<span>' + (e.answered || 0) + ' of ' + (e.total || 0) + ' answered</span>') + '<span>' + esc(fmtWhen(e.changed)) + '</span>' + (isCur ? '<span class="lnow">Open now</span>' : "") + '</span>';
+  h += '</button>';
+  h += '<button type="button" class="ldel" data-action="lib-delete" data-key="' + esc(e.key) + '" aria-label="Delete ' + esc(title) + '">Delete</button>';
+  h += '</div>';
+  return h;
+}
 function renderLib(){
   var el = document.getElementById("liblist");
   if(!el) return;
-  if(LIB.rounds.length) el.setAttribute("role", "list"); else el.removeAttribute("role");
-  if(!LIB.rounds.length){ el.innerHTML = '<div class="lempty">No rounds yet. Every round you load stays here, with its answers, until you delete it.</div>'; return; }
+  if(!LIB.rounds.length){ el.removeAttribute("role"); el.innerHTML = '<div class="lempty">No rounds yet. Every round you load stays here, with its answers, until you delete it.</div>'; return; }
   var rows = LIB.rounds.slice().sort(function(a, b){ return (b.changed || 0) - (a.changed || 0); });
-  var h = "";
+  var groups = {}, order = [];
   for(var i=0;i<rows.length;i++){
-    var e = rows[i], isCur = e.key === CURKEY, title = e.title || "Untitled round";
-    h += '<div class="lrow' + (isCur ? " cur" : "") + '" role="listitem">';
-    h += '<button type="button" class="lopen" data-action="lib-open" data-key="' + esc(e.key) + '"' + (isCur ? ' aria-current="true"' : "") + '>';
-    h += '<span class="ltitle" ' + dirA(title) + '>' + esc(title) + '</span>';
-    if(e.tagline){ h += '<span class="ltag" ' + dirA(e.tagline) + '>' + esc(e.tagline) + '</span>'; }
-    h += '<span class="lmeta">' + (e.unseen ? '<span class="lnew">New</span>' : "") + (e.project ? '<span class="lproj" ' + dirA(e.project) + '>' + esc(e.project) + '</span>' : "") + '' + (e.kind === "brainstorm" ? '<span class="lkind">' + BS_MARK + (e.bsround ? 'Brainstorm, round ' + e.bsround : 'Older brainstorm') + '</span><span>' + (e.answered || 0) + ' of ' + (e.total || 0) + ' cards seen</span>' : '<span>' + (e.answered || 0) + ' of ' + (e.total || 0) + ' answered</span>') + '<span>' + esc(fmtWhen(e.changed)) + '</span>' + (isCur ? '<span class="lnow">Open now</span>' : "") + '</span>';
-    h += '</button>';
-    h += '<button type="button" class="ldel" data-action="lib-delete" data-key="' + esc(e.key) + '" aria-label="Delete ' + esc(title) + '">Delete</button>';
-    h += '</div>';
+    var n = ensurePname(rows[i]), k = pkey(n);
+    if(!own(groups, k)){ groups[k] = { k: k, name: n, rows: [], latest: rows[i].changed || 0 }; order.push(k); }
+    groups[k].rows.push(rows[i]);
+  }
+  if(PNAME_DIRTY){ PNAME_DIRTY = false; saveLib(); }
+  var h = "";
+  if(order.length === 1 && order[0] === ""){
+    el.setAttribute("role", "list");
+    for(var r=0;r<rows.length;r++) h += libRowHTML(rows[r], false);
+    el.innerHTML = h;
+    return;
+  }
+  el.removeAttribute("role");
+  var cur = libEntry(CURKEY), ck = cur ? pkey(ensurePname(cur)) : null;
+  order.sort(function(a, b){ return (a === "") - (b === "") || (b === ck) - (a === ck) || groups[b].latest - groups[a].latest; });
+  var named = order.filter(function(k){ return k !== ""; }).length, folded = lfoldList();
+  h += '<div class="lsum">' + plur(rows.length, "round") + ' in ' + plur(named, "project") + '</div>';
+  for(var g=0;g<order.length;g++){
+    var G = groups[order[g]], shut = folded.indexOf(G.k) !== -1, bid = "lgb-" + g;
+    var fresh = G.rows.filter(function(e){ return e.unseen; }).length;
+    var saves = G.rows.some(function(e){ var rec = e.fkey ? recOfEntry(e) : null; return !!(rec && rec.perm === "granted"); });
+    var label = G.name || "Without a project";
+    h += '<section class="lgroup' + (G.k ? "" : " none") + (shut ? " shut" : "") + '" data-pk="' + esc(G.k) + '">';
+    h += '<h4 class="lghead"><button type="button" class="lgbtn" data-action="lib-fold" aria-expanded="' + (shut ? "false" : "true") + '" aria-controls="' + bid + '">' + LG_CHEV + '<span class="lgname" ' + dirA(label) + '>' + esc(label) + '</span><span class="lgcount">' + plur(G.rows.length, "round") + '</span>' + (fresh ? '<span class="lgnew">' + fresh + ' new</span>' : "") + (saves ? '<span class="lgfold">' + LG_FOLDER + 'Saves to its folder</span>' : "") + '</button></h4>';
+    h += '<div class="lglast" ' + dirA(G.rows[0].title || "") + '>Latest: ' + esc(G.rows[0].title || "Untitled round") + '</div>';
+    h += '<div class="lgbody" id="' + bid + '" role="list" aria-label="' + esc(label) + '">';
+    for(var j=0;j<G.rows.length;j++) h += libRowHTML(G.rows[j], true);
+    h += '</div></section>';
   }
   el.innerHTML = h;
 }
@@ -11602,6 +11692,7 @@ document.addEventListener("click", function(ev){
   else if(act === "pick-file"){ pickFile(); }
   else if(act === "paste-load"){ pasteLoad(); }
   else if(act === "lib-open"){ openFromLib(el.getAttribute("data-key")); }
+  else if(act === "lib-fold"){ lfoldToggle(el); }
   else if(act === "lib-delete"){ deleteRound(el.getAttribute("data-key")); }
   else if(act === "open-options"){ openOptions(); }
   else if(act === "timer-reset"){ resetTimer(); }

@@ -183,8 +183,9 @@ def check(data):
         checker.fail("config", "needs_wizard is missing or not a version")
     elif declared < needed:
         checker.fail("config", f"needs_wizard should be at least {'.'.join(map(str, needed))}")
-    if ("project" in config) != ("folder" in config):
-        checker.fail("config", "project and folder go together")
+    project = config.get("project")
+    if not isinstance(project, str) or not project.strip():
+        checker.fail("config", "project is missing: every round names the project it belongs to")
 
     checker.dashes(data, "round")
     return checker.problems

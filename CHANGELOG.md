@@ -2,6 +2,18 @@
 
 What changed in the Decision Wizard and the d-wizard skill, newest first. The wizard and the skill keep their own version numbers. 
 
+## Wizard 0.12.0 and skill 0.12.0, 17 November 2026
+
+### Added
+
+- Wizard: **Load** keeps rounds by project. The open round's project comes first, then the one used last, with the newest round first in each, and rounds with no project last, under Without a project. Each project's heading shows its name, its count of rounds, how many are new, and Saves to its folder when its folder is connected. A heading folds its project to one line with the latest round's title; folded projects are kept in this browser, and a round arriving in one unfolds it. With no project at all, the list stays as it was.
+- Skill: every round names its project in `config.project`: in Claude Code the repository, as before, and anywhere else the Claude Project the conversation is in, or the product or work the round is about, spelled the same on every round of that work. `config.folder` stays Claude Code's.
+
+### Changed
+
+- Wizard: a round is known by its title within its project for every round, not only rounds with a folder, so two projects can each have their own "Round 1". A round with no project still matches the saved round of the same title, so rounds loaded before keep their answers. A round's project is its `project`, else its `product`; rounds saved before 0.12.0 have theirs read once from what the browser keeps.
+- Skill: `scripts/validate_round.py` asks for a project on every round and no longer asks for a folder beside it. The example round and both example brainstorms name a project.
+
 ## Wizard 0.11.8, 16 November 2026
 
 ### Added

@@ -2,8 +2,8 @@
 name: "d-wizard"
 description: Send questions, decisions, or approvals as a Decision Wizard questions JSON instead of long prose. Use it when the user says "d-wizard", "communicate through the wizard", "wizard this", "ask me through the wizard", "decision wizard", "decision round", or asks to turn open questions into a wizard; and proactively when open decisions need evidence attached (conflicting sources, tables to compare), when content items need one-by-one approval (copy lines, assets, rows), when acting on a round's answers raises new decisions, or a hard open question has no clear options (offer a brainstorm). Also use it to act on an answers JSON the user pastes, gives as a file, or says is ready in the project's wizard-rounds folder (meta.tool = "decision-wizard"); to make a wizard companion ("Make a companion for my Decision Wizard"); and to send a two-round six-hats brainstorm when asked for one. Not for brainstorming in chat, quick clarifications, approving your own next steps, a single question, or questions for a teammate.
 metadata:
-  version: "0.11.0"
-compatibility: Needs Decision Wizard 0.3.0 or later, 0.4.0 for rounds with ranking, number, or bracket questions, 0.6.0 for a project's rounds to open in the wizard by themselves and for answers to be saved back into the round file, 0.7.0 for companions, 0.7.3 to drop a companion's zip on the wizard as it is, 0.9.0 for brainstorms, and 0.11.0 for their round 2. Older wizards still open plain rounds, but show no recommendations and give no way to add a note to a pick.
+  version: "0.12.0"
+compatibility: Needs Decision Wizard 0.3.0 or later, 0.4.0 for rounds with ranking, number, or bracket questions, 0.6.0 for a project's rounds to open in the wizard by themselves and for answers to be saved back into the round file, 0.7.0 for companions, 0.7.3 to drop a companion's zip on the wizard as it is, 0.9.0 for brainstorms, 0.11.0 for their round 2, and 0.12.0 to keep rounds by project. Older wizards still open plain rounds, but show no recommendations and give no way to add a note to a pick.
 ---
 
 # Decision Wizard
@@ -58,23 +58,23 @@ Top level:
 
 ```json
 {
-  "config": { "title": "Round title", "tagline": "One line under the title", "product": "Team or product label", "needs_wizard": "0.3.0" },
+  "config": { "title": "Round title", "tagline": "One line under the title", "product": "Team or product label", "project": "The project the round belongs to", "needs_wizard": "0.3.0" },
   "questions": [ ]
 }
 ```
 
 `config.needs_wizard` names the oldest wizard the round is made for: `"0.4.0"` when the round has a ranking, number, or bracket question, and `"0.3.0"` otherwise. A wizard older than the version a round names warns when the round loads.
 
-`config.project` and `config.folder` go only on a round Claude Code writes into a project's `wizard-rounds/` folder (see Delivering a round):
+`config.project` goes on every round, and `config.folder` only on a round Claude Code writes into a project's `wizard-rounds/` folder (see Delivering a round):
 
 ```json
 "config": { "title": "Checkout Redesign, Round 2", "needs_wizard": "0.3.0", "project": "web-store", "folder": "/Users/sam/code/web-store/wizard-rounds" }
 ```
 
-- `project` is the project's name: the name of the repository, or of its root folder.
+- `project` is the name of the project the round belongs to, spelled the same on every round of that project, since the wizard keeps the user's rounds by project and tells apart two projects' rounds of the same title. In Claude Code, it is the name of the repository, or of its root folder. Anywhere else, it is the name the work goes by: the Claude Project the conversation is in, when there is one, otherwise the product or body of work the round is about. When earlier rounds of the same work already name a project, use that name.
 - `folder` is the full path of the `wizard-rounds/` folder the round file is in, written the way the user's file manager shows it. On Windows that is the drive letter and backslashes, each backslash doubled in JSON (`"D:\\code\\web-store\\wizard-rounds"`), never a `/mnt/d/...` or `/d/...` form.
 
-The wizard shows both when the round loads, so the user sees which project the round is from and where the answers will be saved, and it uses the folder to recognize the project the next time. The first round from a project asks the user to pick that folder once, since a web page cannot open a folder from a written path. Leave both fields out everywhere else: a round delivered as a file in the conversation or as a code block has no folder to name. They never change `needs_wizard`; an older wizard ignores them.
+With a folder, the wizard also saves the answers into the round's file and uses the folder to recognize the project the next time. The first round from a project's folder asks the user to pick that folder once, since a web page cannot open a folder from a written path. Leave `folder` out everywhere else: a round delivered as a file in the conversation or as a code block has no folder to name. Neither field changes `needs_wizard`; an older wizard ignores a project that comes without a folder.
 
 `config.title` is the round's identity in the user's wizard, within its project. The wizard keeps every round the user loads, and a round arriving with the title of one already saved replaces it as a new version: answers carry over for questions whose id, title, question, and options are unchanged (in a batch, rows whose id and label are unchanged), and the wizard asks before clearing the rest. So give every new round its own title that names the round number ("Checkout Redesign, Round 2"). Reuse a title only to resend a corrected version of the same round, and keep every unchanged question identical so its answer survives.
 
@@ -138,10 +138,10 @@ For a complete worked round demonstrating every feature, read `references/exampl
 File first. Whenever you can write files, deliver the round as a `.json` file named `<YYYY-MM-DD>-<topic>-round<N>.json` (today's date, a short kebab-case topic, the round number) and give its path in the message.
 
 - In Claude Code, working inside a project (a git repository): write the file to `wizard-rounds/` at the project root, and set `config.project` and `config.folder`. When the session works in a git worktree, the project root is the main checkout, the folder above `git rev-parse --path-format=absolute --git-common-dir`, never the worktree: a worktree is deleted once its work is done, and the wizard's link to the folder would go with it. The first time you write a round in a project, make sure `wizard-rounds/.gitignore` exists and holds the single line `*`; it keeps the folder out of git without a change to any file the project tracks, so never edit the project's own `.gitignore` for it. Before starting a new round, look in `wizard-rounds/` for earlier rounds on the same topic and build on what they settled.
-- Anywhere else, Claude included: write it wherever your file outputs go, and make it visible to the user the way your environment shows files, as a file in the conversation. Never write a round into one of the user's own folders, a project's `wizard-rounds/` folder included, even when you can reach them: that folder is Claude Code's, and the user's folders hold their work.
+- Anywhere else, Claude included: write it wherever your file outputs go, and make it visible to the user the way your environment shows files, as a file in the conversation. Set `config.project` and leave out `config.folder`. Never write a round into one of the user's own folders, a project's `wizard-rounds/` folder included, even when you can reach them: that folder is Claude Code's, and the user's folders hold their work.
 - Only when no file tools exist: output the JSON in a single fenced `json` code block.
 
-Before delivering, where you can run commands, check the round with `python3 scripts/validate_round.py <round file>` from this skill's folder (`python` on Windows). It checks the rules above that a script can: ids, titles and questions, options, cards, recommendations, follow-ups, tables, `needs_wizard`, and dashes. Fix what it prints and run it again until it prints `ok`. It skips brainstorms, which have their own shape.
+Before delivering, where you can run commands, check the round with `python3 scripts/validate_round.py <round file>` from this skill's folder (`python` on Windows). It checks the rules above that a script can: ids, titles and questions, options, cards, recommendations, follow-ups, tables, `needs_wizard`, the project, and dashes. Fix what it prints and run it again until it prints `ok`. It skips brainstorms, which have their own shape.
 
 Surround the round with at most three short sentences. Do not restate the questions in prose; the JSON is the communication, and duplicating it defeats the purpose.
 

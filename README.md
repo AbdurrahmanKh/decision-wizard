@@ -49,6 +49,10 @@ When a question is still too open for options, ask Claude for a brainstorm in th
 
 Send each round back the way you send a round. Brainstorms need wizard 0.9.0 and skill 0.8.0; brainstorms as described here need wizard 0.11.0 and skill 0.10.0. The one-file brainstorms of wizard 0.8.0 no longer open, but the ones already in your list keep their answers.
 
+## Rounds by project
+
+Every round names the project it belongs to: in Claude Code the repository, and in Claude the Claude Project you're in, or the product the round is about. **Load** keeps your rounds by project, with the open round's project first, then the one you used last, newest round first in each. A project's heading shows how many rounds it has, how many are new, and **Saves to its folder** when its folder is connected. Click a heading to fold that project away; the wizard remembers it, and a new round in that project opens it again. Rounds from before keep their answers: a round with no project sorts under its product, or under **Without a project**. Two projects can each have their own "Round 1".
+
 ## Project folders, for Claude Code
 
 A round Claude Code writes names its project and the `wizard-rounds/` folder it's in. The first time you load a round from a project, the wizard says which project it's from and where it will save, and asks you to pick that folder once, because a web page can't open a folder from a written path. The wizard checks that the folder holds the round, then remembers it for the project. You can also start from the folder: **Open a project folder** in Load connects it and opens its newest round that has no answers yet. From then on:
@@ -97,7 +101,7 @@ Each copy of the wizard keeps its own list of rounds, and clearing a browser's s
 
 ## Versions
 
-- **Wizard: 0.11.8.** It's shown at the bottom of the wizard's Options panel.
-- **Skill: 0.11.0.** It's in the skill's `SKILL.md`. It needs wizard 0.3.0 or later, 0.4.0 for rounds with ranking, number, or bracket questions, 0.6.0 for project folders, 0.7.0 for companions, 0.7.3 to drop a companion's zip on the wizard as it is, 0.9.0 for brainstorms, and 0.11.0 for their round 2.
+- **Wizard: 0.12.0.** It's shown at the bottom of the wizard's Options panel.
+- **Skill: 0.12.0.** It's in the skill's `SKILL.md`. It needs wizard 0.3.0 or later, 0.4.0 for rounds with ranking, number, or bracket questions, 0.6.0 for project folders, 0.7.0 for companions, 0.7.3 to drop a companion's zip on the wizard as it is, 0.9.0 for brainstorms, 0.11.0 for their round 2, and 0.12.0 to keep rounds by project.
 
 A minor update bumps the last number (0.2.2). A major update bumps the middle number (0.3.0). What changed in each version is in [CHANGELOG.md](CHANGELOG.md).
