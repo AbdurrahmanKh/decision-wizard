@@ -2,6 +2,16 @@
 
 What changed in the Decision Wizard and the d-wizard skill, newest first. The wizard and the skill keep their own version numbers. 
 
+## Wizard 0.14.1, 17 November 2026
+
+### Added
+
+- Wizard: **Estimate time left** in the companion's menu, right under Sleep, with a clock. Your companion says how long what's still open may take, with its estimate lines and the same pace as the estimate when a round opens. It counts only what's left: questions still open, the rows of a grouped card not yet answered, follow-ups still open, and matches still to play. With speech bubbles off, or a companion with no estimate lines, a notice says it instead. It shows while the round has a question open, and not in brainstorms.
+
+### Changed
+
+- Wizard: in the companion builder, the Estimate moment says its lines are also said when you ask from the menu.
+
 ## Wizard 0.14.0, 17 November 2026
 
 Load, reworked: what you open it for comes first, and folders stay quiet until they need you.

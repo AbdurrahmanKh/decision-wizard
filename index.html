@@ -1458,6 +1458,7 @@ html{scroll-padding-bottom:var(--lift,0px)}
                 <button type="button" role="menuitem" data-action="mm-load"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span>Load new question round</span></button>
                 <button type="button" role="menuitem" data-action="mm-paste"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4H7a2 2 0 0 0-2 2v4a2 2 0 0 1-2 2 2 2 0 0 1 2 2v4a2 2 0 0 0 2 2h1"/><path d="M16 4h1a2 2 0 0 1 2 2v4a2 2 0 0 0 2 2 2 2 0 0 0-2 2v4a2 2 0 0 1-2 2h-1"/></svg><span>Paste JSON</span></button>
                 <button type="button" role="menuitem" data-action="mm-sleep"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11h7l-7 9h7"/><path d="M13 5h5l-5 6h5"/><path d="M19 15h3l-3 4h3"/></svg><span>Sleep</span></button>
+                <button type="button" role="menuitem" data-action="mm-eta"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/></svg><span>Estimate time left</span></button>
                 <button type="button" role="menuitem" data-action="mm-save"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg><span>Save round JSON file</span></button>
                 <button type="button" role="menuitem" class="mm-main" data-action="mm-copy"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg><span>Copy answers JSON</span></button>
               </div>
@@ -1621,7 +1622,7 @@ html{scroll-padding-bottom:var(--lift,0px)}
 <script>
 "use strict";
 /* The wizard's version. Bump the last number (0.1.1) for a minor update, the middle one (0.2.0) for a major one. */
-var WIZARD_VERSION = "0.14.0";
+var WIZARD_VERSION = "0.14.1";
 
 var CONFIG = { title:"Decision Wizard", tagline:"", product:"" };
 
@@ -6715,11 +6716,11 @@ var HOLD = { hat: 1600, knockout: 900, pick: 1300, skip: 1600, greet: 5600, mile
              speed: 3200, second: 3600, wake: 3200, stat: 5000, poke: 2600, word: 3000, opt: 2800, yawn: 2800 };
 var FRAME_FOR = { hat: "skip", knockout: "pick", batch: "milestone", opener: "greet", suggest: "greet", nudge: "skip", recap: "milestone",
                   open_go: "greet", remind: "greet", copied: "pick", speed: "skip", second: "error",
-                  stat: "milestone", poke: "dance1", word: "pick", opt: "pick" };
+                  stat: "milestone", poke: "dance1", word: "pick", opt: "pick", eta: "greet" };
 var SOUND_FOR = { hat: "skip", knockout: "pick", opener: "greet", suggest: "quip", nudge: "quip", remind: "quip", stat: "quip", open_go: "batch", recap: "milestone",
-                  copied: "pick", word: "milestone", opt: "pick", speed: "skip", second: "skip", wake: "greet", poke: "finish" };
+                  copied: "pick", word: "milestone", opt: "pick", speed: "skip", second: "skip", wake: "greet", poke: "finish", eta: "pick" };
 var TALKS = { hat: 1, knockout: 1, greet: 1, milestone: 1, error: 1, finish: 1, pick: 1, skip: 1, batch: 1, opener: 1, suggest: 1, nudge: 1, recap: 1,
-              open_go: 1, remind: 1, copied: 1, speed: 1, second: 1, wake: 1, stat: 1, poke: 1, word: 1, opt: 1 };
+              open_go: 1, remind: 1, copied: 1, speed: 1, second: 1, wake: 1, stat: 1, poke: 1, word: 1, opt: 1, eta: 1 };
 var mFrame = null, mTimer = null, bubbleTimer = null, blinkTimer = null, flashTimer = null, nudgeTimer = null;
 var SPEECH = [], BURST = [], burstTimer = null, speakTimer = null, nowItem = null, wokeAt = 0;
 var danceTimer = null, remindTimer = null, optTimer = null, bubbleAction = null;
@@ -7111,7 +7112,7 @@ function stopDance(){
 /* The speech queue. Lines never cut each other off: lines raised by the same moment are ordered
    (replies to what you just did, then things that end, then things that start, then background remarks)
    and each waits for the one on screen. Only what you asked for directly jumps the queue. */
-var INTERRUPTS = { copied: 1, open_go: 1, error: 1, poke: 1, word: 1, wake: 1, opt: 1, knockout: 1 };
+var INTERRUPTS = { copied: 1, open_go: 1, error: 1, poke: 1, word: 1, wake: 1, opt: 1, knockout: 1, eta: 1 };
 function speechClass(kind, data){
   if(kind === "milestone") return data.type === "last" ? 2 : 1;
   if(kind === "finish" || kind === "recap") return 1;
@@ -7658,7 +7659,38 @@ function estimateSecs(qs){
   for(var i=0;i<qs.length;i++){ var q = qs[i]; if(EST_KINDS.indexOf(qType(q)) !== -1) secs += estBase(q) * paceFor(qType(q)); }
   return secs;
 }
-function estimateText(){ return tok("minutes", Math.max(1, Math.round(estimateSecs(QUESTIONS) / 60)) + " min"); }
+function minutesTok(secs){ return tok("minutes", Math.max(1, Math.round(secs / 60)) + " min"); }
+function estimateText(){ return minutesTok(estimateSecs(QUESTIONS)); }
+/* The estimate's lines: the ones at your pace once the pace is yours and the companion has them. */
+function estimateKey(){ var mk = mascotKey(); return (paceMine() && ((LINES[mk] || {}).estimate_pace || []).length) ? "estimate_pace" : "estimate"; }
+/* What's left from where you are: every question still open, counting only the rows, follow-ups, and matches it still
+   has, at the same pace as the opening estimate. */
+function estimateLeftSecs(){
+  var secs = 0;
+  for(var i=0;i<QUESTIONS.length;i++){
+    var q = QUESTIONS[i], t = qType(q);
+    if(EST_KINDS.indexOf(t) === -1 || qAnswered(q)) continue;
+    var a = state.answers[q.id], b = estBase(q);
+    if(t === "batch"){ var d = batchDone(q); if(d) b = (q.items.length - d) * 8; }
+    else if(t === "bracket"){ var st = bracketState(q, bkMatches(a)); b = Math.max(0, st.total - st.played) * 6; }
+    else if(t === "single" && done1(a)){ b = 0; liveFups(q, state.answers).forEach(function(f){ if(!done1(state.answers[f.id])) b += 30; }); }
+    secs += b * paceFor(t);
+  }
+  return secs;
+}
+/* Estimate time left, on the companion's menu: there while a round has questions still open, brainstorms aside. */
+function etaOn(){
+  if(!CURKEY || !QUESTIONS.length || bsOn()) return false;
+  return QUESTIONS.some(function(q){ return EST_KINDS.indexOf(qType(q)) !== -1 && !qAnswered(q); });
+}
+/* The companion says it with its estimate lines. With bubbles off, or no estimate lines, a notice says it instead. */
+function sayTimeLeft(){
+  if(!etaOn()) return;
+  var mins = minutesTok(estimateLeftSecs());
+  var line = (mascotOn() && SETTINGS.talk) ? lineFor("estimate", { key: estimateKey(), minutes: mins }) : "";
+  if(line){ react("eta", { line: line }); return; }
+  toast(true, "About " + plainLine(mins) + " left" + (paceMine() ? ", at your pace." : "."));
+}
 
 /* Time on each question, for learning your pace: counted while the question is on screen and the round isn't done,
    and stopped by a nap at the moment you were last seen, so the minutes before it don't count. */
@@ -7695,8 +7727,7 @@ function greetRound(opts){
   var opener = (hr >= 23 || hr < 5) ? "late" : (opts.fresh && hr >= 5 && hr < 11 && STATS.dayStarted <= 1) ? "morning" : (nm ? "back" : "");
   if(opener) react("opener", { key: opener, cname: cname, when: mine });
   var line = lineFor("greet", { count: QUESTIONS.length });
-  var mk = mascotKey(), estKey = (paceMine() && ((LINES[mk] || {}).estimate_pace || []).length) ? "estimate_pace" : "estimate";
-  var est = lineFor("estimate", { key: estKey, minutes: estimateText() });
+  var est = lineFor("estimate", { key: estimateKey(), minutes: estimateText() });
   react("greet", { line: line && est ? [line, est] : line, when: mine });
   var q = QUESTIONS[state.idx], idx = state.idx;
   if(q && isBatch(q)) react("batch", { count: q.items.length, when: function(){ return mine() && state.idx === idx; } });
@@ -8464,7 +8495,7 @@ function swayOff(t){
    folder. A full workshop over the wizard: name and poses on the left, the companion in the middle, every moment's
    lines on the right. Computer only, like the companions folder. Nothing is written until Save. */
 var BMOM = [
-  ["A round opens", [["greet", "Greet", "a round opens", "greet"], ["estimate", "Estimate", "after greet, how long the round may take", "greet"],
+  ["A round opens", [["greet", "Greet", "a round opens", "greet"], ["estimate", "Estimate", "how long the round may take, after greet and when asked from the menu", "greet"],
     ["estimate_pace", "Estimate, your pace", "the estimate, when it comes from your own rounds", "greet"],
     ["morning", "Morning", "first round of a morning", "greet"], ["late", "Late", "a round opened late at night", "greet"],
     ["back", "Back", "you, with your name set, open a round", "greet"], ["suggest", "Suggest", "the day's second round, offering another companion", "greet"]]],
@@ -9596,7 +9627,7 @@ function optReact(key, frame){
 }
 
 var menuOpen = false, menuBy = null, menuCloseTimer = null, lastPointer = "mouse";
-var MENU_ORDER = ["mm-options", "mm-load", "mm-paste", "mm-sleep", "mm-save", "mm-copy"];
+var MENU_ORDER = ["mm-options", "mm-load", "mm-paste", "mm-sleep", "mm-eta", "mm-save", "mm-copy"];
 function wideMode(){ try{ return window.matchMedia("(min-width: 1440px)").matches; }catch(e){ return false; } }
 /* Where the companion stands: beside the cards on a wide screen, under the question list while the list is a
    column beside the cards, and beside the progress bar below that. Only the list's column needs the companion
@@ -9681,6 +9712,9 @@ function arrangeMenu(up){
   ["mm-save", "mm-copy"].forEach(function(a){ var x = m.querySelector('[data-action="' + a + '"]'); if(x) x.disabled = none; });
   var sl = m.querySelector('[data-action="mm-sleep"]');
   if(sl) sl.hidden = sleeping;
+  /* Estimate time left sits right under Sleep, whichever way the menu opens. */
+  var et = m.querySelector('[data-action="mm-eta"]');
+  if(et){ et.hidden = !etaOn(); if(sl) m.insertBefore(et, sl.nextSibling); }
 }
 function openMenu(by){
   if(!mascotOn() || drawerOpen || confirmOpen) return;
@@ -12121,6 +12155,7 @@ document.addEventListener("click", function(ev){
   else if(act === "open-options"){ openOptions(); }
   else if(act === "timer-reset"){ resetTimer(); }
   else if(act === "mm-sleep"){ closeMenu(true); goSleep(Date.now()); }
+  else if(act === "mm-eta"){ closeMenu(true); wakeUp(); sayTimeLeft(); }
   else if(act === "mm-options"){ closeMenu(true); wakeUp(); openOptions(); }
   else if(act === "mm-load"){ closeMenu(true); wakeUp(); openDrawer(); }
   else if(act === "mm-paste"){ closeMenu(true); wakeUp(); pasteClip(); }
