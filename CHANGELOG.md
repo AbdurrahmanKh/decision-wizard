@@ -2,6 +2,12 @@
 
 What changed in the Decision Wizard and the d-wizard skill, newest first. The wizard and the skill keep their own version numbers. 
 
+## Wizard 0.14.2, 20 November 2026
+
+### Changed
+
+- Wizard: your companion says your name in its color, bold, like the counts and times it fills in: in good morning, late night, and welcome back, and in "Nice to meet you" when you type it in Options. The companion builder's samples show it the same way.
+
 ## Wizard 0.14.1, 17 November 2026
 
 ### Added

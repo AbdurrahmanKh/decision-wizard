@@ -1622,7 +1622,7 @@ html{scroll-padding-bottom:var(--lift,0px)}
 <script>
 "use strict";
 /* The wizard's version. Bump the last number (0.1.1) for a minor update, the middle one (0.2.0) for a major one. */
-var WIZARD_VERSION = "0.14.1";
+var WIZARD_VERSION = "0.14.2";
 
 var CONFIG = { title:"Decision Wizard", tagline:"", product:"" };
 
@@ -6745,6 +6745,8 @@ var DEFAULT_LINES = { knockout: ["{option} is gone.", "{option} knocked out."] }
    of a sentence. */
 var TOK_RE = /([^]*)([^]*)/g;
 function tok(kind, text){ return "" + kind + "" + String(text).replace(/[-]/g, "") + ""; }
+/* Your name from Options, as a token, so the companion says it in its color like the facts it fills in. */
+function nameTok(){ var nm = (SETTINGS.name || "").trim(); return nm ? tok("name", nm) : ""; }
 function plainLine(s){
   if(Array.isArray(s)) return s.map(plainLine).join(" ");
   return String(s || "").replace(TOK_RE, "$2");
@@ -7722,7 +7724,7 @@ function greetRound(opts){
   clearSpeech();
   PACE = null;
   var hr = nowHour(), nm = (SETTINGS.name || "").trim(), key = CURKEY;
-  var cname = nm ? ", " + nm : "";
+  var cname = nm ? ", " + tok("name", nm) : "";
   var mine = function(){ return CURKEY === key; };
   var opener = (hr >= 23 || hr < 5) ? "late" : (opts.fresh && hr >= 5 && hr < 11 && STATS.dayStarted <= 1) ? "morning" : (nm ? "back" : "");
   if(opener) react("opener", { key: opener, cname: cname, when: mine });
@@ -8627,7 +8629,7 @@ function bBlocker(){
 }
 function bSample(){
   var nm = (SETTINGS.name || "").trim(), others = visibleKeys().filter(function(k){ return k !== BLD.key; });
-  return { count: 7, answers: 3, minutes: tok("minutes", "3 min"), cname: nm ? ", " + nm : "", name: nm || "Sam", other: MSHORT[others[0]] || "Quill",
+  return { count: 7, answers: 3, minutes: tok("minutes", "3 min"), cname: nm ? ", " + tok("name", nm) : "", name: tok("name", nm || "Sam"), other: MSHORT[others[0]] || "Quill",
     Picked: 5, typedPart: " and " + tok("wrote", "1 written by you"), timePart: ", in " + tok("took", "4 min"), ids: tok("open", "B2 and C1"), id: tok("open", "B2"),
     r: tok("rounds", "12 rounds"), t: tok("wrote", "8 answers"), td: tok("today", "5 decisions"), option: tok("out", "Cards") };
 }
@@ -9610,11 +9612,11 @@ function zipDrop(file){
 function optReact(key, frame){
   if(!mascotOn()) return;
   var inPanel = drawerOpen && drawerId === "optdrawer" && secOpen("companion");
-  if(!inPanel){ if(SETTINGS.talk) react("opt", { key: key, frame: frame, name: SETTINGS.name }); return; }
+  if(!inPanel){ if(SETTINGS.talk) react("opt", { key: key, frame: frame, name: nameTok() }); return; }
   var pv = document.getElementById("mprev"), pl = document.getElementById("mprevline");
   var art = ART[mascotKey()];
   if(pv && art && art[frame]) pv.innerHTML = art[frame];
-  var line = SETTINGS.talk ? lineFor("opt", { key: key, name: SETTINGS.name }) : "";
+  var line = SETTINGS.talk ? lineFor("opt", { key: key, name: nameTok() }) : "";
   if(pl){ pl.innerHTML = lineInline(line); pl.setAttribute("dir", dirOf(plainLine(line))); pl.className = "mprevline" + (line ? " on" : ""); }
   playSound("pick");
   if(optTimer) clearTimeout(optTimer);
