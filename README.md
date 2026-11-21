@@ -51,7 +51,7 @@ Send each round back the way you send a round. Brainstorms need wizard 0.9.0 and
 
 ## Rounds by project
 
-Every round names the project it's about, in Claude and in Claude Code alike, whatever folder it's written into. **Load** keeps your rounds by project: the newest round first in each, and the project with the newest round first. Names match loosely, so `decision-wizard` and `Decision Wizard` are one project. A button for each project, two to a row, shows only that project's rounds, and **All rounds** shows them all, grouped by project; the button you picked last stays picked. A project with a new round has a dot on its button. In **All rounds**, a project's heading shows how many rounds it has and how many are new; click it to fold that project away, and the wizard remembers it. A round's row is its title, with a green check once every question is answered, then how far you got and when; its tagline shows when the mouse rests on it, and so does **Delete**. Rounds from before keep their answers: a round with no project sorts under its product, then under its folder's name, or under **Other rounds**. Two projects can each have their own "Round 1".
+Every round names the project it's about, in Claude and in Claude Code alike, whatever folder it's written into. **Load** keeps your rounds by project: the newest round first in each, and the project with the newest round first. Names match loosely, so `decision-wizard` and `Decision Wizard` are one project. A button for each project, two to a row, shows only that project's rounds, and **All rounds** shows them all, grouped by project; the button you picked last stays picked. A project with a new round has a dot on its button. In **All rounds**, a project's heading shows how many rounds it has and how many are new; click it to fold that project away, and the wizard remembers it. A round's row is its title, with a green check once every question is answered, then how far you got and when; its tagline shows when the mouse rests on it, and so does **Delete**. Rounds from before keep their answers: a round with no project sorts under its product, then under its folder's name, or under **Other rounds**. A round whose project is only a folder on its own path, while its product names another project, sorts under its product, as Nullovation City's rounds from before its skill 0.1.2 do: they all named the city. Two projects can each have their own "Round 1".
 
 ## Project folders, for Claude Code
 
@@ -101,7 +101,7 @@ Each copy of the wizard keeps its own list of rounds, and clearing a browser's s
 
 ## Versions
 
-- **Wizard: 0.14.2.** It's shown at the bottom of the wizard's Options panel.
+- **Wizard: 0.14.3.** It's shown at the bottom of the wizard's Options panel.
 - **Skill: 0.13.1.** It's in the skill's `SKILL.md`. It needs wizard 0.3.0 or later, 0.4.0 for rounds with ranking, number, or bracket questions, 0.6.0 for project folders, 0.7.0 for companions, 0.7.3 to drop a companion's zip on the wizard as it is, 0.9.0 for brainstorms, 0.11.0 for their round 2, 0.12.0 to keep rounds by project, and 0.13.0 to set a stake apart from the notes.
 
 A minor update bumps the last number (0.2.2). A major update bumps the middle number (0.3.0). What changed in each version is in [CHANGELOG.md](CHANGELOG.md).

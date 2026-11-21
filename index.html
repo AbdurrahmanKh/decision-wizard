@@ -1622,7 +1622,7 @@ html{scroll-padding-bottom:var(--lift,0px)}
 <script>
 "use strict";
 /* The wizard's version. Bump the last number (0.1.1) for a minor update, the middle one (0.2.0) for a major one. */
-var WIZARD_VERSION = "0.14.2";
+var WIZARD_VERSION = "0.14.3";
 
 var CONFIG = { title:"Decision Wizard", tagline:"", product:"" };
 
@@ -1701,17 +1701,31 @@ function cmpVer(a, b){
 function needsNewer(cfg){ return !!(cfg && cfg.needs_wizard && cmpVer(cfg.needs_wizard, WIZARD_VERSION) > 0); }
 /* A round's project, for sorting and for knowing rounds apart: what the round says it is about (its project, else
    its product), and its folder's project only when it names neither. The folder says where answers are saved, not
-   what a round is about. pkey compares names loosely: "decision-wizard" and "Decision Wizard" are one project. */
-function pnameOf(cfg, e){ return cleanStr(cfg && cfg.project) || cleanStr(cfg && cfg.product) || cleanStr(e && e.fkey ? e.project : ""); }
+   what a round is about. So a project that is only a folder on the round's own path, beside a product that names
+   another project, came from where the round was written, and the round goes by its product: before its 0.1.2,
+   the city skill named every round in the city's folder "Nullovation City", whatever its task's project. A product
+   that starts with the project's name is a part of it and stays under it.
+   pkey compares names loosely: "decision-wizard" and "Decision Wizard" are one project. */
+function pnameOf(cfg, e){
+  var pj = cleanStr(cfg && cfg.project), pr = cleanStr(cfg && cfg.product), kr = pkey(pr);
+  if(pj && kr && kr.indexOf(pkey(pj)) !== 0 && onPath(pj, cfg.folder)) return pr;
+  return pj || pr || cleanStr(e && e.fkey ? e.project : "");
+}
 function pkey(n){ return cleanStr(n).toLowerCase().replace(/[\s\-_.]+/g, ""); }
-/* A round's project is read once from the stored round: for rounds saved before 0.12.0, and again for rounds
-   whose name came from their folder before their product (0.12.0 to 0.13.1). */
+function onPath(name, folder){
+  var k = pkey(name);
+  return !!k && cleanStr(folder).split(/[\\\/]+/).some(function(s){ return pkey(s) === k; });
+}
+/* A round's project is read once from the stored round: for rounds saved before 0.12.0, again for rounds whose
+   name came from their folder before their product (0.12.0 to 0.13.1), and again for rounds whose project was
+   only their folder (before 0.14.3). */
+var PNV = 3;
 function ensurePname(e){
   if(!e) return "";
-  if(typeof e.pname === "string" && e.pnv === 2) return e.pname;
+  if(typeof e.pname === "string" && e.pnv === PNV) return e.pname;
   var r = readJSON(RPFX + e.key), c = r && r.config && typeof r.config === "object" ? r.config : null;
   e.pname = pnameOf(c, e).slice(0, 80);
-  e.pnv = 2;
+  e.pnv = PNV;
   PNAME_DIRTY = true;
   return e.pname;
 }
@@ -1792,7 +1806,7 @@ function upsertEntry(key, cfg, titled, questions, stateObj){
   if(fk){ e.fkey = fk; e.folder = cfg.folder; e.project = (folderRec(fk) || {}).project || projectName({ folder: cfg.folder }); }
   else { delete e.fkey; delete e.folder; delete e.project; }
   e.pname = pnameOf(cfg, e).slice(0, 80);
-  e.pnv = 2;
+  e.pnv = PNV;
   lfoldOpen(e.pname);
   if(isBS(cfg)){ e.kind = "brainstorm"; if(cfg.round === 1 || cfg.round === 2) e.bsround = cfg.round; else delete e.bsround; } else { delete e.kind; delete e.bsround; }
   e.total = questions.length;
@@ -2189,9 +2203,9 @@ function firstOpenIn(qs, answers){
 function batchDone(q){ return batchDoneIn(q, state.answers); }
 function qAnswered(q){ return qAnsweredIn(q, state.answers); }
 function answeredCount(){ return countAnswered(QUESTIONS, state.answers); }
-/* The header's title: the round's project, or else its product, first in color; a closing "Round 2" or "Brainstorm 2" smaller. A title that doesn't start with the project gets it in front. */
+/* The header's title: the round's project, as Load names it, first in color; a closing "Round 2" or "Brainstorm 2" smaller. A title that doesn't start with the project gets it in front. */
 function titleHTML(c){
-  var t = (c && c.title) || "Decision Wizard", p = c && (c.project || c.product) ? String(c.project || c.product).trim() : "";
+  var t = (c && c.title) || "Decision Wizard", p = pnameOf(c);
   var rest = t, num = "", m = /^(.*\S)\s*,\s*((?:round|brainstorm)\s+\d+)$/i.exec(t);
   if(m){ rest = m[1]; num = m[2]; }
   if(p && rest.length > p.length && rest.slice(0, p.length).toLowerCase() === p.toLowerCase() && /[\s:,.\-]/.test(rest.charAt(p.length))){ rest = rest.slice(p.length).replace(/^[\s:,.\-]+/, ""); }

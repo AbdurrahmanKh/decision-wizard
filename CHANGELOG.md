@@ -2,6 +2,12 @@
 
 What changed in the Decision Wizard and the d-wizard skill, newest first. The wizard and the skill keep their own version numbers. 
 
+## Wizard 0.14.3, 21 November 2026
+
+### Fixed
+
+- Wizard: Load no longer puts every round from Nullovation City's folder under Nullovation City. Before its skill 0.1.2, the city named every round it was sent "Nullovation City", whatever project its task was in. A round whose project is only a folder on its own path, while its product names another project, now sorts under its product: a Mammoth Expedition task's round under Mammoth Expedition, a Decision Wizard task's under Decision Wizard. The round's header names it the same way. A product that starts with the project's name, such as Nullovation City Hall, stays under the project. Your answers and the rounds' files don't change.
+
 ## Wizard 0.14.2, 20 November 2026
 
 ### Changed
