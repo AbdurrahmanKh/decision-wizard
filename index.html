@@ -1634,7 +1634,7 @@ html{scroll-padding-bottom:var(--lift,0px)}
 <script>
 "use strict";
 /* The wizard's version. Bump the last number (0.1.1) for a minor update, the middle one (0.2.0) for a major one. */
-var WIZARD_VERSION = "0.14.4";
+var WIZARD_VERSION = "0.14.5";
 
 var CONFIG = { title:"Decision Wizard", tagline:"", product:"" };
 
@@ -3551,6 +3551,11 @@ function skip(quiet){
   if(quiet) faceFlash("skip", 1600); else react("skip");
   advance();
 }
+/* Next, or Continue on a grouped card: a step you chose, so a sleeping companion wakes for it, as for a skip. */
+function goNext(){
+  if(sleeping) wakeUp();
+  advance();
+}
 function advance(){
   state.idx++;
   saveState();
@@ -4858,8 +4863,9 @@ function hasInput(answers){
 }
 function partway(){ return !!CURKEY && QUESTIONS.length > 0 && answeredCount() < QUESTIONS.length && hasInput(state.answers); }
 /* A text field has the cursor: the page is not redrawn from outside while it does, whether or not anything is in it yet. */
-function typingNow(){
-  var a = document.activeElement;
+function typingNow(){ return typeBox(document.activeElement); }
+/* A box you type in: a text area, or a field that isn't a slider, a file, a tick, or a button. */
+function typeBox(a){
   return !!(a && (a.tagName === "TEXTAREA" || (a.tagName === "INPUT" && ["range", "file", "checkbox", "radio", "button", "submit"].indexOf(a.type) === -1)));
 }
 /* ...and this window is the one being typed in. */
@@ -7402,8 +7408,8 @@ function goSleep(at){
   updateTimers();
 }
 var lastSeen = Date.now(), lastPersist = 0;
-/* Moving about the page, clicking elsewhere, or typing leave a sleeping companion asleep (see wakeUp). With no companion
-   there is nothing to click, so being back is enough to start the clock again. */
+/* Moving about the page, scrolling, clicking elsewhere, or pressing keys leave a sleeping companion asleep (see wakeUp).
+   With no companion there is nothing to click, so being back is enough to start the clock again. */
 function activity(){
   if(sleeping){ if(!mascotOn()) wakeUp(); return; }
   var now = Date.now();
@@ -7419,8 +7425,9 @@ function noteSeen(){
   if(e && !e.pausedAt) patchEntry(e, { lastActiveAt: lastSeen });
 }
 /* A nap lasts until you click your companion, or its menu, or make a decision: an answer, a skip, a match in a bracket,
-   or a choice in a brainstorm. While it sleeps it says nothing, and the round's clock waits with it. A round that came
-   in during the nap gets its greeting now, in place of the waking line. */
+   or a choice in a brainstorm. Writing in one of the round's boxes wakes it too, and so does Next, or Continue on a
+   grouped card. While it sleeps it says nothing, and the round's clock waits with it. A round that came in during the
+   nap gets its greeting now, in place of the waking line. */
 function wakeUp(){
   if(!sleeping) return;
   sleeping = false;
@@ -12169,7 +12176,7 @@ document.addEventListener("click", function(ev){
   else if(act === "num-record"){ numRecord(); }
   else if(act === "bk-pick"){ bkPick(parseInt(el.getAttribute("data-side"), 10)); }
   else if(act === "bk-again"){ bkAgain(); }
-  else if(act === "batch-continue"){ advance(); }
+  else if(act === "batch-continue"){ goNext(); }
   else if(act === "custom-open"){ openCustom(); }
   else if(act === "custom-confirm"){ confirmCustom(); }
   else if(act === "custom-cancel"){ cancelCustom(); }
@@ -12178,7 +12185,7 @@ document.addEventListener("click", function(ev){
   else if(act === "fcustom-confirm"){ confirmFupCustom(parseInt(el.getAttribute("data-f"), 10)); }
   else if(act === "fcustom-cancel"){ cancelFupCustom(parseInt(el.getAttribute("data-f"), 10)); }
   else if(act === "skip"){ skip(); }
-  else if(act === "next"){ advance(); }
+  else if(act === "next"){ goNext(); }
   else if(act === "back"){ if(bsOn()) bsCommitDrafts(bsCur()); back(); }
   else if(act === "finish"){ finishNow(); }
   else if(act === "goto"){ if(bsOn()) bsCommitDrafts(bsCur()); state.idx = parseInt(el.getAttribute("data-idx"), 10) || 0; saveState(); render(); }
@@ -12501,7 +12508,13 @@ scheduleTimerTick();
   }
 })();
 
-document.addEventListener("input", function(ev){ var t = ev.target; if(t && t.tagName === "TEXTAREA" && t.id !== "exp" && t.closest && t.closest("#app")) writingPose(); }, true);
+/* Writing in one of the round's boxes wakes a sleeping companion, before the thought and the writing pose that follow. */
+document.addEventListener("input", function(ev){
+  var t = ev.target;
+  if(!t || t.id === "exp" || !t.closest || !t.closest("#app")) return;
+  if(sleeping && typeBox(t)) wakeUp();
+  if(t.tagName === "TEXTAREA") writingPose();
+}, true);
 document.addEventListener("change", function(ev){
   var t = ev.target;
   if(t && t.id === "optname"){ setOption("name", t.value); return; }

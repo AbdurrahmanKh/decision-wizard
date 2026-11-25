@@ -2,6 +2,12 @@
 
 What changed in the Decision Wizard and the d-wizard skill, newest first. The wizard and the skill keep their own version numbers. 
 
+## Wizard 0.14.5, 25 November 2026
+
+### Changed
+
+- Wizard: a napping companion wakes when you write in one of the round's boxes: your own answer, a follow-up's, a note, a grouped card's row note, a number, or a brainstorm card. It wakes when you click Next too, or Continue on a grouped card. Opening a box, sliding a number, Back, moving the mouse, scrolling, and clicks elsewhere still leave it asleep, and so does typing in Options.
+
 ## Wizard 0.14.4, 25 November 2026
 
 ### Added
