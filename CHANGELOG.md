@@ -2,6 +2,12 @@
 
 What changed in the Decision Wizard and the d-wizard skill, newest first. The wizard and the skill keep their own version numbers. 
 
+## Wizard 0.14.4, 25 November 2026
+
+### Added
+
+- Wizard: while you type an answer of your own, to a question or a follow-up, your companion writes it in the thought bubble over its head, with a quill, word by word as you type. A long answer shows its end: the last words, after an ellipsis, so "talk talk talk" at the end of a long answer reads "...talk talk talk". The thought fades a few seconds after you stop typing, and goes when you leave the box or record the answer. A note, a grouped card's row note, and brainstorms leave it out. On a phone it never covers one of your companion's lines.
+
 ## Wizard 0.14.3, 21 November 2026
 
 ### Fixed

@@ -534,6 +534,18 @@ html.mmopen .mstick,html.mmopen .sidecol.withcomp,html.mmopen .stage #mascot{z-i
 .mgrid i{display:block;width:.64em;height:.64em;border-radius:50%;background:#DED6BE;transition:background .5s}
 .mgrid i.y{background:#ABBDB0}
 @media(prefers-reduced-motion:reduce){.mvf{animation:none}.mgrid i{transition:none}}
+/* An answer you're typing, in the thought bubble: a quill in the companion's color, then your words, plain. Over the
+   head it stays as wide as the companion's column; beside the head under the question list it reaches a little past
+   the column, over the card's margin; on a phone it takes the row beside the companion, as its lines do. */
+.mthink .mtk.mty{max-width:min(15em,100% - 60px);box-sizing:border-box;border-radius:16px;white-space:normal;line-height:1.4}
+.mty .mtyr{display:flex;align-items:flex-start;min-width:0}
+.mty .mti{flex:none;color:var(--cc);margin-top:.2em;margin-inline-end:.4em}
+.mty .mtyw{min-width:0;overflow-wrap:anywhere}
+.sidecol .mthink .mtk.mty{flex:none;width:max-content;max-width:9em}
+.sidecol.withcomp:has(.mthink.on .mty){z-index:7}
+@media(max-width:880px){
+  .stage .mthink .mtk.mty{flex:none;width:max-content;max-width:calc(100vw - 96px)}
+}
 .mbubble::before{content:"";position:absolute;top:calc(50% - 6px);left:-7px;width:12px;height:12px;background:var(--bub-bg);border-left:1px solid var(--bub-line);border-bottom:1px solid var(--bub-line);transform:rotate(45deg)}
 @media(min-width:1440px){
   .stage{display:block}
@@ -1622,7 +1634,7 @@ html{scroll-padding-bottom:var(--lift,0px)}
 <script>
 "use strict";
 /* The wizard's version. Bump the last number (0.1.1) for a minor update, the middle one (0.2.0) for a major one. */
-var WIZARD_VERSION = "0.14.3";
+var WIZARD_VERSION = "0.14.4";
 
 var CONFIG = { title:"Decision Wizard", tagline:"", product:"" };
 
@@ -6722,7 +6734,7 @@ var LINES = {
   }
 };
 /* Timings, in milliseconds. Kept in one place so they are easy to tune. */
-var TIMING = { cpoll: 4000, statMin: 35000, statMax: 75000, statChance: 0.6, nudge: 120000, yawn: 150000, sleep: 180000, remind: 60000, fast: 6000, speedGap: 300000, hatGap: 300000, longThink: 60000, minLine: 6000, lineBase: 1200, linePerChar: 55, lineMax: 11000, actionLine: 13000, piece: 800, faceHold: 1500, staleLine: 45000, poll: 4000, fileSave: 500, scanDelay: 150, back: 8000, bstype: 650, think: 1400, hour: null };
+var TIMING = { cpoll: 4000, statMin: 35000, statMax: 75000, statChance: 0.6, nudge: 120000, yawn: 150000, sleep: 180000, remind: 60000, fast: 6000, speedGap: 300000, hatGap: 300000, longThink: 60000, minLine: 6000, lineBase: 1200, linePerChar: 55, lineMax: 11000, actionLine: 13000, piece: 800, faceHold: 1500, staleLine: 45000, poll: 4000, fileSave: 500, scanDelay: 150, back: 8000, bstype: 650, think: 1400, typed: 5000, hour: null };
 try{ if(window.__WIZ_TIMING){ for(var tk in window.__WIZ_TIMING){ if(Object.prototype.hasOwnProperty.call(window.__WIZ_TIMING, tk)) TIMING[tk] = window.__WIZ_TIMING[tk]; } } }catch(e){}
 function nowHour(){ return typeof TIMING.hour === "number" ? TIMING.hour : new Date().getHours(); }
 var HOLD = { hat: 1600, knockout: 900, pick: 1300, skip: 1600, greet: 5600, milestone: 4200, error: 5200, finish: 6500, quip: 5200, batch: 4600,
@@ -6888,7 +6900,7 @@ function layoutLine(line){
     var cands = [];
     if(sents.length <= 2 && len <= 120) cands.push(["one", 1]);
     if(sents.length >= 2) cands.push(["stack", 1.2]);
-    if(num && !think && mascotOn() && wideMode() && !GRID && thinkBy !== "grid") cands.push(["think", 0.6]);
+    if(num && !think && mascotOn() && wideMode() && !GRID && thinkBy !== "grid" && thinkBy !== "typed") cands.push(["think", 0.6]);
     if(!cands.length) cands.push(["stack", 1]);
     var how = pickLayout(cands);
     lastLayout = how;
@@ -6931,12 +6943,12 @@ function arrivePieces(b, lay){
 }
 
 /* The thought bubble over the companion: a number from a line, now and then, a number question's value as you set it,
-   or a grouped card's grid. */
+   an answer you're typing, or a grouped card's grid. */
 var thinkTimer = null, thinkBy = "";
 function thinkShow(html, ms, by){
   var el = document.getElementById("mthink");
   if(!el || !mascotOn() || sleeping) return;
-  el.innerHTML = '<span class="mtk">' + html + '</span>';
+  el.innerHTML = '<span class="mtk' + (by === "typed" ? " mty" : "") + '">' + html + '</span>';
   el.classList.add("on");
   thinkBy = by || "line";
   if(thinkTimer) clearTimeout(thinkTimer);
@@ -6948,6 +6960,26 @@ function thinkHide(by){
   if(thinkTimer){ clearTimeout(thinkTimer); thinkTimer = null; }
   thinkBy = "";
   if(el) el.classList.remove("on");
+}
+/* An answer of your own, in the thought bubble with a quill as you type it, the question's or a follow-up's. A note,
+   a grouped card's row note, and brainstorms stay out of it. A long answer keeps its end: the last words, after an
+   ellipsis, cut where a word starts. The thought fades a moment after you stop typing, and goes when you leave the box
+   or record the answer. Under 881 px it gives way to a line, as the grid does, since they share the space by the
+   companion's head. */
+var TYPED_MAX = 60;
+function typedTail(s){
+  s = String(s || "").replace(/\s+/g, " ").trim();
+  if(s.length <= TYPED_MAX) return s;
+  var t = s.slice(s.length - TYPED_MAX + 1), sp = t.indexOf(" ");
+  if(sp > -1 && sp < 16) t = t.slice(sp + 1);
+  else if(/^[\uDC00-\uDFFF]/.test(t)) t = t.slice(1);
+  return "\u2026" + t;
+}
+function typedThink(box){
+  if(!box || !mascotOn() || sleeping || bsOn()) return;
+  var s = typedTail(box.value);
+  if(!s || (narrowMode() && lineUp())){ thinkHide("typed"); return; }
+  thinkShow('<span class="mtyr" ' + dirA(s) + '><span class="mti">' + tokIcon("quill") + '</span><span class="mtyw">' + esc(s) + '</span></span>', TIMING.typed, "typed");
 }
 
 /* Drawing, bubble, and the reaction engine. */
@@ -7000,6 +7032,7 @@ function say(text, ms, action, visitor){
   b.className = "mbubble on" + cls;
   arrivePieces(b, lay);
   gridDraw();
+  if(thinkBy === "typed" && narrowMode()) thinkHide("typed");
   if(lay.think) thinkShow(tokHTML(lay.think.k, lay.think.v), Math.max(ms || 0, 3500), "line");
   if(bubbleTimer) clearTimeout(bubbleTimer);
   bubbleHeld = false;
@@ -7544,6 +7577,7 @@ function afterAnswer(q, info){
   info = info || {};
   if(MS.key !== CURKEY) msReset();
   if(sleeping) wakeUp();
+  thinkHide("typed");
   var now = Date.now(), key = CURKEY;
   var mine = function(){ return CURKEY === key; };
   var long = !!MS.touchAt && now - MS.touchAt >= TIMING.longThink;
@@ -7595,7 +7629,7 @@ function renderHooks(){
     }
     return;
   }
-  if(arrived){ startVisit(state.idx); dwellStart(); thinkHide("num"); gridHide(); }
+  if(arrived){ startVisit(state.idx); dwellStart(); thinkHide("num"); thinkHide("typed"); gridHide(); }
   if(!arrived || fresh) return;
   var q = QUESTIONS[state.idx], idx = state.idx;
   var here = function(){ return CURKEY === key && state.idx === idx; };
@@ -12255,10 +12289,12 @@ document.addEventListener("input", function(ev){
     t.setAttribute("data-typed", "1");
     var ok = document.getElementById("cok");
     if(ok){ ok.disabled = !(t.value && t.value.trim().length > 0); }
+    typedThink(t);
   } else if(t.classList && t.classList.contains("fctext")){
     t.setAttribute("data-typed", "1");
     var fok = document.getElementById("fcok-" + t.getAttribute("data-f"));
     if(fok){ fok.disabled = !(t.value && t.value.trim().length > 0); }
+    typedThink(t);
   } else if(t.id === "numrange" || t.id === "numin"){
     numInput(t);
   } else if(t.getAttribute && t.getAttribute("data-role") === "note"){
@@ -12275,6 +12311,7 @@ document.addEventListener("input", function(ev){
     if(q && isBatch(q)){ openComments[q.id + ":" + t.getAttribute("data-item")] = true; }
   }
 });
+document.addEventListener("focusout", function(ev){ var t = ev.target; if(t && (t.id === "ctext" || (t.classList && t.classList.contains("fctext")))) thinkHide("typed"); });
 window.addEventListener("resize", function(){ try{ fitBatch(); }catch(e){} });
 document.addEventListener("pointerdown", function(){ blindKeys = false; pressAt = Date.now(); }, true);
 document.addEventListener("pointerdown", rankDragStart);
