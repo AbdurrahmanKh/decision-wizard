@@ -412,16 +412,47 @@ table.xt td:first-child{font-weight:700}
 .lopen{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px;text-align:left;background:transparent;border:0;padding:8px 12px;cursor:pointer;color:var(--ink)}
 .lopen:hover{background:var(--line2)}
 .lrow.cur .lopen:hover{background:transparent}
-.lopen:focus-visible,.ldel:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}
+.lopen:focus-visible,.ldel:focus-visible,.lmark:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}
 .ltitle{display:flex;align-items:center;gap:6px;min-width:0;font-weight:700;font-size:calc(14.5px*var(--fs));line-height:1.35}
 .ltt{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .lcheck{flex:none;width:14px;height:14px;color:var(--green)}
 .lmeta{display:flex;gap:10px;flex-wrap:wrap;font-size:calc(12px*var(--fs));color:var(--muted);font-variant-numeric:tabular-nums}
 .lnow{font-weight:700;color:var(--green)}
-.ldel{flex:none;display:none;border:0;border-left:1px solid var(--line2);background:transparent;color:var(--muted);padding:0 14px;font-size:calc(12.5px*var(--fs));font-weight:600;cursor:pointer}
-.lrow:hover .ldel,.lrow:focus-within .ldel{display:block}
-@media(hover:none){.ldel{display:block}}
+.ldel,.lmark{flex:none;display:none;border:0;border-left:1px solid var(--line2);background:transparent;color:var(--muted);padding:0 14px;font-size:calc(12.5px*var(--fs));font-weight:600;cursor:pointer;white-space:nowrap}
+.ldel{padding:0 12px}
+.ldel svg{display:block;width:16px;height:16px}
+.lrow:hover .ldel,.lrow:focus-within .ldel,.lrow:hover .lmark,.lrow:focus-within .lmark,.lrow.acts .ldel,.lrow.acts .lmark{display:block}
+.lrow:hover .lmeta,.lrow:focus-within .lmeta{flex-wrap:nowrap;overflow:hidden;white-space:nowrap}
+@media(hover:none){.ldel,.lmark{display:block}}
 .ldel:hover{color:var(--red);background:var(--red-soft)}
+.lmark:hover{color:var(--green);background:var(--green-soft)}
+.lmark.back:hover{color:var(--ink);background:var(--line2)}
+.lmk{font-weight:700;color:var(--green)}
+/* Load: Answered, the fold at the end of the list */
+.afold{margin-top:14px}
+.afhead{display:flex;align-items:center;gap:9px;width:100%;background:transparent;border:1px solid var(--line);border-radius:10px;padding:8px 12px;cursor:pointer;text-align:left;color:var(--muted);font-weight:700;font-size:calc(13.5px*var(--fs))}
+.afhead:hover{border-color:var(--muted);color:var(--ink)}
+.afhead:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.afhead .lgchev{transform:rotate(-90deg)}
+.afold.open .afhead .lgchev{transform:none}
+.afold.open .afhead{border-color:transparent transparent var(--line);border-radius:0;padding-left:2px}
+.afhead .afok{flex:none;width:14px;height:14px;color:var(--green)}
+.afhead .afn{font-weight:600;font-size:calc(12.5px*var(--fs));font-variant-numeric:tabular-nums}
+.afbody{padding-top:8px}
+.afsub{display:flex;align-items:center;gap:8px;min-width:0;margin:10px 2px 6px;font-weight:700;font-size:calc(13px*var(--fs));color:var(--proj)}
+.afsub.none{color:var(--muted)}
+.afsub .afsn{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.afsub .afn{flex:none;font-weight:600;font-size:calc(12px*var(--fs));color:var(--muted)}
+.afhead.pulse{animation:afpulse 1.1s ease-out}
+@keyframes afpulse{0%{box-shadow:0 0 0 0 var(--green)}100%{box-shadow:0 0 0 8px transparent}}
+@media(prefers-reduced-motion:reduce){.afhead.pulse{animation:none}.afhead .lgchev{transition:none}}
+/* Answers so far: marking the round as answered while questions are still open */
+.mkline{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:-4px 0 16px;padding:10px 12px;border:1px solid var(--line2);border-radius:10px;background:var(--panel)}
+.mkline .btn{display:inline-flex;align-items:center;gap:7px}
+.mkline .mkwhy{flex:1;min-width:220px;font-size:calc(13px*var(--fs));color:var(--muted);line-height:1.45}
+.mkline.done{border-color:var(--green);background:var(--green-soft)}
+.mkline.done .mkwhy{color:var(--ink)}
+.mkline svg{flex:none;width:16px;height:16px;color:var(--green)}
 .seg{display:flex;gap:6px;flex-wrap:wrap}
 .seg button{flex:1;min-width:96px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;padding:9px 12px;font-weight:600;font-size:calc(14px*var(--fs));cursor:pointer}
 .seg button:hover{border-color:var(--green2)}
@@ -1511,7 +1542,7 @@ html{scroll-padding-bottom:var(--lift,0px)}
       <div class="ldef"><b>Answers JSON.</b> Answers on their own merge into the round with the same title, or into the open round: matching ids overwrite, and open entries are ignored unless they carry a note. A note comes back as <b>comment</b>.</div>
       <div class="ldef"><b>Backup.</b> What Back up all rounds writes: every round in this browser with its answers, each in the saved-file form, under <b>rounds</b>. Loading a backup adds the rounds that are missing here and brings back the ones the backup has a newer copy of. When a round changed here after the backup was made, the wizard asks whether to keep it.</div>
       <div class="ldef"><b>Project folders.</b> When a round names its folder, the wizard offers to save your answers into it. Pick the folder once, in Chrome or Edge on a computer, when a round asks or with Connect a project, under the folders button in Load. From then on your answers are written into the round's file as you go, in the saved-file form, and a new round landing in that folder opens by itself, or waits in the list while you are partway through another.</div>
-      <div class="ldef"><b>The list.</b> Every round stays in this browser, with its answers, until you delete it. The project buttons above it show one project's rounds at a time, or all of them. A round whose title is already in the list replaces the saved one, and answers to questions that did not change stay.</div>
+      <div class="ldef"><b>The list.</b> Every round stays in this browser, with its answers, until you delete it. The list shows the rounds still to answer. <b>Answered</b>, at its end, holds the rounds with every question answered and the ones you marked as answered; a mark stays in this browser and its backups, never in the round's file, and a new version of the round takes it off. The project buttons above it show one project's rounds at a time, or all of them. A round whose title is already in the list replaces the saved one, and answers to questions that did not change stay.</div>
     </div>
     <div class="ways"><button type="button" class="btn" id="pickbtn" data-action="pick-file"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>Choose file</button><button type="button" class="btn sec" id="pastebtn" data-action="paste-clip"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4H7a2 2 0 0 0-2 2v4a2 2 0 0 1-2 2 2 2 0 0 1 2 2v4a2 2 0 0 0 2 2h1"/><path d="M16 4h1a2 2 0 0 1 2 2v4a2 2 0 0 0 2 2 2 2 0 0 0-2 2v4a2 2 0 0 1-2 2h-1"/></svg>Paste JSON</button></div>
     <div class="whint">or drop a round, a saved file, or a backup anywhere on the page</div>
@@ -1634,7 +1665,7 @@ html{scroll-padding-bottom:var(--lift,0px)}
 <script>
 "use strict";
 /* The wizard's version. Bump the last number (0.1.1) for a minor update, the middle one (0.2.0) for a major one. */
-var WIZARD_VERSION = "0.14.5";
+var WIZARD_VERSION = "0.15.0";
 
 var CONFIG = { title:"Decision Wizard", tagline:"", product:"" };
 
@@ -1823,9 +1854,16 @@ function upsertEntry(key, cfg, titled, questions, stateObj){
   if(isBS(cfg)){ e.kind = "brainstorm"; if(cfg.round === 1 || cfg.round === 2) e.bsround = cfg.round; else delete e.bsround; } else { delete e.kind; delete e.bsround; }
   e.total = questions.length;
   e.answered = countAnswered(questions, stateObj.answers);
+  /* A new version of a round you marked as answered comes back to the rounds to answer, as New. */
+  if(e.marked && e.msig !== qsSig(questions)){ delete e.marked; delete e.msig; if(key !== CURKEY) e.unseen = true; }
   e.changed = Date.now();
   return e;
 }
+/* A round counts as answered when every question has its answer, or when you marked it as answered. The mark is
+   kept in this browser and its backups, never in the round's file, and holds for the questions it was given on. */
+function allAnswered(e){ return !!e && (e.total || 0) > 0 && (e.answered || 0) >= e.total; }
+function roundDone(e){ return allAnswered(e) || !!(e && e.marked); }
+function qsSig(questions){ return sigOf(JSON.stringify(questions || [])); }
 function saveState(){
   if(CURKEY){
     if(!lsSet(APFX + CURKEY, JSON.stringify(state))){ warnFull(); }
@@ -3267,6 +3305,7 @@ function renderSummary(){
   h += '<div class="sumcard">';
   h += '<h2 tabindex="-1">Answers so far</h2>';
   h += '<div class="sumstats"><b>' + exp.meta.answered + '</b> answered, <b>' + exp.meta.open + '</b> still open. Open items stay flagged in the docs. Click a row to revisit it.</div>';
+  h += markLineHTML(exp.meta.open);
   h += sumProjHTML();
   h += '<table class="sum"><tr><th>#</th><th>Section</th><th>Issue</th><th>Answer</th></tr>';
   for(var i=0;i<QUESTIONS.length;i++){
@@ -4259,7 +4298,7 @@ function backupBundle(){
     cfg = normConfig(r.config);
     var b = exportFor(r.questions, st.answers, cfg);
     b.round = roundOut(cfg, r.questions);
-    b.kept = { titled: !!e.titled, current: e.key === CURKEY, idx: st.idx, startedAt: e.startedAt, changed: e.changed, opened: e.opened, lastActiveAt: e.lastActiveAt, finishedAt: e.finishedAt, dwell: e.dwell, pausedMs: e.pausedMs, pausedAt: e.pausedAt };
+    b.kept = { titled: !!e.titled, current: e.key === CURKEY, idx: st.idx, startedAt: e.startedAt, changed: e.changed, opened: e.opened, lastActiveAt: e.lastActiveAt, finishedAt: e.finishedAt, dwell: e.dwell, pausedMs: e.pausedMs, pausedAt: e.pausedAt, marked: e.marked ? true : undefined };
     rounds.push(b);
   }
   return { meta: { tool: "decision-wizard", kind: "backup", wizard_version: WIZARD_VERSION, exported_at: new Date().toISOString(), rounds: rounds.length }, rounds: rounds };
@@ -4337,6 +4376,7 @@ function ingestBackup(b){
       e.pausedMs = typeof p.kept.pausedMs === "number" ? p.kept.pausedMs : 0;
       if(typeof p.kept.finishedAt === "number") e.finishedAt = p.kept.finishedAt; else delete e.finishedAt;
       if(p.kept.dwell && typeof p.kept.dwell === "object") e.dwell = cleanDwell(p.kept.dwell); else delete e.dwell;
+      if(p.kept.marked === true){ e.marked = true; e.msig = qsSig(p.qarr); delete e.unseen; } else { delete e.marked; delete e.msig; }
       var frozen = !!(e.finishedAt && e.total > 0 && e.answered === e.total);
       delete e.pausedAt;
       if(key === CURKEY){
@@ -5586,7 +5626,7 @@ function foldersChanged(){ projectUI(); }
    data is gone was deleted somewhere and leaves the list; a round with data that the stored list lacks goes back
    into it (a page stored the list before it had heard of the round). */
 var followTimer = null;
-var FOLLOWED = ["unseen", "file", "fsig", "fsaved", "update", "ufolder", "usig", "declined", "title", "titled", "tagline", "fkey", "folder", "project", "total", "answered", "changed", "kind", "bsround"];
+var FOLLOWED = ["unseen", "file", "fsig", "fsaved", "update", "ufolder", "usig", "declined", "title", "titled", "tagline", "fkey", "folder", "project", "total", "answered", "changed", "kind", "bsround", "marked", "msig"];
 function followLib(){
   var stored = readJSON(LKEY);
   if(!stored || !Array.isArray(stored.rounds)) return;
@@ -6040,15 +6080,62 @@ function lfoldToggle(btn){
 }
 var LG_CHEV = '<svg class="lgchev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg>';
 var CHECK_ICO = '<svg class="lcheck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="All answered"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+var BIN_ICO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v6M14 11v6"/></svg>';
+var OK_ICO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
 function libRowHTML(e){
-  var isCur = e.key === CURKEY, title = e.title || "Untitled round", done = (e.total || 0) > 0 && (e.answered || 0) >= e.total;
+  var isCur = e.key === CURKEY, title = e.title || "Untitled round", done = allAnswered(e), marked = !!e.marked && !done;
   var h = '<div class="lrow' + (isCur ? " cur" : "") + '" role="listitem">';
   h += '<button type="button" class="lopen" data-action="lib-open" data-key="' + esc(e.key) + '"' + (isCur ? ' aria-current="true"' : "") + (e.tagline ? ' title="' + esc(e.tagline) + '"' : "") + '>';
   h += '<span class="ltitle"><span class="ltt" ' + dirA(title) + '>' + esc(title) + '</span>' + (done ? CHECK_ICO : "") + '</span>';
-  h += '<span class="lmeta">' + (e.unseen ? '<span class="lnew">New</span>' : "") + (e.kind === "brainstorm" ? '<span class="lkind">' + BS_MARK + (e.bsround ? 'Brainstorm, round ' + e.bsround : 'Older brainstorm') + '</span><span>' + (e.answered || 0) + ' of ' + (e.total || 0) + ' cards seen</span>' : '<span>' + (e.answered || 0) + ' of ' + (e.total || 0) + ' answered</span>') + '<span>' + esc(fmtWhen(e.changed)) + '</span>' + (isCur ? '<span class="lnow">Open now</span>' : "") + '</span>';
+  h += '<span class="lmeta">' + (e.unseen ? '<span class="lnew">New</span>' : "") + (e.kind === "brainstorm" ? '<span class="lkind">' + BS_MARK + (e.bsround ? 'Brainstorm, round ' + e.bsround : 'Older brainstorm') + '</span><span>' + (e.answered || 0) + ' of ' + (e.total || 0) + ' cards seen</span>' : '<span>' + (e.answered || 0) + ' of ' + (e.total || 0) + ' answered</span>') + (marked ? '<span class="lmk">Marked</span>' : "") + '<span>' + esc(fmtWhen(e.changed)) + '</span>' + (isCur ? '<span class="lnow">Open now</span>' : "") + '</span>';
   h += '</button>';
-  h += '<button type="button" class="ldel" data-action="lib-delete" data-key="' + esc(e.key) + '" aria-label="Delete ' + esc(title) + '">Delete</button>';
+  if(marked) h += '<button type="button" class="lmark back" data-action="lib-unmark" data-key="' + esc(e.key) + '" aria-label="Back to answer: ' + esc(title) + '">Back to answer</button>';
+  else if(!done) h += '<button type="button" class="lmark" data-action="lib-mark" data-key="' + esc(e.key) + '" aria-label="Mark answered: ' + esc(title) + '">Mark answered</button>';
+  h += '<button type="button" class="ldel" data-action="lib-delete" data-key="' + esc(e.key) + '" title="Delete" aria-label="Delete ' + esc(title) + '">' + BIN_ICO + '</button>';
   return h + '</div>';
+}
+/* Marking a round as answered, from its row in Load or from Answers so far, and taking the mark back. A marked
+   round leaves Load's list for Answered, except while it is the open round, and loses its New. */
+var AF_OPEN = false, AF_PULSE = false;
+function markRound(key, on){
+  var e = libEntry(key);
+  if(!e || !!e.marked === !!on) return;
+  if(on){
+    var r = key === CURKEY ? { questions: QUESTIONS } : readJSON(RPFX + key);
+    patchEntry(e, { marked: true, msig: qsSig(r && r.questions), unseen: undefined });
+    dropNotice("new:" + key);
+    AF_PULSE = key !== CURKEY;
+  } else {
+    patchEntry(e, { marked: undefined, msig: undefined });
+  }
+  renderLib();
+  renderBadge();
+  if(key === CURKEY && !bsOn() && state.idx >= QUESTIONS.length) render();
+}
+function libMark(key, on){
+  var e = libEntry(key), title = e ? (e.title || "Untitled round") : "";
+  markRound(key, on);
+  if(!e) return;
+  setStatus("loader-status", true, on ? (key === CURKEY ? 'Marked "' + title + '" as answered. It stays in view while it is open.' : '"' + title + '" is under Answered now.') : '"' + title + '" is back with the rounds to answer.');
+  var a = document.activeElement;
+  if(!drawerOpen || drawerId !== "drawer" || (a && a !== document.body && document.getElementById("drawer").contains(a))) return;
+  var k = '[data-key="' + cssAttr(key) + '"]';
+  var to = !on ? document.querySelector("#liblist .lopen" + k) : key === CURKEY ? document.querySelector('#liblist [data-action="lib-unmark"]' + k) : document.getElementById("afhead");
+  /* A row's buttons show on hover, which the redrawn row doesn't have yet, so its Back to answer is shown to take the keyboard. */
+  var row = to && to.classList.contains("lmark") ? to.closest(".lrow") : null;
+  if(row){ row.classList.add("acts"); row.addEventListener("focusout", function(){ row.classList.remove("acts"); }, { once: true }); }
+  focusQuiet(to);
+}
+function sumMark(on){
+  if(!CURKEY) return;
+  markRound(CURKEY, on);
+  focusQuiet('#app [data-action="' + (on ? "sum-unmark" : "sum-mark") + '"]');
+}
+function markLineHTML(open){
+  var e = CURKEY ? libEntry(CURKEY) : null;
+  if(!e || open <= 0) return "";
+  if(e.marked) return '<div class="mkline done">' + OK_ICO + '<span class="mkwhy"><b>Marked as answered.</b> Once another round is open, Load lists it under Answered, with ' + (e.answered || 0) + ' of ' + (e.total || 0) + ' answered.</span><button type="button" class="btn sec" data-action="sum-unmark">Back to answer</button></div>';
+  return '<div class="mkline"><button type="button" class="btn sec" data-action="sum-mark">' + OK_ICO + 'Mark as answered</button><span class="mkwhy">Done with this round? Load moves it to Answered. Its open questions stay open in the answers.</span></div>';
 }
 /* Which rounds Load shows: all of them, or one project's, by the buttons over the list. The last one picked stays
    picked in this browser; "*" is all, "" the rounds with no project. */
@@ -6066,14 +6153,18 @@ function libView(){
   var groups = {}, order = [];
   for(var i=0;i<rows.length;i++){
     var n = ensurePname(rows[i]), k = pkey(n);
-    if(!own(groups, k)){ groups[k] = { k: k, name: n, rows: [], latest: rows[i].changed || 0, fresh: 0 }; order.push(k); }
+    if(!own(groups, k)){ groups[k] = { k: k, name: n, rows: [], left: [], done: [], latest: rows[i].changed || 0, fresh: 0, lfresh: 0 }; order.push(k); }
     else if(!/[A-Z\s]/.test(groups[k].name) && /[A-Z\s]/.test(n)) groups[k].name = n;
     groups[k].rows.push(rows[i]);
     if(rows[i].unseen) groups[k].fresh++;
+    /* The list shows the rounds still to answer, and the open round whatever its state; Answered holds the rest. */
+    if(roundDone(rows[i]) && rows[i].key !== CURKEY) groups[k].done.push(rows[i]);
+    else { groups[k].left.push(rows[i]); if(rows[i].unseen) groups[k].lfresh++; }
   }
   if(PNAME_DIRTY){ PNAME_DIRTY = false; saveLib(); }
-  /* The project with the newest round first, and the rounds with no project last. */
-  order.sort(function(a, b){ return (a === "") - (b === "") || groups[b].latest - groups[a].latest; });
+  /* The project with the newest round first, and the rounds with no project last. A project with nothing left to
+     answer follows the ones that have rounds to answer. */
+  order.sort(function(a, b){ return (a === "") - (b === "") || (!groups[a].left.length) - (!groups[b].left.length) || groups[b].latest - groups[a].latest; });
   var showBtns = order.length > 1, filt = showBtns ? lfilterGet() : "*";
   if(filt !== "*" && !own(groups, filt)) filt = "*";
   return { rows: rows, groups: groups, order: order, total: rows.length, filt: filt, showBtns: showBtns };
@@ -6122,36 +6213,71 @@ function connectKey(G){
 }
 function groupHeadHTML(G, fold, shut, bid){
   var label = G.name || "Other rounds";
-  var inner = (fold ? LG_CHEV : "") + '<span class="lgname" ' + dirA(label) + '>' + esc(label) + '</span><span class="lgcount">' + plur(G.rows.length, "round") + '</span>' + (G.fresh ? '<span class="lgnew">' + G.fresh + ' new</span>' : "");
+  var inner = (fold ? LG_CHEV : "") + '<span class="lgname" ' + dirA(label) + '>' + esc(label) + '</span>' + (G.left.length ? '<span class="lgcount">' + G.left.length + ' to answer</span>' : "") + (G.lfresh ? '<span class="lgnew">' + G.lfresh + ' new</span>' : "");
   var h = '<h4 class="lghead">' + (fold ? '<button type="button" class="lgbtn" data-action="lib-fold" aria-expanded="' + (shut ? "false" : "true") + '" aria-controls="' + bid + '">' + inner + '</button>' : '<span class="lgbtn lgstatic">' + inner + '</span>');
   var ck = connectKey(G);
   if(ck) h += '<button type="button" class="lgconn" data-action="proj-connect" data-key="' + esc(ck) + '" aria-label="Connect the folder of ' + esc(label) + '">' + LINK_ICO + 'Connect</button>';
   return h + '</h4>';
 }
+/* Answered: one fold at the end of the list, closed when Load opens, with the answered rounds of what the list
+   shows. Holding more than one project's, it names each. */
+function answeredHTML(groups){
+  var n = 0, h = "";
+  groups.forEach(function(G){ n += G.done.length; });
+  if(!n) return "";
+  h += '<div class="afold' + (AF_OPEN ? " open" : "") + '"><button type="button" class="afhead' + (AF_PULSE ? " pulse" : "") + '" id="afhead" data-action="lib-afold" aria-expanded="' + (AF_OPEN ? "true" : "false") + '" aria-controls="afbody">' + LG_CHEV + '<span class="afok">' + OK_ICO + '</span><span>Answered</span><span class="afn">' + n + '</span></button>';
+  h += '<div class="afbody" id="afbody"' + (AF_OPEN ? "" : " hidden") + '>';
+  var named = groups.filter(function(G){ return G.done.length; }).length > 1;
+  groups.forEach(function(G){
+    if(!G.done.length) return;
+    var label = G.name || "Other rounds";
+    if(named) h += '<div class="afsub' + (G.k ? "" : " none") + '"><span class="afsn" ' + dirA(label) + '>' + esc(label) + '</span><span class="afn">' + G.done.length + '</span></div>';
+    h += '<div role="list" aria-label="' + esc(named ? label + ", answered" : "Answered") + '">';
+    G.done.forEach(function(e){ h += libRowHTML(e); });
+    h += '</div>';
+  });
+  return h + '</div></div>';
+}
+function rowsHTML(list, label){
+  var h = '<div class="lgbody" role="list" aria-label="' + esc(label) + '">';
+  list.forEach(function(e){ h += libRowHTML(e); });
+  return h + '</div>';
+}
 function listHTML(V){
   if(!V.total) return { list: false, h: '<div class="lempty">No rounds yet. Every round you load stays here, with its answers, until you delete it.</div>' };
   var h = "";
   if(V.order.length === 1 && V.order[0] === ""){
-    V.rows.forEach(function(e){ h += libRowHTML(e); });
-    return { list: true, h: h };
+    var G0 = V.groups[""];
+    h += G0.left.length ? rowsHTML(G0.left, "Rounds to answer") : '<div class="lempty">Nothing left to answer.</div>';
+    return { list: false, h: h + answeredHTML([G0]) };
   }
   if(V.filt !== "*"){
-    var P1 = V.groups[V.filt];
-    h += '<section class="lgroup' + (P1.k ? "" : " none") + '" data-pk="' + esc(P1.k) + '">' + groupHeadHTML(P1, false) + '<div class="lgbody" role="list" aria-label="' + esc(P1.name || "Other rounds") + '">';
-    P1.rows.forEach(function(e){ h += libRowHTML(e); });
-    return { list: false, h: h + '</div></section>' };
+    var P1 = V.groups[V.filt], label = P1.name || "Other rounds";
+    h += '<section class="lgroup' + (P1.k ? "" : " none") + '" data-pk="' + esc(P1.k) + '">' + groupHeadHTML(P1, false);
+    h += P1.left.length ? rowsHTML(P1.left, label) : '<div class="lempty">Nothing left to answer in ' + esc(label) + '.</div>';
+    return { list: false, h: h + '</section>' + answeredHTML([P1]) };
   }
-  var named = V.order.filter(function(k){ return k !== ""; }).length, folded = lfoldList();
-  h += '<div class="lsum">' + plur(V.total, "round") + ' in ' + plur(named, "project") + '</div>';
+  var left = 0, named = 0, folded = lfoldList(), all = [];
+  V.order.forEach(function(k){ var G = V.groups[k]; all.push(G); left += G.left.length; if(k && G.left.length) named++; });
+  h += '<div class="lsum">' + (!left ? "Nothing left to answer." : plur(left, "round") + " to answer" + (named ? " in " + plur(named, "project") : "")) + '</div>';
   V.order.forEach(function(k, g){
     var G = V.groups[k], shut = folded.indexOf(G.k) !== -1, bid = "lgb-" + g;
+    if(!G.left.length) return;
     h += '<section class="lgroup' + (G.k ? "" : " none") + (shut ? " shut" : "") + '" data-pk="' + esc(G.k) + '">' + groupHeadHTML(G, true, shut, bid);
-    h += '<div class="lglast" ' + dirA(G.rows[0].title || "") + '>Latest: ' + esc(G.rows[0].title || "Untitled round") + '</div>';
+    h += '<div class="lglast" ' + dirA(G.left[0].title || "") + '>Latest: ' + esc(G.left[0].title || "Untitled round") + '</div>';
     h += '<div class="lgbody" id="' + bid + '" role="list" aria-label="' + esc(G.name || "Other rounds") + '">';
-    G.rows.forEach(function(e){ h += libRowHTML(e); });
+    G.left.forEach(function(e){ h += libRowHTML(e); });
     h += '</div></section>';
   });
-  return { list: false, h: h };
+  return { list: false, h: h + answeredHTML(all) };
+}
+function afToggle(){
+  AF_OPEN = !AF_OPEN;
+  var b = document.getElementById("afhead"), body = document.getElementById("afbody");
+  if(!b || !body) return;
+  body.hidden = !AF_OPEN;
+  b.parentNode.classList.toggle("open", AF_OPEN);
+  b.setAttribute("aria-expanded", AF_OPEN ? "true" : "false");
 }
 /* Load redraws often (a save, a folder's state, another page), so the button that had the keyboard keeps it. */
 function cssAttr(v){ return String(v).replace(/["\\]/g, "\\$&"); }
@@ -6173,6 +6299,7 @@ function renderLib(){
   if(pa) pa.innerHTML = projAreaHTML(V);
   if(L.list) el.setAttribute("role", "list"); else el.removeAttribute("role");
   el.innerHTML = L.h;
+  AF_PULSE = false;
   lpFocusBack(f);
 }
 function projConnect(key){
@@ -6254,6 +6381,7 @@ function hideDrawerOnly(){
 }
 function openDrawer(){
   FLD.open = false;
+  AF_OPEN = false;
   showDrawer("drawer", document.getElementById("pickbtn"));
   renderLib();
 }
@@ -12209,6 +12337,11 @@ document.addEventListener("click", function(ev){
   else if(act === "lib-fold"){ lfoldToggle(el); }
   else if(act === "ans-jump"){ ansJump(); }
   else if(act === "lib-delete"){ deleteRound(el.getAttribute("data-key")); }
+  else if(act === "lib-mark"){ libMark(el.getAttribute("data-key"), true); }
+  else if(act === "lib-unmark"){ libMark(el.getAttribute("data-key"), false); }
+  else if(act === "lib-afold"){ afToggle(); }
+  else if(act === "sum-mark"){ sumMark(true); }
+  else if(act === "sum-unmark"){ sumMark(false); }
   else if(act === "open-options"){ openOptions(); }
   else if(act === "timer-reset"){ resetTimer(); }
   else if(act === "mm-sleep"){ closeMenu(true); goSleep(Date.now()); }

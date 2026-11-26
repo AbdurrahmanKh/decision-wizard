@@ -2,6 +2,24 @@
 
 What changed in the Decision Wizard and the d-wizard skill, newest first. The wizard and the skill keep their own version numbers. 
 
+## Wizard 0.15.0, 27 November 2026
+
+Load shows what's left to answer.
+
+### Added
+
+- Wizard: **Answered**, one closed fold at the end of Load's list, with how many it holds. It holds the answered rounds of what the project buttons show: one project's, or every project's under their names in All rounds. It is closed each time Load opens.
+- Wizard: **Mark answered** on a round's row in Load, beside Delete when the mouse rests on the row, and always on a touch screen. The round moves to Answered and loses its New. A marked round says Marked after how far you got, and **Back to answer** in the same place brings it back.
+- Wizard: **Mark as answered** on Answers so far while questions are still open, under the counts. Once pressed, the line says where the round goes, with Back to answer.
+
+### Changed
+
+- Wizard: Load's list shows only the rounds still to answer. A round with every question answered, or one you marked, moves to Answered. The round you have open stays in the list until you open another. Finish now doesn't mark a round.
+- Wizard: a project's heading counts its rounds to answer (3 to answer), All rounds says how many are left to answer in how many projects, and a project with nothing left shows only Answered. On the project buttons, a project with nothing left follows the ones that have rounds to answer, and Other rounds stays last. The buttons still count all rounds.
+- Wizard: a new version of a round you marked, with changed questions, takes the mark off and comes back to the list as New.
+- Wizard: the mark stays in this browser, follows into other open wizard pages, and goes into backups. The round's file and its answers JSON don't carry it, so its open questions stay open.
+- Wizard: Delete on a round's row is a bin icon.
+
 ## Wizard 0.14.5, 25 November 2026
 
 ### Changed
