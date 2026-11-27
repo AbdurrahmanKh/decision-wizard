@@ -101,7 +101,7 @@ Each copy of the wizard keeps its own list of rounds, and clearing a browser's s
 
 ## Versions
 
-- **Wizard: 0.15.0.** It's shown at the bottom of the wizard's Options panel.
-- **Skill: 0.13.1.** It's in the skill's `SKILL.md`. It needs wizard 0.3.0 or later, 0.4.0 for rounds with ranking, number, or bracket questions, 0.6.0 for project folders, 0.7.0 for companions, 0.7.3 to drop a companion's zip on the wizard as it is, 0.9.0 for brainstorms, 0.11.0 for their round 2, 0.12.0 to keep rounds by project, and 0.13.0 to set a stake apart from the notes.
+- **Wizard: 0.15.1.** It's shown at the bottom of the wizard's Options panel.
+- **Skill: 0.13.2.** It's in the skill's `SKILL.md`. It needs wizard 0.3.0 or later, 0.4.0 for rounds with ranking, number, or bracket questions, 0.6.0 for project folders, 0.7.0 for companions, 0.7.3 to drop a companion's zip on the wizard as it is, 0.9.0 for brainstorms, 0.11.0 for their round 2, 0.12.0 to keep rounds by project, and 0.13.0 to set a stake apart from the notes.
 
 A minor update bumps the last number (0.2.2). A major update bumps the middle number (0.3.0). What changed in each version is in [CHANGELOG.md](CHANGELOG.md).

@@ -2,7 +2,7 @@
 name: "d-wizard"
 description: Send questions, decisions, or approvals as a Decision Wizard questions JSON instead of long prose. Use it when the user says "d-wizard", "communicate through the wizard", "wizard this", "ask me through the wizard", "decision wizard", "decision round", or asks to turn open questions into a wizard; and proactively when open decisions need evidence attached (conflicting sources, tables to compare), when content items need one-by-one approval (copy lines, assets, rows), when acting on a round's answers raises new decisions, or a hard open question has no clear options (offer a brainstorm). Also use it to act on an answers JSON the user pastes, gives as a file, or says is ready in the project's wizard-rounds folder (meta.tool = "decision-wizard"); to make a wizard companion ("Make a companion for my Decision Wizard"); and to send a two-round six-hats brainstorm when asked for one. Not for brainstorming in chat, quick clarifications, approving your own next steps, a single question, or questions for a teammate.
 metadata:
-  version: "0.13.1"
+  version: "0.13.2"
 compatibility: Needs Decision Wizard 0.3.0 or later; 0.4.0 for ranking, number, and bracket questions; 0.6.0 for project rounds that open by themselves and save answers into the round file; 0.7.0 for companions (0.7.3 to drop a companion's zip as it is); 0.9.0 for brainstorms (0.11.0 for their round 2); 0.12.0 to keep rounds by project; 0.13.0 for stakes. Older wizards open plain rounds, without recommendations or notes on picks.
 ---
 

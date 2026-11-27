@@ -1665,7 +1665,7 @@ html{scroll-padding-bottom:var(--lift,0px)}
 <script>
 "use strict";
 /* The wizard's version. Bump the last number (0.1.1) for a minor update, the middle one (0.2.0) for a major one. */
-var WIZARD_VERSION = "0.15.0";
+var WIZARD_VERSION = "0.15.1";
 
 var CONFIG = { title:"Decision Wizard", tagline:"", product:"" };
 
@@ -6584,11 +6584,9 @@ var LINES = {
       "Farewell, {option}."
     ],
     suggest: [
-      "Second round today? {other} would love a turn.",
-      "Round two? {other} keeps asking about you. It's getting awkward.",
-      "Feeling generous? {other} would love a go. I'll be fine. Probably.",
-      "Another round? {other} has been playing Minecraft all day.",
-      "Round two? {other} has been warming up all morning."
+      "My hat is heavy and my eyes are heavier. {other} could take this one.",
+      "Time for my nap, I think. {other} is wide awake, if you'd like.",
+      "I am the wisest, but I am also old and tired. Let {other} have this one."
     ],
     nudge: [
       "Still pondering? Skip it for now; it will wait for you.",
@@ -6776,7 +6774,11 @@ var LINES = {
       "{option}, grounded.",
       "{option} knocked out."
     ],
-    suggest: ["Second round today? Give {other} a go."],
+    suggest: [
+      "Long flight. {other} can take the controls for this one.",
+      "Need a fresh co-pilot? {other} is fueled up and ready.",
+      "I'll be in the hangar. {other} can fly this one. Don't scratch the paint."
+    ],
     nudge: [
       "Circling too long? Skip it; it'll wait.",
       "Still circling? Skip it. We'll swing back.",
@@ -7423,16 +7425,20 @@ function busy(){
 
 /* Stats, kept in this browser. */
 var STKEY = "decision-wizard-stats-v1";
-var STATS_DEFAULT = { decisions: 0, typed: 0, rounds: 0, fastestMs: 0, day: "", dayDecisions: 0, dayStarted: 0, suggestedDay: "" };
+var STATS_DEFAULT = { decisions: 0, typed: 0, rounds: 0, fastestMs: 0, day: "", dayDecisions: 0, dayStarted: 0, daySuggested: 0 };
 var STATS = JSON.parse(JSON.stringify(STATS_DEFAULT));
 function loadStats(){
   var s = readJSON(STKEY);
   STATS = JSON.parse(JSON.stringify(STATS_DEFAULT));
-  if(s && typeof s === "object"){ for(var k in STATS){ if(own(s, k) && typeof s[k] === typeof STATS[k]) STATS[k] = s[k]; } }
+  if(s && typeof s === "object"){
+    for(var k in STATS){ if(own(s, k) && typeof s[k] === typeof STATS[k]) STATS[k] = s[k]; }
+    /* Before 0.15.1, suggestedDay held the day of the one offer a day allowed. */
+    if(!own(s, "daySuggested") && s.suggestedDay && s.suggestedDay === STATS.day) STATS.daySuggested = 1;
+  }
 }
 function saveStats(){ lsSet(STKEY, JSON.stringify(STATS)); }
 function todayKey(){ var d = new Date(); return d.getFullYear() + "-" + pad2(d.getMonth() + 1) + "-" + pad2(d.getDate()); }
-function rollDay(){ var t = todayKey(); if(STATS.day !== t){ STATS.day = t; STATS.dayDecisions = 0; STATS.dayStarted = 0; } }
+function rollDay(){ var t = todayKey(); if(STATS.day !== t){ STATS.day = t; STATS.dayDecisions = 0; STATS.dayStarted = 0; STATS.daySuggested = 0; } }
 function countDecision(){ rollDay(); STATS.decisions++; STATS.dayDecisions++; saveStats(); }
 function countTyped(){ STATS.typed++; saveStats(); }
 function countStart(){ rollDay(); STATS.dayStarted++; saveStats(); }
@@ -7899,6 +7905,9 @@ function otherMascotKey(){
   var others = visibleKeys().filter(function(m){ return m !== SETTINGS.mascot; });
   return others.length ? others[Math.floor(Math.random() * others.length)] : "";
 }
+/* Offers to switch the day has owed by its nth new round: one on the second, then one more on every ninth (9, 18, 27).
+   An offer that never played, its line dropped or the round left first, is still owed on the next new round. */
+function offersDue(n){ return n < 2 ? 0 : 1 + Math.floor(n / 9); }
 function greetRound(opts){
   opts = opts || {};
   if(holdGreet(opts)) return;
@@ -7916,12 +7925,13 @@ function greetRound(opts){
   react("greet", { line: line && est ? [line, est] : line, when: mine });
   var q = QUESTIONS[state.idx], idx = state.idx;
   if(q && isBatch(q)) react("batch", { count: q.items.length, when: function(){ return mine() && state.idx === idx; } });
-  if(opts.fresh && STATS.dayStarted >= 2 && STATS.suggestedDay !== STATS.day){
+  var due = offersDue(STATS.dayStarted), day = STATS.day;
+  if(opts.fresh && due > STATS.daySuggested){
     var ok = otherMascotKey();
     if(ok){
       react("suggest", { other: MSHORT[ok], when: mine, visitor: ok,
         action: { label: "Call " + MSHORT[ok] + " in", fn: function(){ handoff(ok); } },
-        after: function(){ STATS.suggestedDay = STATS.day; saveStats(); } });
+        after: function(){ if(STATS.day === day && due > STATS.daySuggested){ STATS.daySuggested = due; saveStats(); } } });
     }
   }
 }
@@ -8683,7 +8693,7 @@ var BMOM = [
   ["A round opens", [["greet", "Greet", "a round opens", "greet"], ["estimate", "Estimate", "how long the round may take, after greet and when asked from the menu", "greet"],
     ["estimate_pace", "Estimate, your pace", "the estimate, when it comes from your own rounds", "greet"],
     ["morning", "Morning", "first round of a morning", "greet"], ["late", "Late", "a round opened late at night", "greet"],
-    ["back", "Back", "you, with your name set, open a round", "greet"], ["suggest", "Suggest", "the day's second round, offering another companion", "greet"]]],
+    ["back", "Back", "you, with your name set, open a round", "greet"], ["suggest", "Suggest", "the day's second round, and every ninth, offering another companion", "greet"]]],
   ["While you answer", [["pick", "Pick", "an answer after some thought", "pick"], ["skip", "Skip", "a question skipped", "skip"],
     ["speed", "Speed", "an answer the moment the question showed", "skip"], ["second", "Second thoughts", "the same answer changed a third time", "error"],
     ["nudge", "Nudge", "a question sitting a while with no answer", "skip"], ["batch", "Batch", "a card of rows to answer one by one", "milestone"],
@@ -8721,7 +8731,7 @@ var BEX = { greet: "{Decisions} today. Let's begin.", estimate: "About {minutes}
 var BNAME = {}, BWHEN = {}, BPOSEOF = {};
 BMOM.forEach(function(g){ g[1].forEach(function(m){ BNAME[m[0]] = m[1]; BWHEN[m[0]] = m[2]; BPOSEOF[m[0]] = m[3]; }); });
 /* How many lines a moment needs: the shape Quill's and Swoop's settled on. */
-function bRec(m){ return (/^opt_/.test(m) || /^recap_/.test(m) || m === "speed" || m === "open_go") ? 1 : m === "warn" ? 2 : m === "knockout" ? 3 : 5; }
+function bRec(m){ return (/^opt_/.test(m) || /^recap_/.test(m) || m === "speed" || m === "open_go") ? 1 : m === "warn" ? 2 : (m === "knockout" || m === "suggest") ? 3 : 5; }
 var BUSES = { idle: "Most of the time. Every pose without a picture of its own ends up here.", blink: "For a moment now and then, between other poses.",
   yawn: "When you've been away a while, before a nap.", sleep: "During a nap, after a while away.", dance1: "In the dance, after a finished round and five quick taps.",
   dance2: "In the dance, after a finished round and five quick taps.",

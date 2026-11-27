@@ -79,14 +79,14 @@ The dance steps through dance1, dance2, and finish while the whole figure sways.
 - **`name`:** up to 30 characters, never Quill, Swoop, or None. The name is the companion's identity: adding another companion with the same name replaces it, after asking.
 - **`about`:** a few words shown after the name, as in "Inky, the octopus". Optional.
 - **`brief`:** the description the companion was made from, when it came from the wizard's prompt: `{"title": "...", "look": "...", "style": "...", "poses": {"sleep": "..."}, "sound": "...", "mood": ["..."], "language": "..."}`, leaving out what wasn't given. Optional; the wizard keeps it but doesn't show it.
-- **`lines`:** each moment below names a list of lines, or one line. Write as many as the Lines column recommends: five where the moment comes up again and again, so it stays fresh; two for warn; and one for the moments that say the same thing each time (speed, the recaps, open_go, and the Options moments). Fewer is fine when the user asks; a moment with no lines stays quiet. A moment name the wizard doesn't know, a line that isn't text, or a placeholder the moment can't fill keeps the whole companion out, with a notice saying why.
+- **`lines`:** each moment below names a list of lines, or one line. Write as many as the Lines column recommends: five where the moment comes up again and again, so it stays fresh; three for suggest; two for warn; and one for the moments that say the same thing each time (speed, the recaps, open_go, and the Options moments). Fewer is fine when the user asks; a moment with no lines stays quiet. A moment name the wizard doesn't know, a line that isn't text, or a placeholder the moment can't fill keeps the whole companion out, with a notice saying why.
 
 ## Lines
 
 Lines are short (a sentence, two at most), light-hearted, in the companion's own voice, and in any language. They show in a speech bubble for a few seconds.
 
 - Don't mention Claude.
-- A `suggest` line must work whoever `{other}` names, since the user may have many companions.
+- A `suggest` line must work whoever `{other}` names, since the user may have many companions, and on any round it comes up on, so it never says which round it is ("Round two?").
 - Use only the placeholders each moment lists. `{Decisions}` and `{Picked}` start a sentence ("Seven decisions"); `{cname}` is ", Name" or nothing, so it goes right before punctuation ("Morning{cname}!").
 
 | Moment | When it plays | Placeholders | Lines |
@@ -96,7 +96,7 @@ Lines are short (a sentence, two at most), light-hearted, in the companion's own
 | morning | first round of a morning | `{cname}` | 5 |
 | late | a round opened late at night | `{cname}` | 5 |
 | back | the user, who gave a name, opens a round | `{cname}` | 5 |
-| suggest | the day's second round, offering another companion | `{other}` | 5 |
+| suggest | the day's second round, and every ninth, offering another companion | `{other}` | 3 |
 | pick | an answer after some thought | | 5 |
 | skip | a question skipped | | 5 |
 | speed | an answer given the moment the question appeared | | 1 |

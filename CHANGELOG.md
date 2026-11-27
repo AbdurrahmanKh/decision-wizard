@@ -2,6 +2,17 @@
 
 What changed in the Decision Wizard and the d-wizard skill, newest first. The wizard and the skill keep their own version numbers. 
 
+## Wizard 0.15.1 and skill 0.13.2, 27 November 2026
+
+Your companion offers another one a turn more often, in new lines.
+
+### Changed
+
+- Wizard: your companion offers to call another one in on the day's second new round, as before, and now again on its ninth, then on every ninth after that. An offer that didn't get to play, because its line was cut short or you opened another round first, comes on the next new round instead.
+- Wizard: new offer lines for Quill and Swoop, three each, in their own character: Quill is old and sleepy, and Swoop hands over the controls. None of them says which round it is.
+- Wizard: the companion builder recommends three offer lines instead of five, and says the offer comes on the day's second round and every ninth.
+- Skill: a companion's offer lines are three, and never say which round it is, since the offer now comes on the day's second round and every ninth.
+
 ## Wizard 0.15.0, 27 November 2026
 
 Load shows what's left to answer.
