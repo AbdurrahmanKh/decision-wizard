@@ -2,6 +2,12 @@
 
 What changed in the Decision Wizard and the d-wizard skill, newest first. The wizard and the skill keep their own version numbers. 
 
+## Wizard 0.15.2, 27 November 2026
+
+### Fixed
+
+- Wizard: a brainstorm's chat, for round 1's questions and for each idea's council, is its full height from the first message. Before, the device started short and grew with each message until it was full size, and grew again when you answered a hat; on the council it went short again for every new idea. The messages now scroll inside it, and the quote over the box takes its room from the messages.
+
 ## Wizard 0.15.1 and skill 0.13.2, 27 November 2026
 
 Your companion offers another one a turn more often, in new lines.

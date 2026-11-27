@@ -1340,7 +1340,9 @@ html{scroll-padding-bottom:var(--lift,0px)}
 [data-theme="dark"] .tkdev{--dev-frame:#0B0D08;--dev-edge:#3B4530;--scr-bg:#12160E;--scr-pat:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='132' height='132' viewBox='0 0 132 132' fill='none' stroke='%23F0EAD8' stroke-opacity='.05' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 34h20M18 34V20h12v14'/%3E%3Cpath d='M86 18l3 6 6 1-4.5 4 1 6-5.5-3-5.5 3 1-6-4.5-4 6-1z'/%3E%3Cpath d='M106 88a8 8 0 1 0-12 7v4h8v-4a8 8 0 0 0 4-7zM98 103h6'/%3E%3Cpath d='M30 100c-6-5-10-8-10-12a5 5 0 0 1 10-1 5 5 0 0 1 10 1c0 4-4 7-10 12z'/%3E%3Cpath d='M60 66a6 6 0 1 1 8 5.6V75M68 81v.5'/%3E%3Ccircle cx='118' cy='52' r='2'/%3E%3Ccircle cx='52' cy='120' r='2'/%3E%3Ccircle cx='8' cy='66' r='1.6'/%3E%3C/svg%3E");--hdr-bg:#1B2116;--hdr-line:#2E3725;--out-bg:#24382D;--out-line:#346542;--kb-bg:rgba(240,234,216,.12);--kb-hover:rgba(240,234,216,.2);--svc-bg:rgba(240,234,216,.09);--svc-ink:#B9AF97;--comp-bg:#1B2116}
 .tkdev:before{content:"";position:absolute;top:9px;left:50%;width:58px;height:5px;margin-left:-29px;border-radius:3px;background:rgba(255,255,255,.12)}
 .tkdev:after{content:"";position:absolute;top:7px;left:50%;margin-left:40px;width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.1);box-shadow:inset 0 0 0 2px rgba(0,0,0,.4)}
-.tkscr{background:var(--scr-bg) var(--scr-pat);border-radius:28px;overflow:hidden;display:flex;flex-direction:column;min-height:300px}
+/* The device's screen keeps one height from the first message: the talk scrolls inside it, and the quote over the
+   box takes its room from the talk, so the device never grows as the hats speak. */
+.tkscr{background:var(--scr-bg) var(--scr-pat);border-radius:28px;overflow:hidden;display:flex;flex-direction:column;height:calc(clamp(280px,48vh,470px) + 132px*var(--fs))}
 .tkhdr{display:flex;align-items:center;gap:10px;padding:9px 14px 9px 12px;background:var(--hdr-bg);border-bottom:1px solid var(--hdr-line)}
 .tkstack{display:flex;flex:none}
 .tkstack .tkav{width:26px;height:26px;margin-left:-9px;box-shadow:0 0 0 2px var(--hdr-bg)}
@@ -1350,7 +1352,7 @@ html{scroll-padding-bottom:var(--lift,0px)}
 .tkhtx b{display:block;font-size:calc(14.5px*var(--fs));color:var(--ink)}
 .tkhtx span{display:block;font-size:calc(12.5px*var(--fs));color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tkhtx span.typing{color:var(--green)}
-.tkmsgs{flex:1;display:flex;flex-direction:column;gap:3px;padding:12px 10px 10px;max-height:clamp(280px,48vh,470px);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:rgba(127,120,100,.45) transparent}
+.tkmsgs{flex:1 1 0;min-height:0;display:flex;flex-direction:column;gap:3px;padding:12px 10px 10px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:rgba(127,120,100,.45) transparent}
 .tkmsgs > :first-child{margin-top:auto}
 .tkrow{display:flex;align-items:flex-end;gap:7px;max-width:94%}
 .tkrow.in{align-self:flex-start}
@@ -1454,8 +1456,8 @@ html{scroll-padding-bottom:var(--lift,0px)}
   .tkdev{flex-basis:100%;border-radius:30px;padding:16px 5px 0}
   .tkdev:before{top:6px}
   .tkdev:after{top:4px}
-  .tkscr{border-radius:24px;min-height:280px}
-  .tkmsgs{max-height:clamp(260px,56vh,480px);padding:10px 7px 8px}
+  .tkscr{border-radius:24px;height:calc(clamp(260px,56vh,480px) + 132px*var(--fs))}
+  .tkmsgs{padding:10px 7px 8px}
   .tkrow{max-width:97%}
   .tkav{width:30px;height:30px}
   .tkidea{padding:9px 12px 11px}
@@ -1665,7 +1667,7 @@ html{scroll-padding-bottom:var(--lift,0px)}
 <script>
 "use strict";
 /* The wizard's version. Bump the last number (0.1.1) for a minor update, the middle one (0.2.0) for a major one. */
-var WIZARD_VERSION = "0.15.1";
+var WIZARD_VERSION = "0.15.2";
 
 var CONFIG = { title:"Decision Wizard", tagline:"", product:"" };
 
